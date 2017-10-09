@@ -1,14 +1,39 @@
+/*******************************************************************************
+ *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  Contributors:
+ *  	Edith Zavala
+ *******************************************************************************/
+
 package org.loopa.element.knowledgemanager;
 
-import org.loopa.comm.IMessage;
+import org.loopa.comm.message.IMessage;
+import org.loopa.element.knowledgemanager.adaptiveknowledgemanager.IAdaptiveKnowledgeManager;
+import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
-public abstract class AKnowledgeManager extends ALoopAElementComponent implements IKnowledgeManager{
-	
+public abstract class AKnowledgeManager extends ALoopAElementComponent implements IKnowledgeManager {
+
 	IAdaptiveKnowledgeManager adaptiveKnowledgeManager;
-	
+
+	public AKnowledgeManager(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager) {
+		super(mainEndPoint, adaptationEndPoint, policyManager);
+	}
+
 	@Override
 	public void processAdaptiveKnowledge(IMessage m) {
-		adaptiveKnowledgeManager.process(m);
+		adaptiveKnowledgeManager.processKnowledge(m);
 	}
 }

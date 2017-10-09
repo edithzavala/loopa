@@ -11,17 +11,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="2" language="java" name="org.loopa.element.adaptationlogic.IAdaptationEnactor" project="loopa" 
-    file="/loopa/src/main/java/org/loopa/element/adaptationlogic/IAdaptationEnactor.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="344" y="606"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <interface id="3" language="java" name="org.loopa.element.adaptationlogic.IAdaptationLogic" project="loopa" 
+  <interface id="2" language="java" name="org.loopa.element.adaptationlogic.IAdaptationLogic" project="loopa" 
     file="/loopa/src/main/java/org/loopa/element/adaptationlogic/IAdaptationLogic.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="603" y="461"/>    
@@ -31,8 +21,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="4" language="java" name="org.loopa.documents.IPolicyManager" project="loopa" 
-    file="/loopa/src/main/java/org/loopa/documents/IPolicyManager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="3" language="java" name="org.loopa.generic.documents.managers.IPolicyManager" project="loopa" 
+    file="/loopa/src/main/java/org/loopa/generic/documents/managers/IPolicyManager.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="613" y="284"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -40,7 +31,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="org.loopa.generic.element.component.ALoopAElementComponent" project="loopa" 
+  <class id="4" language="java" name="org.loopa.generic.element.component.ALoopAElementComponent" project="loopa" 
     file="/loopa/src/main/java/org/loopa/generic/element/component/ALoopAElementComponent.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="345" y="278"/>    
@@ -50,7 +41,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="6" language="java" name="org.loopa.generic.element.component.ILoopAElementComponent" project="loopa" 
+  <interface id="5" language="java" name="org.loopa.generic.element.component.ILoopAElementComponent" project="loopa" 
     file="/loopa/src/main/java/org/loopa/generic/element/component/ILoopAElementComponent.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="344" y="90"/>    
@@ -60,34 +51,30 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <association id="7">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="8" name="policyManager"/>      
-      <multiplicity id="9" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="10">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <association id="11">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="12" name="adaptationEnactor"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="14">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <generalization id="15">    
-    <end type="SOURCE" refId="1"/>    
+  <realization id="6">    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="5"/>  
+  </realization>  
+  <generalization id="7">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
   </generalization>  
+  <realization id="8">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="9">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="10" name="policyManager">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

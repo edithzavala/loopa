@@ -1,16 +1,62 @@
+/*******************************************************************************
+ *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  Contributors:
+ *  	Edith Zavala
+ *******************************************************************************/
+ 
 package org.loopa.element.messagecomposer;
 
-import org.loopa.comm.IMessage;
+import org.loopa.comm.message.IMessage;
+import org.loopa.element.messagecomposer.dataformatter.IDataFormatter;
+import org.loopa.element.messagecomposer.messagecreator.IMessageCreator;
+import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class AMessageComposer extends ALoopAElementComponent implements IMessageComposer {
+
 	protected IDataFormatter dataFormatter;
 	protected IMessageCreator messageCreator;
 
+	public AMessageComposer(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager,
+			IDataFormatter dataFormater, IMessageCreator messageCreator) {
+		super(mainEndPoint, adaptationEndPoint, policyManager);
+		this.dataFormatter = dataFormater;
+		this.messageCreator = messageCreator;
+	}
+
 	@Override
 	public void composeMessage(IMessage m) {
-		String formatedData = dataFormatter.formatData(m.getSender().getDataFormat(),
-				m.getDestination().getRequireFormat(), m.getContent());
-		messageCreator.create(m, formatedData);
+		IMessage formattedMessage = dataFormatter.formatData(m);
+		messageCreator.generateMessage(formattedMessage);
 	}
+
+	public IDataFormatter getDataFormatter() {
+		return dataFormatter;
+	}
+
+	public void setDataFormatter(IDataFormatter dataFormatter) {
+		this.dataFormatter = dataFormatter;
+	}
+
+	public IMessageCreator getMessageCreator() {
+		return messageCreator;
+	}
+
+	public void setMessageCreator(IMessageCreator messageCreator) {
+		this.messageCreator = messageCreator;
+	}
+
 }
