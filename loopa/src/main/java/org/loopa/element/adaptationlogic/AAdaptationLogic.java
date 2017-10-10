@@ -19,21 +19,38 @@
 
 package org.loopa.element.adaptationlogic;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.loopa.comm.message.IMessage;
 import org.loopa.element.adaptationlogic.enactor.IAdaptationLogicEnactor;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
+import io.reactivex.Observable;
+
 public abstract class AAdaptationLogic extends ALoopAElementComponent implements IAdaptationLogic {
 
-	protected IAdaptationLogicEnactor adaptationLogicEnactor;
+	private IAdaptationLogicEnactor adaptationLogicEnactor;
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
 
-	public AAdaptationLogic(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager) {
-		super(mainEndPoint, adaptationEndPoint, policyManager);
+	public AAdaptationLogic(IPolicyManager policyManager, IAdaptationLogicEnactor adaptationLogicEnactor) {
+		super(policyManager);
+		this.adaptationLogicEnactor = adaptationLogicEnactor;
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.adaptationLogicEnactor.enactAdaptationLogic(t));
 	}
 
 	@Override
-	public void enactAdaptation(IMessage m) {
-		adaptationLogicEnactor.enactAdaptationLogic(m);
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
 	}
+
+	public IAdaptationLogicEnactor getAdaptationLogicEnactor() {
+		return adaptationLogicEnactor;
+	}
+
+	public void setAdaptationLogicEnactor(IAdaptationLogicEnactor adaptationLogicEnactor) {
+		this.adaptationLogicEnactor = adaptationLogicEnactor;
+	}
+
+	
 }

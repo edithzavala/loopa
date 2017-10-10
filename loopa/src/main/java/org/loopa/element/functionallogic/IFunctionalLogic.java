@@ -19,8 +19,6 @@
 
 package org.loopa.element.functionallogic;
 
-import org.loopa.comm.message.IMessage;
-
 public interface IFunctionalLogic{
-	public void enactFunctionalLogic(IMessage m);
+
 }

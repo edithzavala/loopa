@@ -19,8 +19,6 @@
 
 package org.loopa.element.sender;
 
-import org.loopa.comm.message.IMessage;
-
 public interface ISender {
-	public void sendMessage(IMessage m);
+
 }

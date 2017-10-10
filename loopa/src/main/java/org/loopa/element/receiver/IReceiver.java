@@ -19,10 +19,6 @@
 
 package org.loopa.element.receiver;
 
-import org.loopa.comm.message.IMessage;
-
 public interface IReceiver{
-
-	public void receiveMessage(IMessage m);
 
 }

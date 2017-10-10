@@ -19,8 +19,8 @@
 
 package org.loopa.generic.documents;
 
-import org.loopa.comm.observerobervable.IChange;
-
-public interface IPolicy extends IChange{
+public interface IPolicy {
+	
+	public void update(IPolicy p);
 
 }

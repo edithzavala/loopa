@@ -19,9 +19,10 @@
 
 package org.loopa.generic.element.component;
 
-import org.loopa.generic.documents.IPolicy;
+import org.loopa.comm.message.IMessage;
 
 public interface ILoopAElementComponent {
-	public void updatePolicy(IPolicy p);
-	public void startComm();
+	public void adapt(IMessage m);
+	public void doOperation(IMessage m);
+	
 }

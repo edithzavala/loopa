@@ -19,8 +19,6 @@
 
 package org.loopa.element.adaptationlogic;
 
-import org.loopa.comm.message.IMessage;
-
 public interface IAdaptationLogic {
-	public void enactAdaptation(IMessage m);
+
 }

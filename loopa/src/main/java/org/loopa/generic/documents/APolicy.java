@@ -16,23 +16,38 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.generic.documents;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import io.reactivex.Observable;
 
 public abstract class APolicy implements IPolicy {
 	private String policyType;
 	private HashMap<String, String> policyContent;
-	
+	private List<IPolicyChangeListener> listeners;
 
 	public APolicy(String policyType, HashMap<String, String> policyContent) {
 		super();
 		this.policyType = policyType;
 		this.policyContent = policyContent;
+		this.listeners = new ArrayList<>();
 	}
 
-	
+	@Override
+	public void update(IPolicy p) {
+		updatePolicy(p);
+		Observable.just(p).subscribe(t -> {
+			for (IPolicyChangeListener pl : this.getListeners())
+				pl.listen(t);
+		});
+	}
+
+	public abstract void updatePolicy(IPolicy p);
+
 	public String getPolicyType() {
 		return policyType;
 	}
@@ -49,4 +64,19 @@ public abstract class APolicy implements IPolicy {
 		this.policyContent = policyContent;
 	}
 
+	public List<IPolicyChangeListener> getListeners() {
+		return listeners;
+	}
+
+	public void setListeners(List<IPolicyChangeListener> listeners) {
+		this.listeners = listeners;
+	}
+
+	public void addListerner(IPolicyChangeListener pl) {
+		this.listeners.add(pl);
+	}
+
+	public void removeListerner(IPolicyChangeListener pl) {
+		this.listeners.remove(pl);
+	}
 }

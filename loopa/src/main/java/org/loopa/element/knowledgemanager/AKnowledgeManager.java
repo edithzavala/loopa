@@ -19,21 +19,38 @@
 
 package org.loopa.element.knowledgemanager;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.loopa.comm.message.IMessage;
 import org.loopa.element.knowledgemanager.adaptiveknowledgemanager.IAdaptiveKnowledgeManager;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
+import io.reactivex.Observable;
+
 public abstract class AKnowledgeManager extends ALoopAElementComponent implements IKnowledgeManager {
 
-	IAdaptiveKnowledgeManager adaptiveKnowledgeManager;
+	private IAdaptiveKnowledgeManager adaptiveKnowledgeManager;
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
 
-	public AKnowledgeManager(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager) {
-		super(mainEndPoint, adaptationEndPoint, policyManager);
+	public AKnowledgeManager(IPolicyManager policyManager, IAdaptiveKnowledgeManager adaptiveKnowledgeManager) {
+		super(policyManager);
+		this.adaptiveKnowledgeManager = adaptiveKnowledgeManager;
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.adaptiveKnowledgeManager.processKnowledge(t));
 	}
 
 	@Override
-	public void processAdaptiveKnowledge(IMessage m) {
-		adaptiveKnowledgeManager.processKnowledge(m);
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
 	}
+
+	public IAdaptiveKnowledgeManager getAdaptiveKnowledgeManager() {
+		return adaptiveKnowledgeManager;
+	}
+
+	public void setAdaptiveKnowledgeManager(IAdaptiveKnowledgeManager adaptiveKnowledgeManager) {
+		this.adaptiveKnowledgeManager = adaptiveKnowledgeManager;
+	}
+	
+	
 }

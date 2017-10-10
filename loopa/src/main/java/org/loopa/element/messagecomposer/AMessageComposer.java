@@ -16,8 +16,10 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.messagecomposer;
+
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.loopa.comm.message.IMessage;
 import org.loopa.element.messagecomposer.dataformatter.IDataFormatter;
@@ -25,22 +27,28 @@ import org.loopa.element.messagecomposer.messagecreator.IMessageCreator;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
+import io.reactivex.Observable;
+
 public abstract class AMessageComposer extends ALoopAElementComponent implements IMessageComposer {
 
-	protected IDataFormatter dataFormatter;
-	protected IMessageCreator messageCreator;
+	private IDataFormatter dataFormatter;
+	private IMessageCreator messageCreator;
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
 
-	public AMessageComposer(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager,
-			IDataFormatter dataFormater, IMessageCreator messageCreator) {
-		super(mainEndPoint, adaptationEndPoint, policyManager);
-		this.dataFormatter = dataFormater;
+	public AMessageComposer(IPolicyManager policyManager, IDataFormatter dataFormatter,
+			IMessageCreator messageCreator) {
+		super(policyManager);
+		this.dataFormatter = dataFormatter;
 		this.messageCreator = messageCreator;
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> {
+			IMessage formattedMessage = this.dataFormatter.formatData(t);
+			this.messageCreator.generateMessage(formattedMessage);
+		});
 	}
 
 	@Override
-	public void composeMessage(IMessage m) {
-		IMessage formattedMessage = dataFormatter.formatData(m);
-		messageCreator.generateMessage(formattedMessage);
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
 	}
 
 	public IDataFormatter getDataFormatter() {

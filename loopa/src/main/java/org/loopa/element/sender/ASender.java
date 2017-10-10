@@ -19,21 +19,39 @@
 
 package org.loopa.element.sender;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.loopa.comm.message.IMessage;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
-public abstract class ASender extends ALoopAElementComponent implements ISender {
-	protected IMessageSender messageSender;
+import io.reactivex.Observable;
 
-	public ASender(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager) {
-		super(mainEndPoint, adaptationEndPoint, policyManager);
+public abstract class ASender extends ALoopAElementComponent implements ISender {
+
+	private IMessageSender messageSender;
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
+
+	public ASender(IPolicyManager policyManager, IMessageSender messageSender) {
+		super(policyManager);
+		this.messageSender = messageSender;
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageSender.sendMessage(t));
 	}
 
 	@Override
-	public void sendMessage(IMessage m) {
-		messageSender.sendMessage(m);
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
 	}
+
+	public IMessageSender getMessageSender() {
+		return messageSender;
+	}
+
+	public void setMessageSender(IMessageSender messageSender) {
+		this.messageSender = messageSender;
+	}
+	
+	
 
 }

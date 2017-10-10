@@ -16,12 +16,9 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.messagecomposer;
 
-import org.loopa.comm.message.IMessage;
+public interface IMessageComposer {
 
-public interface IMessageComposer{
-
-	public void composeMessage(IMessage m);
 }

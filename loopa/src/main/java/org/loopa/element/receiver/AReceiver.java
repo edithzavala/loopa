@@ -19,23 +19,29 @@
  
 package org.loopa.element.receiver;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.loopa.comm.message.IMessage;
 import org.loopa.element.receiver.messageprocessor.IMessageProcessor;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
+import io.reactivex.Observable;
+
 public abstract class AReceiver extends ALoopAElementComponent implements IReceiver {
 
 	private IMessageProcessor messageProcessor;
-
-	public AReceiver(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager, IMessageProcessor messageProcessor) {
-		super(mainEndPoint, adaptationEndPoint, policyManager);
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
+	
+	public AReceiver(IPolicyManager policyManager, IMessageProcessor messageProcessor) {
+		super(policyManager);
 		this.messageProcessor = messageProcessor;
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
 	}
 
 	@Override
-	public void receiveMessage(IMessage m) {
-		messageProcessor.processMessage(m);
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
 	}
 
 	public IMessageProcessor getMessageProcessor() {

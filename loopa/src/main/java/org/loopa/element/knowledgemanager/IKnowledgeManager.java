@@ -19,10 +19,7 @@
  
 package org.loopa.element.knowledgemanager;
 
-import org.loopa.comm.message.IMessage;
-
 public interface IKnowledgeManager {
 
-	public void processAdaptiveKnowledge(IMessage m);
 
 }

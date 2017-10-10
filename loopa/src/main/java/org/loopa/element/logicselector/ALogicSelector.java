@@ -19,21 +19,38 @@
  
 package org.loopa.element.logicselector;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.loopa.comm.message.IMessage;
 import org.loopa.element.logicselector.messagedispatcher.ILogicMessageDispatcher;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
+import io.reactivex.Observable;
+
 public abstract class ALogicSelector extends ALoopAElementComponent implements ILogicSelector {
+	
+	private ILogicMessageDispatcher logicMessageDispatcher;
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
+	
+	public ALogicSelector(IPolicyManager policyManager, ILogicMessageDispatcher logicMessageDispatcher) {
+		super(policyManager);
+		this.logicMessageDispatcher = logicMessageDispatcher;
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.logicMessageDispatcher.dispatchMessage(t));
+	}
 
-	protected ILogicMessageDispatcher logicMessageDispatcher;
+	@Override
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
+	}
 
-	public ALogicSelector(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager) {
-		super(mainEndPoint, adaptationEndPoint, policyManager);
+	public ILogicMessageDispatcher getLogicMessageDispatcher() {
+		return logicMessageDispatcher;
+	}
+
+	public void setLogicMessageDispatcher(ILogicMessageDispatcher logicMessageDispatcher) {
+		this.logicMessageDispatcher = logicMessageDispatcher;
 	}
 	
-	@Override
-	public void selectLogic(IMessage m) {
-		logicMessageDispatcher.dispatchMessage(m);
-	}
+	
 }

@@ -19,90 +19,39 @@
 
 package org.loopa.generic.element.component;
 
-import org.loopa.comm.buffer.ConsumerTask;
-import org.loopa.comm.buffer.IConsumer;
-import org.loopa.comm.buffer.IProducer;
-import org.loopa.comm.buffer.ProducerTask;
-import org.loopa.comm.buffer.SyncronizedBuffer;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.Message;
 import org.loopa.generic.documents.IPolicy;
+import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
 
+import io.reactivex.Observable;
+
 public abstract class ALoopAElementComponent implements ILoopAElementComponent {
-	private String mainEndPoint;
-	private String adaptationEndPoint;
+
 	private IPolicyManager policyManager;
+	private ConcurrentLinkedQueue<IMessage> adaptMssgQueue;
 
-	private SyncronizedBuffer<IMessage> mainEndPointBuffer;
-	private SyncronizedBuffer<IMessage> adaptationEndPointBuffer;
-
-	private IConsumer<IMessage> mainEndPointConsumer;
-	private IProducer<IMessage> mainEndPointProducer;
-	private IConsumer<IMessage> adaptationEndPointConsumer;
-	private IProducer<IMessage> adaptationEndPointProducer;
-
-	/* Add Async buffers + consumers + producers */
-
-	
-	
-	public ALoopAElementComponent(String mainEndPoint, String adaptationEndPoint, IPolicyManager policyManager,
-			SyncronizedBuffer<IMessage> mainEndPointBuffer, SyncronizedBuffer<IMessage> adaptationEndPointBuffer,
-			IConsumer<IMessage> mainEndPointConsumer, IProducer<IMessage> mainEndPointProducer,
-			IConsumer<IMessage> adaptationEndPointConsumer, IProducer<IMessage> adaptationEndPointProducer) {
+	public ALoopAElementComponent(IPolicyManager policyManager) {
 		super();
-		this.mainEndPoint = mainEndPoint;
-		this.adaptationEndPoint = adaptationEndPoint;
 		this.policyManager = policyManager;
-		this.mainEndPointBuffer = mainEndPointBuffer;
-		this.adaptationEndPointBuffer = adaptationEndPointBuffer;
-		this.mainEndPointConsumer = mainEndPointConsumer;
-		this.mainEndPointProducer = mainEndPointProducer;
-		this.adaptationEndPointConsumer = adaptationEndPointConsumer;
-		this.adaptationEndPointProducer = adaptationEndPointProducer;
-	}
+		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
+		Observable.fromIterable(adaptMssgQueue)
+				.subscribe(t -> this.policyManager.processPolicy(extractPolicyFromMessage(t)));
 
+	}
 
 	@Override
-	public void updatePolicy(IPolicy p) {
-		policyManager.processPolicy(p);
-	}
-	
-	@Override
-	public void startComm() {
-		Thread mainEndPointConsumerThread = new Thread(
-				new ConsumerTask<IMessage>(this.mainEndPointBuffer, this.mainEndPointConsumer));
-		Thread mainEndPointProducerThread = new Thread(
-				new ProducerTask<IMessage>(this.mainEndPointBuffer, this.mainEndPointProducer));
-		Thread adaptationEndPointConsumerThread = new Thread(
-				new ConsumerTask<IMessage>(this.adaptationEndPointBuffer, this.adaptationEndPointConsumer));
-		Thread adaptationEndPointProducerThread = new Thread(
-				new ProducerTask<IMessage>(this.adaptationEndPointBuffer, this.adaptationEndPointProducer));
-
-		mainEndPointConsumerThread.start();
-		mainEndPointProducerThread.start();
-		adaptationEndPointConsumerThread.start();
-		adaptationEndPointProducerThread.start();
+	public void adapt(IMessage m) {
+		adaptMssgQueue.add(m);
 	}
 
-	/*
-	 * Add Abstract method: Call component method for process IMessage received in
-	 * mainEndPoint
-	 */
-
-	public String getMainEndPoint() {
-		return mainEndPoint;
-	}
-
-	public void setMainEndPoint(String mainEndPoint) {
-		this.mainEndPoint = mainEndPoint;
-	}
-
-	public String getAdaptationEndPoint() {
-		return adaptationEndPoint;
-	}
-
-	public void setAdaptationEndPoint(String adaptationEndPoint) {
-		this.adaptationEndPoint = adaptationEndPoint;
+	/* Refactor this for matching policy format */
+	private IPolicy extractPolicyFromMessage(IMessage m) {
+		return new Policy(((Message) m).getBody(), new HashMap<String, String>());
 	}
 
 	public IPolicyManager getPolicyManager() {
@@ -111,54 +60,6 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
 	public void setPolicyManager(IPolicyManager policyManager) {
 		this.policyManager = policyManager;
-	}
-
-	public SyncronizedBuffer<IMessage> getMainEndPointBuffer() {
-		return mainEndPointBuffer;
-	}
-
-	public void setMainEndPointBuffer(SyncronizedBuffer<IMessage> mainEndPointBuffer) {
-		this.mainEndPointBuffer = mainEndPointBuffer;
-	}
-
-	public SyncronizedBuffer<IMessage> getAdaptationEndPointBuffer() {
-		return adaptationEndPointBuffer;
-	}
-
-	public void setAdaptationEndPointBuffer(SyncronizedBuffer<IMessage> adaptationEndPointBuffer) {
-		this.adaptationEndPointBuffer = adaptationEndPointBuffer;
-	}
-
-	public IConsumer<IMessage> getMainEndPointConsumer() {
-		return mainEndPointConsumer;
-	}
-
-	public void setMainEndPointConsumer(IConsumer<IMessage> mainEndPointConsumer) {
-		this.mainEndPointConsumer = mainEndPointConsumer;
-	}
-
-	public IProducer<IMessage> getMainEndPointProducer() {
-		return mainEndPointProducer;
-	}
-
-	public void setMainEndPointProducer(IProducer<IMessage> mainEndPointProducer) {
-		this.mainEndPointProducer = mainEndPointProducer;
-	}
-
-	public IConsumer<IMessage> getAdaptationEndPointConsumer() {
-		return adaptationEndPointConsumer;
-	}
-
-	public void setAdaptationEndPointConsumer(IConsumer<IMessage> adaptationEndPointConsumer) {
-		this.adaptationEndPointConsumer = adaptationEndPointConsumer;
-	}
-
-	public IProducer<IMessage> getAdaptationEndPointProducer() {
-		return adaptationEndPointProducer;
-	}
-
-	public void setAdaptationEndPointProducer(IProducer<IMessage> adaptationEndPointProducer) {
-		this.adaptationEndPointProducer = adaptationEndPointProducer;
 	}
 
 }

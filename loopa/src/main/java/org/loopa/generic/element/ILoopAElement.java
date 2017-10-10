@@ -20,5 +20,5 @@
 package org.loopa.generic.element;
 
 public interface ILoopAElement {
-	public void start();
+
 }

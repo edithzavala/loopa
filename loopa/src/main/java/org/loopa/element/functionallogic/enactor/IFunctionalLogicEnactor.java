@@ -16,7 +16,7 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- *******************************************************************************/
+ 
 package org.loopa.element.functionallogic.enactor;
 
 import org.loopa.comm.message.IMessage;

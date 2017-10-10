@@ -19,8 +19,5 @@
 
 package org.loopa.element.logicselector;
 
-import org.loopa.comm.message.IMessage;
-
 public interface ILogicSelector {
-	public void selectLogic(IMessage m);
 }
