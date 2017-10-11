@@ -24,13 +24,9 @@ import org.loopa.comm.message.IMessage;
 public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
 
 	@Override
-	public void enact(IMessage m) {
-
-		// TODO do any processing and send adaptation message to
-		// this.getPolicyVariables().get("knowledgeManagerMainEndPoint");
-		// send adaptation enacted ack to
-		// this.getPolicyVariables().get("messageComposeEndPointMain")
-
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

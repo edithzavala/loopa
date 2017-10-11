@@ -19,5 +19,7 @@
 
 package org.loopa.element.logicselector;
 
-public interface ILogicSelector {
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface ILogicSelector extends ILoopAElementComponent{
 }

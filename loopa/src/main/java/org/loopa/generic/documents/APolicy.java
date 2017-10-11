@@ -20,17 +20,17 @@
 package org.loopa.generic.documents;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 
 public abstract class APolicy implements IPolicy {
 	private String policyType;
-	private HashMap<String, String> policyContent;
+	private Map<String, String> policyContent;
 	private List<IPolicyChangeListener> listeners;
 
-	public APolicy(String policyType, HashMap<String, String> policyContent) {
+	public APolicy(String policyType, Map<String, String> policyContent) {
 		super();
 		this.policyType = policyType;
 		this.policyContent = policyContent;
@@ -39,14 +39,28 @@ public abstract class APolicy implements IPolicy {
 
 	@Override
 	public void update(IPolicy p) {
-		updatePolicy(p);
+		setNewPolicy(p);
+	}
+
+	@Override
+	public void setPolicy(IPolicy p) {
+		setNewPolicy(p);
+	}
+
+	@Override
+	public Map<String, String> getContent() {
+		return this.getPolicyContent();
+	}
+
+	public void setNewPolicy(IPolicy p) {
+		set(p);
 		Observable.just(p).subscribe(t -> {
 			for (IPolicyChangeListener pl : this.getListeners())
 				pl.listen(t);
 		});
 	}
 
-	public abstract void updatePolicy(IPolicy p);
+	public abstract void set(IPolicy p);
 
 	public String getPolicyType() {
 		return policyType;
@@ -56,11 +70,11 @@ public abstract class APolicy implements IPolicy {
 		this.policyType = policyType;
 	}
 
-	public HashMap<String, String> getPolicyContent() {
+	public Map<String, String> getPolicyContent() {
 		return policyContent;
 	}
 
-	public void setPolicyContent(HashMap<String, String> policyContent) {
+	public void setPolicyContent(Map<String, String> policyContent) {
 		this.policyContent = policyContent;
 	}
 

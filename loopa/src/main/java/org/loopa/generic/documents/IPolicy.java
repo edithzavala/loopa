@@ -19,8 +19,14 @@
 
 package org.loopa.generic.documents;
 
+import java.util.Map;
+
 public interface IPolicy {
-	
+
+	public void setPolicy(IPolicy p);
+
 	public void update(IPolicy p);
+
+	public Map<String, String> getContent();
 
 }

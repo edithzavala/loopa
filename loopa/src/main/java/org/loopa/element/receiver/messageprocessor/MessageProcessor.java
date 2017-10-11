@@ -24,11 +24,10 @@ import org.loopa.comm.message.IMessage;
 public class MessageProcessor extends AMessageProcessor {
 
 	@Override
-	public void process(IMessage m) {
-		/*
-		 * TODO Do any processing and send message to
-		 * this.getPolicyVariables().get("logiSelectorEndPoint");
-		 */
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
+		
 	}
+
 
 }

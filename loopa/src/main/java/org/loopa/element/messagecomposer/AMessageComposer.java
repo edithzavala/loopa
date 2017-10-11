@@ -19,52 +19,16 @@
 
 package org.loopa.element.messagecomposer;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import org.loopa.comm.message.IMessage;
 import org.loopa.element.messagecomposer.dataformatter.IDataFormatter;
 import org.loopa.element.messagecomposer.messagecreator.IMessageCreator;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
-import io.reactivex.Observable;
-
 public abstract class AMessageComposer extends ALoopAElementComponent implements IMessageComposer {
 
-	private IDataFormatter dataFormatter;
-	private IMessageCreator messageCreator;
-	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
-
-	public AMessageComposer(IPolicyManager policyManager, IDataFormatter dataFormatter,
-			IMessageCreator messageCreator) {
-		super(policyManager);
-		this.dataFormatter = dataFormatter;
-		this.messageCreator = messageCreator;
-		Observable.fromIterable(opeMssgQueue).subscribe(t -> {
-			IMessage formattedMessage = this.dataFormatter.formatData(t);
-			this.messageCreator.generateMessage(formattedMessage);
-		});
-	}
-
-	@Override
-	public void doOperation(IMessage m) {
-		opeMssgQueue.add(m);
-	}
-
-	public IDataFormatter getDataFormatter() {
-		return dataFormatter;
-	}
-
-	public void setDataFormatter(IDataFormatter dataFormatter) {
-		this.dataFormatter = dataFormatter;
-	}
-
-	public IMessageCreator getMessageCreator() {
-		return messageCreator;
-	}
-
-	public void setMessageCreator(IMessageCreator messageCreator) {
-		this.messageCreator = messageCreator;
+	protected AMessageComposer(IPolicyManager policyManager, IDataFormatter imm, IMessageCreator mc) {
+		super(policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
 
 }

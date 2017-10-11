@@ -19,37 +19,31 @@
 
 package org.loopa.element.adaptationlogic.enactor;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.IPolicyChangeListener;
 import org.loopa.generic.documents.Policy;
 
 public abstract class AAdaptationLogicEnactor implements IAdaptationLogicEnactor, IPolicyChangeListener {
-	private HashMap<String, String> policyVariables;
+	private Map<String, String> policyVariables;
 
 	public AAdaptationLogicEnactor() {
 		super();
 	}
 
-	@Override
-	public void enactAdaptationLogic(IMessage m) {
-		enact(m);
-	}
 
 	@Override
 	public void listen(IPolicy p) {
 		setPolicyVariables(((Policy) p).getPolicyContent());
 	}
 
-	public abstract void enact(IMessage m);
 
-	public HashMap<String, String> getPolicyVariables() {
+	public Map<String, String> getPolicyVariables() {
 		return policyVariables;
 	}
 
-	public void setPolicyVariables(HashMap<String, String> policyVariables) {
+	public void setPolicyVariables(Map<String, String> policyVariables) {
 		this.policyVariables = policyVariables;
 	}
 }

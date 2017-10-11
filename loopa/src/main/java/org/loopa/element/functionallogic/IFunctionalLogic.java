@@ -19,6 +19,8 @@
 
 package org.loopa.element.functionallogic;
 
-public interface IFunctionalLogic{
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface IFunctionalLogic extends ILoopAElementComponent{
 
 }

@@ -19,8 +19,8 @@
 
 package org.loopa.generic.documents.managers;
 
-import org.loopa.generic.documents.IPolicy;
+import org.loopa.comm.message.IMessage;
 
 public interface IPolicyManager {
-	public void processPolicy(IPolicy p);
+	public void processPolicy(IMessage m);
 }

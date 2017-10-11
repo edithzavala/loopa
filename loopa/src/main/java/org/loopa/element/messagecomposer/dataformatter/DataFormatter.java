@@ -24,12 +24,10 @@ import org.loopa.comm.message.IMessage;
 public class DataFormatter extends ADataFormatter{
 
 	@Override
-	public IMessage format(IMessage m) {
-		/*
-		 * TODO 
-		 * Select adequate formatter, return ((Message)m).getBody(); formatted
-		 */
-		return null;
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
+		
 	}
+
 
 }

@@ -16,9 +16,12 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
+package org.loopa.generic.element.component;
 
-package org.loopa.comm.messageparticipant;
+import org.loopa.comm.message.IMessage;
 
-public interface IMessageParticipant {
+public interface IMessageManager {
+
+	void processMessage(IMessage t);
 
 }

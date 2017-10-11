@@ -19,8 +19,8 @@
 
 package org.loopa.element.messagecomposer.dataformatter;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IDataFormatter {
-	public IMessage formatData(IMessage m);
+public interface IDataFormatter extends IMessageManager {
+
 }

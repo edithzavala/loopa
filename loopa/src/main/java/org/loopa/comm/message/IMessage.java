@@ -20,4 +20,5 @@
 package org.loopa.comm.message;
 
 public interface IMessage {
+	public int getCode();
 }

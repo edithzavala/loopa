@@ -19,23 +19,17 @@
 
 package org.loopa.element.messagecomposer.messagecreator;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.IPolicyChangeListener;
 import org.loopa.generic.documents.Policy;
 
 public abstract class AMessageCreator implements IMessageCreator, IPolicyChangeListener {
-	private HashMap<String, String> policyVariables;
+	private Map<String, String> policyVariables;
 
 	public AMessageCreator() {
 		super();
-	}
-
-	@Override
-	public void generateMessage(IMessage formattedMessage) {
-		generate(formattedMessage);
 	}
 
 	@Override
@@ -43,13 +37,11 @@ public abstract class AMessageCreator implements IMessageCreator, IPolicyChangeL
 		setPolicyVariables(((Policy) p).getPolicyContent());
 	}
 
-	public abstract void generate(IMessage m);
-
-	public HashMap<String, String> getPolicyVariables() {
+	public Map<String, String> getPolicyVariables() {
 		return policyVariables;
 	}
 
-	public void setPolicyVariables(HashMap<String, String> policyVariables) {
+	public void setPolicyVariables(Map<String, String> policyVariables) {
 		this.policyVariables = policyVariables;
 	}
 }

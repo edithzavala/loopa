@@ -19,30 +19,22 @@
 
 package org.loopa.element.functionallogic.enactor;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicyChangeListener;
 
 public abstract class AFunctionalLogicEnactor implements IFunctionalLogicEnactor, IPolicyChangeListener {
-	private HashMap<String, String> policyVariables;
+	private Map<String, String> policyVariables;
 
 	public AFunctionalLogicEnactor() {
 		super();
 	}
-
-	@Override
-	public void enactFunctionalLogic(IMessage m) {
-		enact(m);
-	}
-
-	public abstract void enact(IMessage m);
-
-	public HashMap<String, String> getPolicyVariables() {
+	
+	public Map<String, String> getPolicyVariables() {
 		return policyVariables;
 	}
 
-	public void setPolicyVariables(HashMap<String, String> policyVariables) {
+	public void setPolicyVariables(Map<String, String> policyVariables) {
 		this.policyVariables = policyVariables;
 	}
 }

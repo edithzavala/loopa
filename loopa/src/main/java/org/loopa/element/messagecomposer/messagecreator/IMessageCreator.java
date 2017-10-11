@@ -19,10 +19,9 @@
  
 package org.loopa.element.messagecomposer.messagecreator;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IMessageCreator {
+public interface IMessageCreator extends IMessageManager{
 
-	public void generateMessage(IMessage formattedMessage);
 
 }

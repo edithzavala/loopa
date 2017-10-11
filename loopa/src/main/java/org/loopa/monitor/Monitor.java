@@ -29,7 +29,8 @@ import org.loopa.element.sender.ISender;
 import org.loopa.generic.element.ALoopElement;
 
 public class Monitor extends ALoopElement implements IMonitor{
-
+	
+	
 	public Monitor(IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
 			IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
 			IKnowledgeManager knowledge) {

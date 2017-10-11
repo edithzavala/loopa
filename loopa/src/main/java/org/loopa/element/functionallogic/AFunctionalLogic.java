@@ -16,42 +16,17 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.functionallogic;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import org.loopa.comm.message.IMessage;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
 
-import io.reactivex.Observable;
-
 public abstract class AFunctionalLogic extends ALoopAElementComponent implements IFunctionalLogic {
 
-	private IFunctionalLogicEnactor functionalLogicEnactor;
-	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
-	
-	public AFunctionalLogic(IPolicyManager policyManager, IFunctionalLogicEnactor functionalLogicEnactor) {
-		super(policyManager);
-		this.functionalLogicEnactor =  functionalLogicEnactor;
-		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.functionalLogicEnactor.enactFunctionalLogic(t));
+	protected AFunctionalLogic(IPolicyManager policyManager, IFunctionalLogicEnactor imm) {
+		super(policyManager, imm);
 	}
-
-	@Override
-	public void doOperation(IMessage m) {
-		opeMssgQueue.add(m);
-	}
-
-	public IFunctionalLogicEnactor getFunctionalLogicEnactor() {
-		return functionalLogicEnactor;
-	}
-
-	public void setFunctionalLogicEnactor(IFunctionalLogicEnactor functionalLogicEnactor) {
-		this.functionalLogicEnactor = functionalLogicEnactor;
-	}
-	
-	
 
 }

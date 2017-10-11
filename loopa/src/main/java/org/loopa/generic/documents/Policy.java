@@ -19,18 +19,17 @@
 
 package org.loopa.generic.documents;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class Policy extends APolicy {
 
-	public Policy(String policyType, HashMap<String, String> policyContent) {
+	public Policy(String policyType, Map<String, String> policyContent) {
 		super(policyType, policyContent);
 	}
 
 	@Override
-	public void updatePolicy(IPolicy p) {
-		this.setPolicyType(((Policy) p).getPolicyType());
-		this.setPolicyContent(((Policy) p).getPolicyContent());
+	public void set(IPolicy p) {
+		/*change corresponding variables*/
 	}
 
 }

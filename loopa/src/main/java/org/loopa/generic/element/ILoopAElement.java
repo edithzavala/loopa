@@ -16,9 +16,11 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.generic.element;
 
-public interface ILoopAElement {
+import org.loopa.element.receiver.IReceiver;
 
+public interface ILoopAElement {
+	public IReceiver getReceiver();
 }

@@ -19,10 +19,9 @@
 
 package org.loopa.element.adaptationlogic.enactor;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IAdaptationLogicEnactor {
+public interface IAdaptationLogicEnactor extends IMessageManager{
 
-	public void enactAdaptationLogic(IMessage m);
 
 }

@@ -19,6 +19,8 @@
 
 package org.loopa.element.messagecomposer;
 
-public interface IMessageComposer {
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface IMessageComposer extends ILoopAElementComponent{
 
 }

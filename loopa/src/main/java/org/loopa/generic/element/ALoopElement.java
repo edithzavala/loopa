@@ -47,6 +47,11 @@ public abstract class ALoopElement implements ILoopAElement {
 		this.messageComposer = messageComposer;
 		this.sender = sender;
 		this.knowledge = knowledge;
+
+		/*
+		 * get their message manager and adaptations/policy manager and connect them..
+		 * apart for having them in the policies
+		 */
 	}
 
 	public IReceiver getReceiver() {

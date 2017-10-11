@@ -19,10 +19,8 @@
 
 package org.loopa.element.sender.messagesender;
 
-import org.loopa.comm.message.IMessage;
-import org.loopa.generic.documents.IPolicyChangeListener;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IMessageSender extends IPolicyChangeListener{
-	public void sendMessage(IMessage m);
+public interface IMessageSender extends IMessageManager {
 
 }

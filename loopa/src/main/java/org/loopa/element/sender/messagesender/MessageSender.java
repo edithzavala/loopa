@@ -24,10 +24,11 @@ import org.loopa.comm.message.IMessage;
 public class MessageSender extends AMessageSender {
 
 	@Override
-	public void send(IMessage m) {
-		// TODO do any processing and send message to
-		// extComponentEndPoint =
-		// this.getPolicyVariables().get(((Message)m).getSubject())
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
+		
 	}
+
+
 
 }

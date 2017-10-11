@@ -19,13 +19,11 @@
 
 package org.loopa.comm.message;
 
-import org.loopa.comm.messageparticipant.IMessageParticipant;
-
 public class Message extends AMessage{
 
-	public Message(String body, String subject, IMessageParticipant sender, IMessageParticipant recipient,
-			Long timeStamp) {
-		super(body, subject, sender, recipient, timeStamp);
+	public Message(String body, int code, String from, String to) {
+		super(body, code, from, to);
 	}
+
 
 }

@@ -24,13 +24,11 @@ import org.loopa.comm.message.IMessage;
 public class LogicMessageDispatcher extends ALogicMessageDispatcher {
 
 	@Override
-	public void dispatch(IMessage m) {
-		/*
-		 * TODO* Select corresponding logic, e.g., according to the subject
-		 * logicMainEndPoint = this.getPolicyVariables().get(((Message)m).getSubject());
-		 * and send the message to logicMainEndPoint
-		 */
-
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
+		
 	}
+
+
 
 }

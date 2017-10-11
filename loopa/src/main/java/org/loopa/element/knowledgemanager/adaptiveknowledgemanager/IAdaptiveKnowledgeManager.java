@@ -19,8 +19,8 @@
 
 package org.loopa.element.knowledgemanager.adaptiveknowledgemanager;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IAdaptiveKnowledgeManager {
-	public void processKnowledge(IMessage m);
+public interface IAdaptiveKnowledgeManager extends IMessageManager{
+
 }

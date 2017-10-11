@@ -16,7 +16,7 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.knowledgemanager.adaptiveknowledgemanager;
 
 import org.loopa.comm.message.IMessage;
@@ -24,10 +24,8 @@ import org.loopa.comm.message.IMessage;
 public class AdaptiveKnowledgeManager extends AAdaptiveKnowledgeManager {
 
 	@Override
-	public void process(IMessage m) {
-
-		// TODO do any processing and send to componentToAdaptEndPoint =
-		// this.getPolicyVariables().get(((Message)m).getSubject());
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
 
 	}
 

@@ -19,28 +19,28 @@
 
 package org.loopa.generic.element.component;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.loopa.comm.message.IMessage;
-import org.loopa.comm.message.Message;
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
 
 import io.reactivex.Observable;
 
 public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
+	private IMessageManager messageProcessor;
 	private IPolicyManager policyManager;
 	private ConcurrentLinkedQueue<IMessage> adaptMssgQueue;
+	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
 
-	public ALoopAElementComponent(IPolicyManager policyManager) {
+	protected ALoopAElementComponent(IPolicyManager policyManager, IMessageManager imm) {
 		super();
 		this.policyManager = policyManager;
+		this.messageProcessor = imm;
 		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
-		Observable.fromIterable(adaptMssgQueue)
-				.subscribe(t -> this.policyManager.processPolicy(extractPolicyFromMessage(t)));
+		this.opeMssgQueue = new ConcurrentLinkedQueue<>();
+		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
 
 	}
 
@@ -49,9 +49,9 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 		adaptMssgQueue.add(m);
 	}
 
-	/* Refactor this for matching policy format */
-	private IPolicy extractPolicyFromMessage(IMessage m) {
-		return new Policy(((Message) m).getBody(), new HashMap<String, String>());
+	@Override
+	public void doOperation(IMessage m) {
+		opeMssgQueue.add(m);
 	}
 
 	public IPolicyManager getPolicyManager() {
@@ -60,6 +60,14 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
 	public void setPolicyManager(IPolicyManager policyManager) {
 		this.policyManager = policyManager;
+	}
+
+	public IMessageManager getMessageProcessor() {
+		return messageProcessor;
+	}
+
+	public void setMessageProcessor(IMessageManager messageProcessor) {
+		this.messageProcessor = messageProcessor;
 	}
 
 }

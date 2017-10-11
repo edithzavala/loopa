@@ -19,7 +19,9 @@
  
 package org.loopa.element.knowledgemanager;
 
-public interface IKnowledgeManager {
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface IKnowledgeManager extends ILoopAElementComponent{
 
 
 }

@@ -19,23 +19,17 @@
 
 package org.loopa.element.knowledgemanager.adaptiveknowledgemanager;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.IPolicyChangeListener;
 import org.loopa.generic.documents.Policy;
 
 public abstract class AAdaptiveKnowledgeManager implements IAdaptiveKnowledgeManager, IPolicyChangeListener {
-	private HashMap<String, String> policyVariables;
+	private Map<String, String> policyVariables;
 
 	public AAdaptiveKnowledgeManager() {
 		super();
-	}
-
-	@Override
-	public void processKnowledge(IMessage m) {
-		process(m);
 	}
 
 	@Override
@@ -43,13 +37,11 @@ public abstract class AAdaptiveKnowledgeManager implements IAdaptiveKnowledgeMan
 		setPolicyVariables(((Policy) p).getPolicyContent());
 	}
 
-	public abstract void process(IMessage m);
-
-	public HashMap<String, String> getPolicyVariables() {
+	public Map<String, String> getPolicyVariables() {
 		return policyVariables;
 	}
 
-	public void setPolicyVariables(HashMap<String, String> policyVariables) {
+	public void setPolicyVariables(Map<String, String> policyVariables) {
 		this.policyVariables = policyVariables;
 	}
 }

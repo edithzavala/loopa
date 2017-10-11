@@ -1,7 +1,24 @@
+/*******************************************************************************
+ *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  Contributors:
+ *  	Edith Zavala
+ *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.executer;
 
 import org.loopa.comm.message.IMessage;
-import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.AFunctionalLogicEnactor;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.Policy;
@@ -22,10 +39,10 @@ public class ExecuterFunctionalLogicEnactor extends AFunctionalLogicEnactor {
 
 	}
 
-	/* Refactor to get exactly the part of the message that is execution data */
 	@Override
-	public void enact(IMessage m) {
-		this.em.processExecutionData(((Message) m).getBody());
-
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
+		
 	}
+
 }

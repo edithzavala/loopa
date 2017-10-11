@@ -19,8 +19,8 @@
  
 package org.loopa.element.functionallogic.enactor;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IFunctionalLogicEnactor {
-	public void enactFunctionalLogic(IMessage m);
+public interface IFunctionalLogicEnactor extends IMessageManager{
+
 }

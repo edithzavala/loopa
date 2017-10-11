@@ -16,27 +16,21 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
-package org.loopa.comm.message;
 
-import org.loopa.comm.messageparticipant.IMessageParticipant;
+package org.loopa.comm.message;
 
 public abstract class AMessage implements IMessage {
 	private String body;
-	private String subject;
-	private IMessageParticipant sender;
-	private IMessageParticipant recipient;
-	private Long timeStamp;
+	private int code;
+	private String from;
+	private String to;
 
-		
-	public AMessage(String body, String subject, IMessageParticipant sender, IMessageParticipant recipient,
-			Long timeStamp) {
+	public AMessage(String body, int code, String from, String to) {
 		super();
 		this.body = body;
-		this.subject = subject;
-		this.sender = sender;
-		this.recipient = recipient;
-		this.timeStamp = timeStamp;
+		this.code = code;
+		this.from = from;
+		this.to = to;
 	}
 
 	public String getBody() {
@@ -47,36 +41,28 @@ public abstract class AMessage implements IMessage {
 		this.body = body;
 	}
 
-	public String getSubject() {
-		return subject;
+	public int getCode() {
+		return code;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setCode(int code) {
+		this.code = code;
 	}
 
-	public IMessageParticipant getSender() {
-		return sender;
+	public String getFrom() {
+		return from;
 	}
 
-	public void setSender(IMessageParticipant sender) {
-		this.sender = sender;
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
-	public IMessageParticipant getRecipient() {
-		return recipient;
+	public String getTo() {
+		return to;
 	}
 
-	public void setRecipient(IMessageParticipant recipient) {
-		this.recipient = recipient;
-	}
-
-	public Long getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(Long timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setTo(String to) {
+		this.to = to;
 	}
 
 }

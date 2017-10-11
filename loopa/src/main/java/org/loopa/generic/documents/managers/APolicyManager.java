@@ -19,6 +19,7 @@
  
 package org.loopa.generic.documents.managers;
 
+import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
 
 public abstract class APolicyManager implements IPolicyManager{
@@ -32,7 +33,9 @@ public abstract class APolicyManager implements IPolicyManager{
 	}
 
 	@Override
-	public void processPolicy(IPolicy p) {
+	public void processPolicy(IMessage m) {
+		/*Transform to Policy*/
+		IPolicy p = null;
 		updatePolicy(p);
 	}
 	

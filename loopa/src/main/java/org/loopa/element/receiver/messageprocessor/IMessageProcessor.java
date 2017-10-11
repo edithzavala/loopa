@@ -19,10 +19,8 @@
 
 package org.loopa.element.receiver.messageprocessor;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface IMessageProcessor {
-
-	public void processMessage(IMessage m);
+public interface IMessageProcessor extends IMessageManager{
 
 }

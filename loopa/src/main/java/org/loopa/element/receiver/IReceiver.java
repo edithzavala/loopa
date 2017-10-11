@@ -19,6 +19,8 @@
 
 package org.loopa.element.receiver;
 
-public interface IReceiver{
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface IReceiver extends ILoopAElementComponent{
 
 }

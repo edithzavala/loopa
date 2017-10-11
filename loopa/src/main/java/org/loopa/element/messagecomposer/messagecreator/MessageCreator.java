@@ -16,7 +16,7 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.messagecomposer.messagecreator;
 
 import org.loopa.comm.message.IMessage;
@@ -24,11 +24,8 @@ import org.loopa.comm.message.IMessage;
 public class MessageCreator extends AMessageCreator {
 
 	@Override
-	public void generate(IMessage m) {
-		/*
-		 * TODO Do any processing and send message to
-		 * this.getPolicyVariables().get("senderMainEndPoint");
-		 */
+	public void processMessage(IMessage t) {
+		// TODO Auto-generated method stub
 
 	}
 

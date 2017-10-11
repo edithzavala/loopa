@@ -19,24 +19,18 @@
 
 package org.loopa.element.sender.messagesender;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.IPolicyChangeListener;
 import org.loopa.generic.documents.Policy;
 
 public abstract class AMessageSender implements IMessageSender, IPolicyChangeListener {
 
-	private HashMap<String, String> policyVariables;
+	private Map<String, String> policyVariables;
 
 	public AMessageSender() {
 		super();
-	}
-
-	@Override
-	public void sendMessage(IMessage m) {
-		send(m);
 	}
 
 	@Override
@@ -44,13 +38,11 @@ public abstract class AMessageSender implements IMessageSender, IPolicyChangeLis
 		setPolicyVariables(((Policy) p).getPolicyContent());
 	}
 
-	public abstract void send(IMessage m);
-
-	public HashMap<String, String> getPolicyVariables() {
+	public Map<String, String> getPolicyVariables() {
 		return policyVariables;
 	}
 
-	public void setPolicyVariables(HashMap<String, String> policyVariables) {
+	public void setPolicyVariables(Map<String, String> policyVariables) {
 		this.policyVariables = policyVariables;
 	}
 }

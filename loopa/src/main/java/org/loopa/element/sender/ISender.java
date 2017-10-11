@@ -19,6 +19,8 @@
 
 package org.loopa.element.sender;
 
-public interface ISender {
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface ISender extends ILoopAElementComponent{
 
 }

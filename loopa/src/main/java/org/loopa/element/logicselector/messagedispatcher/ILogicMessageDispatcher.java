@@ -19,8 +19,8 @@
 
 package org.loopa.element.logicselector.messagedispatcher;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.IMessageManager;
 
-public interface ILogicMessageDispatcher {
-	public void dispatchMessage(IMessage m);
+public interface ILogicMessageDispatcher extends IMessageManager{
+
 }

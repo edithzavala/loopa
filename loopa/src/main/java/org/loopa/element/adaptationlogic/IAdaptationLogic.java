@@ -19,6 +19,8 @@
 
 package org.loopa.element.adaptationlogic;
 
-public interface IAdaptationLogic {
+import org.loopa.generic.element.component.ILoopAElementComponent;
+
+public interface IAdaptationLogic extends ILoopAElementComponent{
 
 }
