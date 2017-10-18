@@ -25,9 +25,9 @@ import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class AAdaptationLogic extends ALoopAElementComponent implements IAdaptationLogic {
 
-	protected AAdaptationLogic(IPolicyManager policyManager, IAdaptationLogicEnactor imm) {
-		super(policyManager, imm);
-
+	protected AAdaptationLogic(String id, IPolicyManager policyManager, IAdaptationLogicEnactor imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -23,8 +23,10 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class LogicSelector extends ALogicSelector{
 
-	public LogicSelector(IPolicyManager policyManager, ILogicMessageDispatcher logicMessageDispatcher) {
-		super(policyManager, logicMessageDispatcher);
+	public LogicSelector(String id, IPolicyManager policyManager, ILogicMessageDispatcher imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
+
 
 }

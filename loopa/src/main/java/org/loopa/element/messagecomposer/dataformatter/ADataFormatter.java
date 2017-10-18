@@ -28,7 +28,7 @@ import org.loopa.generic.documents.Policy;
 public abstract class ADataFormatter implements IDataFormatter, IPolicyChangeListener {
 	private Map<String, String> policyVariables;
 
-	public ADataFormatter() {
+	protected ADataFormatter() {
 		super();
 	}
 

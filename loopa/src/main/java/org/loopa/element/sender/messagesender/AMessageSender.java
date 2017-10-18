@@ -29,7 +29,7 @@ public abstract class AMessageSender implements IMessageSender, IPolicyChangeLis
 
 	private Map<String, String> policyVariables;
 
-	public AMessageSender() {
+	protected AMessageSender() {
 		super();
 	}
 

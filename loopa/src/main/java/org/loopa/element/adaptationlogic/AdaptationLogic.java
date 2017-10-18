@@ -23,8 +23,10 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class AdaptationLogic extends AAdaptationLogic {
 
-	public AdaptationLogic(IPolicyManager policyManager, IAdaptationLogicEnactor adaptationLogicEnactor) {
-		super(policyManager, adaptationLogicEnactor);
+	public AdaptationLogic(String id, IPolicyManager policyManager, IAdaptationLogicEnactor imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
+
 
 }

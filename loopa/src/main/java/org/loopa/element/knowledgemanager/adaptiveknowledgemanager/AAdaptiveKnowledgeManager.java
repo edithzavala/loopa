@@ -28,7 +28,7 @@ import org.loopa.generic.documents.Policy;
 public abstract class AAdaptiveKnowledgeManager implements IAdaptiveKnowledgeManager, IPolicyChangeListener {
 	private Map<String, String> policyVariables;
 
-	public AAdaptiveKnowledgeManager() {
+	protected AAdaptiveKnowledgeManager() {
 		super();
 	}
 

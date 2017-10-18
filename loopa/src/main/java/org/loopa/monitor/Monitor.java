@@ -16,7 +16,7 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.monitor;
 
 import org.loopa.element.adaptationlogic.IAdaptationLogic;
@@ -28,14 +28,12 @@ import org.loopa.element.receiver.IReceiver;
 import org.loopa.element.sender.ISender;
 import org.loopa.generic.element.ALoopElement;
 
-public class Monitor extends ALoopElement implements IMonitor{
-	
-	
-	public Monitor(IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
+public class Monitor extends ALoopElement implements IMonitor {
+
+	public Monitor(String id, IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
 			IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
 			IKnowledgeManager knowledge) {
-		super(receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
+		super(id, receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
 	}
-
 
 }

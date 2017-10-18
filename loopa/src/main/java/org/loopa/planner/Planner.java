@@ -29,11 +29,13 @@ import org.loopa.generic.element.ALoopElement;
 
 public class Planner extends ALoopElement implements IPlanner{
 
-	public Planner(IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
+	protected Planner(String id, IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
 			IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
 			IKnowledgeManager knowledge) {
-		super(receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
-
+		super(id, receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
+		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

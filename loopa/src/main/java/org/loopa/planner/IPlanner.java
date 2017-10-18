@@ -19,6 +19,8 @@
  
 package org.loopa.planner;
 
-public interface IPlanner {
+import org.loopa.generic.element.ILoopAElement;
+
+public interface IPlanner extends ILoopAElement{
 
 }

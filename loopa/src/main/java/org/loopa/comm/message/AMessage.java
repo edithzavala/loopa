@@ -19,13 +19,15 @@
 
 package org.loopa.comm.message;
 
+import java.util.Map;
+
 public abstract class AMessage implements IMessage {
-	private String body;
+	private Map<String,String> body;
 	private int code;
 	private String from;
 	private String to;
 
-	public AMessage(String body, int code, String from, String to) {
+	protected AMessage(Map<String,String> body, int code, String from, String to) {
 		super();
 		this.body = body;
 		this.code = code;
@@ -33,11 +35,11 @@ public abstract class AMessage implements IMessage {
 		this.to = to;
 	}
 
-	public String getBody() {
+	public Map<String,String> getBody() {
 		return body;
 	}
 
-	public void setBody(String body) {
+	public void setBody(Map<String,String> body) {
 		this.body = body;
 	}
 

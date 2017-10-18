@@ -23,8 +23,11 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class FunctionalLogic extends AFunctionalLogic{
 
-	public FunctionalLogic(IPolicyManager policyManager, IFunctionalLogicEnactor functionalLogicEnactor) {
-		super(policyManager, functionalLogicEnactor);
+	public FunctionalLogic(String id, IPolicyManager policyManager, IFunctionalLogicEnactor imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

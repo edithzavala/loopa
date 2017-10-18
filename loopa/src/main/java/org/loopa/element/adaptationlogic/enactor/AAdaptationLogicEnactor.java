@@ -28,7 +28,7 @@ import org.loopa.generic.documents.Policy;
 public abstract class AAdaptationLogicEnactor implements IAdaptationLogicEnactor, IPolicyChangeListener {
 	private Map<String, String> policyVariables;
 
-	public AAdaptationLogicEnactor() {
+	protected AAdaptationLogicEnactor() {
 		super();
 	}
 

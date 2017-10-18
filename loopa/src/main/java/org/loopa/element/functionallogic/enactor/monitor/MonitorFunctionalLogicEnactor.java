@@ -19,7 +19,6 @@
 package org.loopa.element.functionallogic.enactor.monitor;
 
 import org.loopa.comm.message.IMessage;
-import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.AFunctionalLogicEnactor;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.Policy;

@@ -25,8 +25,9 @@ import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class AFunctionalLogic extends ALoopAElementComponent implements IFunctionalLogic {
 
-	protected AFunctionalLogic(IPolicyManager policyManager, IFunctionalLogicEnactor imm) {
-		super(policyManager, imm);
+	protected AFunctionalLogic(String id, IPolicyManager policyManager, IFunctionalLogicEnactor imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
 
 }

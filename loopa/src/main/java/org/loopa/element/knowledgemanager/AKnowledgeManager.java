@@ -19,15 +19,15 @@
 
 package org.loopa.element.knowledgemanager;
 
+import org.loopa.element.knowledgemanager.adaptiveknowledgemanager.IAdaptiveKnowledgeManager;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.element.component.ALoopAElementComponent;
-import org.loopa.generic.element.component.IMessageManager;
 
 public abstract class AKnowledgeManager extends ALoopAElementComponent implements IKnowledgeManager {
 
-	protected AKnowledgeManager(IPolicyManager policyManager, IMessageManager imm) {
-		super(policyManager, imm);
-
+	protected AKnowledgeManager(String id, IPolicyManager policyManager, IAdaptiveKnowledgeManager imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
 
 	

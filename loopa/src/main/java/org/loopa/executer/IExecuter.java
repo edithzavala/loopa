@@ -19,6 +19,8 @@
  
 package org.loopa.executer;
 
-public interface IExecuter {
+import org.loopa.generic.element.ILoopAElement;
+
+public interface IExecuter extends ILoopAElement{
 
 }

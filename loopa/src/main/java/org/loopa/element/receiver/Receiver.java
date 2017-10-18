@@ -23,8 +23,10 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class Receiver extends AReceiver{
 
-	public Receiver(IPolicyManager policyManager, IMessageProcessor messageProcessor) {
-		super(policyManager, messageProcessor);
+	public Receiver(String id, IPolicyManager policyManager, IMessageProcessor imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
+
 
 }

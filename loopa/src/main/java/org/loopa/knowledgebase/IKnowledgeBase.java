@@ -19,6 +19,8 @@
 
 package org.loopa.knowledgebase;
 
-public interface IKnowledgeBase {
+import org.loopa.generic.element.ILoopAElement;
+
+public interface IKnowledgeBase extends ILoopAElement {
 
 }

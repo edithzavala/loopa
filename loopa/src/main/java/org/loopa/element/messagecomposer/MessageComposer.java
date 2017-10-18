@@ -24,8 +24,11 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class MessageComposer extends AMessageComposer{
 
-	public MessageComposer(IPolicyManager policyManager, IDataFormatter dataFormatter, IMessageCreator messageCreator) {
-		super(policyManager, dataFormatter, messageCreator);
+	public MessageComposer(String id, IPolicyManager policyManager, IDataFormatter imm, IMessageCreator mc) {
+		super(id, policyManager, imm, mc);
+		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

@@ -25,8 +25,8 @@ import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class AReceiver extends ALoopAElementComponent implements IReceiver {
 
-	protected AReceiver(IPolicyManager policyManager, IMessageProcessor imm) {
-		super(policyManager, imm);
+	protected AReceiver(String id, IPolicyManager policyManager, IMessageProcessor imm) {
+		super(id, policyManager, imm);
 		// TODO Auto-generated constructor stub
 	}
 

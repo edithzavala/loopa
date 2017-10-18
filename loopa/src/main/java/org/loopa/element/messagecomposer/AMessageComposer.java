@@ -26,8 +26,8 @@ import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class AMessageComposer extends ALoopAElementComponent implements IMessageComposer {
 
-	protected AMessageComposer(IPolicyManager policyManager, IDataFormatter imm, IMessageCreator mc) {
-		super(policyManager, imm);
+	protected AMessageComposer(String id, IPolicyManager policyManager, IDataFormatter imm, IMessageCreator mc) {
+		super(id, policyManager, imm);
 		// TODO Auto-generated constructor stub
 	}
 

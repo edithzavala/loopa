@@ -19,6 +19,8 @@
  
 package org.loopa.monitor;
 
-public interface IMonitor {
+import org.loopa.generic.element.ILoopAElement;
+
+public interface IMonitor extends ILoopAElement{
 
 }

@@ -19,10 +19,23 @@
 
 package org.loopa.generic.element.component;
 
+import java.util.Map;
+
 import org.loopa.comm.message.IMessage;
 
 public interface ILoopAElementComponent {
 	public void adapt(IMessage m);
+
 	public void doOperation(IMessage m);
+
+	public void setComponentRecipients(Map<String, Object> r);
+
+	public Map<String, Object> getComponentRecipients();
+
+	public void addRecipient(String id, Object o);
+
+	public void removeRecipient(String id);
 	
+	public String getComponentId();
+
 }

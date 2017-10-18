@@ -23,8 +23,10 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class KnowledgeManager extends AKnowledgeManager {
 
-	public KnowledgeManager(IPolicyManager policyManager, IAdaptiveKnowledgeManager adaptiveKnowledgeManager) {
-		super(policyManager, adaptiveKnowledgeManager);
+	public KnowledgeManager(String id, IPolicyManager policyManager, IAdaptiveKnowledgeManager imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
+
 
 }

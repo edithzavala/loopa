@@ -23,9 +23,10 @@ import org.loopa.generic.documents.managers.IPolicyManager;
 
 public class Sender extends ASender{
 
-	public Sender(IPolicyManager policyManager, IMessageSender messageSender) {
-		super(policyManager, messageSender);
-
+	public Sender(String id, IPolicyManager policyManager, IMessageSender imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
+
 
 }

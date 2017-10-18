@@ -25,8 +25,8 @@ import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class ASender extends ALoopAElementComponent implements ISender {
 
-	protected ASender(IPolicyManager policyManager, IMessageSender imm) {
-		super(policyManager, imm);
+	protected ASender(String id, IPolicyManager policyManager, IMessageSender imm) {
+		super(id, policyManager, imm);
 		// TODO Auto-generated constructor stub
 	}
 

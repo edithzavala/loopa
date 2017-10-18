@@ -19,6 +19,8 @@
  
 package org.loopa.analyzer;
 
-public interface IAnalyzer {
+import org.loopa.generic.element.ILoopAElement;
+
+public interface IAnalyzer extends ILoopAElement{
 
 }

@@ -28,7 +28,7 @@ import org.loopa.generic.documents.Policy;
 public abstract class ALogicMessageDispatcher implements ILogicMessageDispatcher, IPolicyChangeListener {
 	private Map<String, String> policyVariables;
 
-	public ALogicMessageDispatcher() {
+	protected ALogicMessageDispatcher() {
 		super();
 	}
 

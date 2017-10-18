@@ -19,8 +19,20 @@
 
 package org.loopa.generic.element;
 
+import java.util.Map;
+
 import org.loopa.element.receiver.IReceiver;
 
 public interface ILoopAElement {
 	public IReceiver getReceiver();
+	
+	public void setElementRecipients(Map<String, Object> r);
+
+	public Map<String, Object> getElementRecipients();
+
+	public void addRecipient(String id, Object o);
+
+	public void removeRecipient(String id);
+	
+	public String getElementId();
 }

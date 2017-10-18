@@ -28,7 +28,7 @@ import org.loopa.generic.documents.Policy;
 public abstract class AMessageCreator implements IMessageCreator, IPolicyChangeListener {
 	private Map<String, String> policyVariables;
 
-	public AMessageCreator() {
+	protected AMessageCreator() {
 		super();
 	}
 

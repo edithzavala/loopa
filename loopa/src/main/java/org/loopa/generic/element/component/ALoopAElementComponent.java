@@ -19,6 +19,8 @@
 
 package org.loopa.generic.element.component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.loopa.comm.message.IMessage;
@@ -32,13 +34,31 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 	private IPolicyManager policyManager;
 	private ConcurrentLinkedQueue<IMessage> adaptMssgQueue;
 	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
+	private String id;
+	private Map<String, Object> recipients;
 
-	protected ALoopAElementComponent(IPolicyManager policyManager, IMessageManager imm) {
+	protected ALoopAElementComponent(String id, IPolicyManager policyManager, IMessageManager imm) {
 		super();
+		this.id = id;
 		this.policyManager = policyManager;
 		this.messageProcessor = imm;
 		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
 		this.opeMssgQueue = new ConcurrentLinkedQueue<>();
+		this.recipients = new HashMap<String, Object>();
+		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
+		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
+
+	}
+
+	protected ALoopAElementComponent(String id, IPolicyManager policyManager, IMessageManager imm,
+			HashMap<String, Object> recipients) {
+		super();
+		this.id = id;
+		this.policyManager = policyManager;
+		this.messageProcessor = imm;
+		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
+		this.opeMssgQueue = new ConcurrentLinkedQueue<>();
+		this.recipients = recipients;
 		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
 		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
 
@@ -46,12 +66,37 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
 	@Override
 	public void adapt(IMessage m) {
-		adaptMssgQueue.add(m);
+		this.adaptMssgQueue.add(m);
 	}
 
 	@Override
 	public void doOperation(IMessage m) {
-		opeMssgQueue.add(m);
+		this.opeMssgQueue.add(m);
+	}
+
+	@Override
+	public void setComponentRecipients(Map<String, Object> r) {
+		this.recipients = r;
+	}
+
+	@Override
+	public Map<String, Object> getComponentRecipients() {
+		return this.recipients;
+	}
+
+	@Override
+	public void addRecipient(String id, Object o) {
+		this.recipients.put(id, o);
+	}
+
+	@Override
+	public void removeRecipient(String id) {
+		this.recipients.remove(id);
+	}
+
+	@Override
+	public String getComponentId() {
+		return this.id;
 	}
 
 	public IPolicyManager getPolicyManager() {

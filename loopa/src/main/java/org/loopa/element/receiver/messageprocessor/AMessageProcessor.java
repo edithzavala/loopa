@@ -29,7 +29,7 @@ public abstract class AMessageProcessor implements IMessageProcessor, IPolicyCha
 
 	private Map<String, String> policyVariables;
 	
-	public AMessageProcessor() {
+	protected AMessageProcessor() {
 		super();
 	}
 

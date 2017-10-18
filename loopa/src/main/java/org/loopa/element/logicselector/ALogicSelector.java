@@ -25,9 +25,9 @@ import org.loopa.generic.element.component.ALoopAElementComponent;
 
 public abstract class ALogicSelector extends ALoopAElementComponent implements ILogicSelector {
 
-	protected ALogicSelector(IPolicyManager policyManager, ILogicMessageDispatcher imm) {
-		super(policyManager, imm);
-
+	protected ALogicSelector(String id, IPolicyManager policyManager, ILogicMessageDispatcher imm) {
+		super(id, policyManager, imm);
+		// TODO Auto-generated constructor stub
 	}
 
 }

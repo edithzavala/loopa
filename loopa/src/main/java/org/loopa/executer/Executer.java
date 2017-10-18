@@ -29,10 +29,12 @@ import org.loopa.generic.element.ALoopElement;
 
 public class Executer extends ALoopElement implements IExecuter {
 
-	public Executer(IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
+	protected Executer(String id, IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
 			IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
 			IKnowledgeManager knowledge) {
-		super(receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
+		super(id, receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
+		// TODO Auto-generated constructor stub
 	}
+
 
 }
