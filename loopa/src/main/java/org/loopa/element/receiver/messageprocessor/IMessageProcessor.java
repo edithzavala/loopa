@@ -21,6 +21,6 @@ package org.loopa.element.receiver.messageprocessor;
 
 import org.loopa.generic.element.component.IMessageManager;
 
-public interface IMessageProcessor extends IMessageManager{
+public interface IMessageProcessor extends IMessageManager {
 
 }

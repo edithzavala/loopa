@@ -19,31 +19,8 @@
 
 package org.loopa.element.adaptationlogic.enactor;
 
-import java.util.Map;
+import org.loopa.generic.element.component.AMessageManager;
 
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.IPolicyChangeListener;
-import org.loopa.generic.documents.Policy;
+public abstract class AAdaptationLogicEnactor extends AMessageManager implements IAdaptationLogicEnactor {
 
-public abstract class AAdaptationLogicEnactor implements IAdaptationLogicEnactor, IPolicyChangeListener {
-	private Map<String, String> policyVariables;
-
-	protected AAdaptationLogicEnactor() {
-		super();
-	}
-
-
-	@Override
-	public void listen(IPolicy p) {
-		setPolicyVariables(((Policy) p).getPolicyContent());
-	}
-
-
-	public Map<String, String> getPolicyVariables() {
-		return policyVariables;
-	}
-
-	public void setPolicyVariables(Map<String, String> policyVariables) {
-		this.policyVariables = policyVariables;
-	}
 }

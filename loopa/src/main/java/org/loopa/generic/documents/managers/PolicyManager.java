@@ -23,15 +23,10 @@ import org.loopa.generic.documents.IPolicy;
 
 public class PolicyManager extends APolicyManager {
 
-
 	public PolicyManager(IPolicy policy) {
 		super(policy);
-
+		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void updatePolicy(IPolicy p) {
-		this.getActivePolicy().update(p);
 
-	}
 }

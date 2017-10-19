@@ -19,29 +19,8 @@
 
 package org.loopa.element.knowledgemanager.adaptiveknowledgemanager;
 
-import java.util.Map;
+import org.loopa.generic.element.component.AMessageManager;
 
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.IPolicyChangeListener;
-import org.loopa.generic.documents.Policy;
+public abstract class AAdaptiveKnowledgeManager extends AMessageManager implements IAdaptiveKnowledgeManager {
 
-public abstract class AAdaptiveKnowledgeManager implements IAdaptiveKnowledgeManager, IPolicyChangeListener {
-	private Map<String, String> policyVariables;
-
-	protected AAdaptiveKnowledgeManager() {
-		super();
-	}
-
-	@Override
-	public void listen(IPolicy p) {
-		setPolicyVariables(((Policy) p).getPolicyContent());
-	}
-
-	public Map<String, String> getPolicyVariables() {
-		return policyVariables;
-	}
-
-	public void setPolicyVariables(Map<String, String> policyVariables) {
-		this.policyVariables = policyVariables;
-	}
 }

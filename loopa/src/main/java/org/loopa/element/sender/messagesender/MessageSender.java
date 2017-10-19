@@ -16,19 +16,32 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.sender.messagesender;
 
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.Message;
 
 public class MessageSender extends AMessageSender {
 
 	@Override
 	public void processMessage(IMessage t) {
-		// TODO Auto-generated method stub
-		
+		IMessage m = process(t);
+		if (m != null)
+			sendMessage(m);
 	}
 
+	protected IMessage process(IMessage m) {
+		return new Message(m.getMessageContent(), m.getMessageCode(), this.getComponent().getComponentId(),
+				getRecipientFromPolicy(m.getMessageCode()));
+	}
 
+	protected String getRecipientFromPolicy(int messageCode) {
+		return this.getPolicyVariables().get(String.valueOf(messageCode));
+	}
+
+	protected void sendMessage(IMessage m) {
+		/*send message to corresponding recipient*/
+	}
 
 }

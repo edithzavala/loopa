@@ -18,33 +18,13 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.knowledgebase;
 
-import org.loopa.comm.message.IMessage;
-import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.AFunctionalLogicEnactor;
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.Policy;
 
 public class KnowledgeBaseFuncionalLogicEnactor extends AFunctionalLogicEnactor {
-	IKnowledgeBaseManager kbm;
 
-	public KnowledgeBaseFuncionalLogicEnactor(IKnowledgeBaseManager kbm) {
-		super();
-		this.kbm = kbm;
+	public KnowledgeBaseFuncionalLogicEnactor(IKnowledgeBaseManager lm) {
+		super(lm);
+		// TODO Auto-generated constructor stub
 	}
-
-	/* Refactor to get extacly the part of the policy with the config */
-	@Override
-	public void listen(IPolicy p) {
-		kbm.setConfiguration(((Policy) p).getPolicyContent().get("Config"));
-
-	}
-
-	@Override
-	public void processMessage(IMessage t) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 }

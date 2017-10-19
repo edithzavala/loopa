@@ -16,16 +16,21 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.generic.documents.managers;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
+import org.loopa.generic.documents.Policy;
+import org.loopa.generic.element.component.ILoopAElementComponent;
 
-public abstract class APolicyManager implements IPolicyManager{
+public abstract class APolicyManager implements IPolicyManager {
 
 	private IPolicy activePolicy;
-
+	private ILoopAElementComponent component;
 
 	public APolicyManager(IPolicy policy) {
 		super();
@@ -34,12 +39,11 @@ public abstract class APolicyManager implements IPolicyManager{
 
 	@Override
 	public void processPolicy(IMessage m) {
-		/*Transform to Policy*/
-		IPolicy p = null;
-		updatePolicy(p);
+		Map<String, String> content = new HashMap<String, String>();
+		content.put("policyContent", m.getMessageContent().get("policy"));
+		IPolicy p = new Policy(m.getMessageContent().get("tytpe"), content);
+		this.activePolicy.update(p);
 	}
-	
-	public abstract void updatePolicy(IPolicy p);
 
 
 	public IPolicy getActivePolicy() {
@@ -50,5 +54,14 @@ public abstract class APolicyManager implements IPolicyManager{
 		this.activePolicy = newPolicy;
 	}
 
+	@Override
+	public void setComponent(ILoopAElementComponent c) {
+		this.component = c;
+	}
+
+	@Override
+	public ILoopAElementComponent getComponent() {
+		return this.component;
+	}
 
 }

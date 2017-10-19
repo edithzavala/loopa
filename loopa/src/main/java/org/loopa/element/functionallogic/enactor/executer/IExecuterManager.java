@@ -18,8 +18,8 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.executer;
 
-public interface IExecuterManager {
-	public void setConfiguration(String config);
+import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-	public void processExecutionData(String executionData);
+public interface IExecuterManager extends IFunctionalLogicEnactorManager {
+
 }

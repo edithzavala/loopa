@@ -22,13 +22,11 @@ import org.loopa.element.messagecomposer.dataformatter.IDataFormatter;
 import org.loopa.element.messagecomposer.messagecreator.IMessageCreator;
 import org.loopa.generic.documents.managers.IPolicyManager;
 
-public class MessageComposer extends AMessageComposer{
+public class MessageComposer extends AMessageComposer {
 
 	public MessageComposer(String id, IPolicyManager policyManager, IDataFormatter imm, IMessageCreator mc) {
 		super(id, policyManager, imm, mc);
-		// TODO Auto-generated constructor stub
+		imm.setMessageCreator(mc);
 	}
-
-
 
 }

@@ -19,29 +19,7 @@
 
 package org.loopa.element.messagecomposer.messagecreator;
 
-import java.util.Map;
+import org.loopa.generic.element.component.AMessageManager;
 
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.IPolicyChangeListener;
-import org.loopa.generic.documents.Policy;
-
-public abstract class AMessageCreator implements IMessageCreator, IPolicyChangeListener {
-	private Map<String, String> policyVariables;
-
-	protected AMessageCreator() {
-		super();
-	}
-
-	@Override
-	public void listen(IPolicy p) {
-		setPolicyVariables(((Policy) p).getPolicyContent());
-	}
-
-	public Map<String, String> getPolicyVariables() {
-		return policyVariables;
-	}
-
-	public void setPolicyVariables(Map<String, String> policyVariables) {
-		this.policyVariables = policyVariables;
-	}
+public abstract class AMessageCreator extends AMessageManager {
 }

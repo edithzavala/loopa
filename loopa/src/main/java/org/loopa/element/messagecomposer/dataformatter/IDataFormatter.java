@@ -19,8 +19,11 @@
 
 package org.loopa.element.messagecomposer.dataformatter;
 
+import org.loopa.element.messagecomposer.messagecreator.IMessageCreator;
 import org.loopa.generic.element.component.IMessageManager;
 
 public interface IDataFormatter extends IMessageManager {
+	public void setMessageCreator(IMessageCreator mc);
 
+	public IMessageCreator getMessageCreator();
 }

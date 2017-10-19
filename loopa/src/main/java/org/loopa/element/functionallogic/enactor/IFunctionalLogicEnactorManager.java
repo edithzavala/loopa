@@ -16,34 +16,18 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
-
 package org.loopa.element.functionallogic.enactor;
 
-import org.loopa.comm.message.IMessage;
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.element.component.AMessageManager;
+import java.util.Map;
 
-public abstract class AFunctionalLogicEnactor extends AMessageManager implements IFunctionalLogicEnactor {
+import org.loopa.generic.element.component.ILoopAElementComponent;
 
-	private IFunctionalLogicEnactorManager lm;
+public interface IFunctionalLogicEnactorManager {
+	public void setConfiguration(Map<String, String> config);
 
-	public AFunctionalLogicEnactor(IFunctionalLogicEnactorManager lm) {
-		super();
-		this.lm = lm;
-	}
+	public void processLogicData(Map<String, String> monData);
 
-	@Override
-	public void listen(IPolicy p) {
-		this.setPolicyVariables(p.getContent());
-		updateManagerConfig(p);
-	}
+	public void setComponent(ILoopAElementComponent c);
 
-	protected void updateManagerConfig(IPolicy p) {
-		lm.setConfiguration(p.getContent());
-	}
-
-	@Override
-	public void processMessage(IMessage t) {
-		this.lm.processLogicData(t.getMessageContent());
-	}
+	public ILoopAElementComponent getComponent();
 }

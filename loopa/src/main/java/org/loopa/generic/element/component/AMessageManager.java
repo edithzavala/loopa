@@ -16,34 +16,38 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
+package org.loopa.generic.element.component;
 
-package org.loopa.element.functionallogic.enactor;
+import java.util.Map;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.element.component.AMessageManager;
+import org.loopa.generic.documents.IPolicyChangeListener;
 
-public abstract class AFunctionalLogicEnactor extends AMessageManager implements IFunctionalLogicEnactor {
+public abstract class AMessageManager implements IMessageManager, IPolicyChangeListener {
 
-	private IFunctionalLogicEnactorManager lm;
-
-	public AFunctionalLogicEnactor(IFunctionalLogicEnactorManager lm) {
-		super();
-		this.lm = lm;
-	}
+	private Map<String, String> policyVariables;
+	private ILoopAElementComponent component;
 
 	@Override
 	public void listen(IPolicy p) {
-		this.setPolicyVariables(p.getContent());
-		updateManagerConfig(p);
+		setPolicyVariables(p.getContent());
 	}
 
-	protected void updateManagerConfig(IPolicy p) {
-		lm.setConfiguration(p.getContent());
+	public Map<String, String> getPolicyVariables() {
+		return policyVariables;
+	}
+
+	public void setPolicyVariables(Map<String, String> policyVariables) {
+		this.policyVariables = policyVariables;
 	}
 
 	@Override
-	public void processMessage(IMessage t) {
-		this.lm.processLogicData(t.getMessageContent());
+	public void setComponent(ILoopAElementComponent c) {
+		this.component = c;
+	}
+
+	@Override
+	public ILoopAElementComponent getComponent() {
+		return this.component;
 	}
 }

@@ -22,6 +22,10 @@ import org.loopa.comm.message.IMessage;
 
 public interface IMessageManager {
 
-	void processMessage(IMessage t);
+	public void processMessage(IMessage t);
+	
+	public void setComponent(ILoopAElementComponent c);
+	
+	public ILoopAElementComponent getComponent();
 
 }

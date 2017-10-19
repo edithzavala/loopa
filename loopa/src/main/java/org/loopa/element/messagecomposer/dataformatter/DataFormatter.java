@@ -16,18 +16,38 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.messagecomposer.dataformatter;
 
-import org.loopa.comm.message.IMessage;
+import java.util.Arrays;
+import java.util.Map;
 
-public class DataFormatter extends ADataFormatter{
+import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.Message;
+
+public class DataFormatter extends ADataFormatter {
 
 	@Override
 	public void processMessage(IMessage t) {
-		// TODO Auto-generated method stub
-		
+		String[] recipients = getRecipientFromPolicy(t.getMessageContent()).split(";");
+		Arrays.stream(recipients).forEach(r -> {
+			Map<String, String> formattedM = formatMessageContent(t.getMessageContent(), r);
+			IMessage formattedMessage = new Message(formattedM, t.getMessageCode(),
+					t.getMessageSender(), t.getMessageRecipient());
+			createMeassage(formattedMessage);
+		});
 	}
 
+	protected Map<String, String> formatMessageContent(Map<String, String> m, String r) {
+		return m;
+	}
 
+	protected String getRecipientFromPolicy(Map<String, String> messageContent) {
+		return this.getPolicyVariables().get(messageContent.get("type"));
+	}
+
+	protected void createMeassage(IMessage formattedMessage) {
+		this.getMessageCreator().processMessage(formattedMessage);
+
+	}
 }

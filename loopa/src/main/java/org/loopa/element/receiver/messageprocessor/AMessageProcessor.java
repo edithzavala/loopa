@@ -16,36 +16,10 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.receiver.messageprocessor;
 
-import java.util.Map;
+import org.loopa.generic.element.component.AMessageManager;
 
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.IPolicyChangeListener;
-import org.loopa.generic.documents.Policy;
-
-public abstract class AMessageProcessor implements IMessageProcessor, IPolicyChangeListener{
-
-	private Map<String, String> policyVariables;
-	
-	protected AMessageProcessor() {
-		super();
-	}
-
-	
-	@Override
-	public void listen(IPolicy p) {
-		setPolicyVariables(((Policy) p).getPolicyContent());
-	}
-	
-
-	public Map<String, String> getPolicyVariables() {
-		return policyVariables;
-	}
-
-	public void setPolicyVariables(Map<String, String> policyVariables) {
-		this.policyVariables = policyVariables;
-	}
-
+public abstract class AMessageProcessor extends AMessageManager implements IMessageProcessor{
 }

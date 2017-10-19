@@ -45,6 +45,8 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
 		this.opeMssgQueue = new ConcurrentLinkedQueue<>();
 		this.recipients = new HashMap<String, Object>();
+		this.policyManager.setComponent(this);
+		this.messageProcessor.setComponent(this);
 		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
 		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
 

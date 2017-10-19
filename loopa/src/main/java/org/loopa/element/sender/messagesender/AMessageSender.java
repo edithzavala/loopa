@@ -19,30 +19,8 @@
 
 package org.loopa.element.sender.messagesender;
 
-import java.util.Map;
+import org.loopa.generic.element.component.AMessageManager;
 
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.IPolicyChangeListener;
-import org.loopa.generic.documents.Policy;
+public abstract class AMessageSender extends AMessageManager implements IMessageSender {
 
-public abstract class AMessageSender implements IMessageSender, IPolicyChangeListener {
-
-	private Map<String, String> policyVariables;
-
-	protected AMessageSender() {
-		super();
-	}
-
-	@Override
-	public void listen(IPolicy p) {
-		setPolicyVariables(((Policy) p).getPolicyContent());
-	}
-
-	public Map<String, String> getPolicyVariables() {
-		return policyVariables;
-	}
-
-	public void setPolicyVariables(Map<String, String> policyVariables) {
-		this.policyVariables = policyVariables;
-	}
 }

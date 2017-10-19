@@ -20,7 +20,12 @@
 package org.loopa.generic.documents.managers;
 
 import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.component.ILoopAElementComponent;
 
 public interface IPolicyManager {
 	public void processPolicy(IMessage m);
+
+	public void setComponent(ILoopAElementComponent id);
+
+	public ILoopAElementComponent getComponent();
 }

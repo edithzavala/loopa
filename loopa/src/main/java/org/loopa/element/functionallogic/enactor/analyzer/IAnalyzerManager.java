@@ -18,8 +18,7 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.analyzer;
 
-public interface IAnalyzerManager {
-	public void setConfiguration(String config);
+import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-	public void processAnalysisData(String analysisData);
+public interface IAnalyzerManager extends IFunctionalLogicEnactorManager {
 }

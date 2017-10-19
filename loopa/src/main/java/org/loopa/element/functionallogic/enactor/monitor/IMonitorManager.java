@@ -18,8 +18,8 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.monitor;
 
-public interface IMonitorManager {
-	public void setConfiguration(String config);
+import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-	public void processMonData(String monData);
+public interface IMonitorManager extends IFunctionalLogicEnactorManager{
+
 }

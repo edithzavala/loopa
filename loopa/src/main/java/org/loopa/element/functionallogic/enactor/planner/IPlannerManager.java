@@ -18,8 +18,8 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.planner;
 
-public interface IPlannerManager {
-	public void setConfiguration(String config);
+import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-	public void processPlanData(String planData);
+public interface IPlannerManager extends IFunctionalLogicEnactorManager {
+
 }

@@ -16,18 +16,36 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
- 
+
 package org.loopa.element.receiver.messageprocessor;
 
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.Message;
+import org.loopa.generic.element.component.ILoopAElementComponent;
 
 public class MessageProcessor extends AMessageProcessor {
 
 	@Override
 	public void processMessage(IMessage t) {
-		// TODO Auto-generated method stub
-		
+		IMessage m = process(t);
+		if (m != null)
+			sendMessage(m);
 	}
 
+	protected IMessage process(IMessage m) {
+		return new Message(m.getMessageContent(), m.getMessageCode(), this.getComponent().getComponentId(),
+				getRecipientFromPolicy(m.getMessageCode()));
+	}
+
+	protected String getRecipientFromPolicy(int messageCode) {
+		return this.getPolicyVariables().get(String.valueOf(messageCode));
+	}
+
+	protected void sendMessage(IMessage m) {
+		ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent().getComponentRecipients()
+				.get(m.getMessageRecipient());
+		r.doOperation(m);
+
+	}
 
 }

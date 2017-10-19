@@ -1,9 +1,31 @@
+/*******************************************************************************
+ *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  Contributors:
+ *  	Edith Zavala
+ *******************************************************************************/
 package org.loopa.autonomicmanager;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.loopa.analyzer.IAnalyzer;
 import org.loopa.executer.IExecuter;
+import org.loopa.generic.element.ILoopAElement;
 import org.loopa.knowledgebase.IKnowledgeBase;
 import org.loopa.monitor.IMonitor;
 import org.loopa.planner.IPlanner;
@@ -15,7 +37,7 @@ public class AutonomicManager {
 	IPlanner p;
 	IExecuter e;
 	IKnowledgeBase kb;
-	
+
 	public AutonomicManager(IMonitor m, IAnalyzer a, IPlanner p, IExecuter e, IKnowledgeBase kb) {
 		super();
 		this.m = m;
@@ -23,38 +45,26 @@ public class AutonomicManager {
 		this.p = p;
 		this.e = e;
 		this.kb = kb;
-		
 		connectLoop();
 	}
-	
-	/*Through sensor & effectors?*/
+
+	/* Through sensor & effectors? */
 	public void setME(String id, Object me) {
-		HashMap<String, Object> executerRecipients =  new HashMap<String, Object>();
-		executerRecipients.put(id, me);
-		HashMap<String, Object> monitorRecipients =  new HashMap<String, Object>();
-		monitorRecipients.put(id, me);
+		this.m.addRecipient(id, me);
+		this.e.addRecipient(id, me);
 	}
-	
+
 	private void connectLoop() {
-		HashMap<String, Object> monitorRecipients =  new HashMap<String, Object>();
-		monitorRecipients.put(this.a.getElementId(), this.a);
-		monitorRecipients.put(this.kb.getElementId(), this.kb);
-		
-		HashMap<String, Object> analyzerRecipients =  new HashMap<String, Object>();
-		analyzerRecipients.put(this.p.getElementId(), this.p);
-		analyzerRecipients.put(this.kb.getElementId(), this.kb);
-		
-		HashMap<String, Object> plannerRecipients =  new HashMap<String, Object>();
-		plannerRecipients.put(this.e.getElementId(), this.e);
-		plannerRecipients.put(this.kb.getElementId(), this.kb);
-		
-		HashMap<String, Object> executerRecipients =  new HashMap<String, Object>();
-		executerRecipients.put(this.kb.getElementId(), this.kb);
-				
-		m.setElementRecipients(monitorRecipients);
-		a.setElementRecipients(analyzerRecipients);
-		p.setElementRecipients(plannerRecipients);
-		e.setElementRecipients(executerRecipients);
+		setRecipients(this.m, Arrays.asList(this.a, this.kb));
+		setRecipients(this.a, Arrays.asList(this.p, this.kb));
+		setRecipients(this.p, Arrays.asList(this.e, this.kb));
+		setRecipients(this.e, Arrays.asList(this.kb));
 	}
-	
+
+	private void setRecipients(ILoopAElement e, List<ILoopAElement> recipients) {
+		Map<String, Object> r = new HashMap<String, Object>();
+		recipients.forEach(o -> r.put(o.getElementId(), o));
+		e.setElementRecipients(r);
+	}
+
 }

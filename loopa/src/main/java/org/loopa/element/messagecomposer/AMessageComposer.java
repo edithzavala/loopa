@@ -28,7 +28,7 @@ public abstract class AMessageComposer extends ALoopAElementComponent implements
 
 	protected AMessageComposer(String id, IPolicyManager policyManager, IDataFormatter imm, IMessageCreator mc) {
 		super(id, policyManager, imm);
-		// TODO Auto-generated constructor stub
+		mc.setComponent(this);
 	}
 
 }

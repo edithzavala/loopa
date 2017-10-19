@@ -19,7 +19,9 @@
 
 package org.loopa.generic.element;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.loopa.element.adaptationlogic.IAdaptationLogic;
@@ -29,6 +31,7 @@ import org.loopa.element.logicselector.ILogicSelector;
 import org.loopa.element.messagecomposer.IMessageComposer;
 import org.loopa.element.receiver.IReceiver;
 import org.loopa.element.sender.ISender;
+import org.loopa.generic.element.component.ILoopAElementComponent;
 
 public abstract class ALoopElement implements ILoopAElement {
 	private IReceiver receiver;
@@ -54,6 +57,7 @@ public abstract class ALoopElement implements ILoopAElement {
 		this.knowledge = knowledge;
 		this.id = id;
 		this.recipients = new HashMap<String, Object>();
+		connectComponents();
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public abstract class ALoopElement implements ILoopAElement {
 	@Override
 	public void setElementRecipients(Map<String, Object> r) {
 		this.recipients = r;
-		connectComponents();
+		this.sender.setComponentRecipients(this.recipients);
 	}
 
 	@Override
@@ -75,11 +79,13 @@ public abstract class ALoopElement implements ILoopAElement {
 	@Override
 	public void addRecipient(String id, Object o) {
 		this.recipients.put(id, o);
+		this.sender.addRecipient(id, o);
 	}
 
 	@Override
 	public void removeRecipient(String id) {
 		this.recipients.remove(id);
+		this.sender.removeRecipient(id);
 	}
 
 	@Override
@@ -88,38 +94,19 @@ public abstract class ALoopElement implements ILoopAElement {
 	}
 
 	private void connectComponents() {
-		Map<String, Object> receiverRecipients = new HashMap<String, Object>();
-		receiverRecipients.put(this.getLogicSelector().getComponentId(), this.getLogicSelector());
+		setRecipients(this.getReceiver(), Arrays.asList(this.getLogicSelector()));
+		setRecipients(this.getLogicSelector(), Arrays.asList(this.getFunctionalLogic(), this.getAdaptationLogic()));
+		setRecipients(this.getFunctionalLogic(), Arrays.asList(this.getMessageComposer()));
+		setRecipients(this.getAdaptationLogic(), Arrays.asList(this.getMessageComposer(), this.getKnowledge()));
+		setRecipients(this.getMessageComposer(), Arrays.asList(this.getSender()));
+		setRecipients(this.getKnowledge(), Arrays.asList(this.getReceiver(), this.getLogicSelector(),
+				this.getFunctionalLogic(), this.getAdaptationLogic(), this.getMessageComposer(), this.getSender()));
+	}
 
-		Map<String, Object> logicSelectorRecipients = new HashMap<String, Object>();
-		logicSelectorRecipients.put(this.getFunctionalLogic().getComponentId(), this.getFunctionalLogic());
-		logicSelectorRecipients.put(this.getAdaptationLogic().getComponentId(), this.getAdaptationLogic());
-
-		Map<String, Object> functionalLogicRecipients = new HashMap<String, Object>();
-		functionalLogicRecipients.put(this.getMessageComposer().getComponentId(), this.getMessageComposer());
-
-		Map<String, Object> adaptationLogicRecipients = new HashMap<String, Object>();
-		adaptationLogicRecipients.put(this.getMessageComposer().getComponentId(), this.getMessageComposer());
-		adaptationLogicRecipients.put(this.getKnowledge().getComponentId(), this.getKnowledge());
-
-		Map<String, Object> messageComposerRecipients = new HashMap<String, Object>();
-		messageComposerRecipients.put(this.getSender().getComponentId(), this.getSender());
-
-		Map<String, Object> knowledgeManagerRecipients = new HashMap<String, Object>();
-		knowledgeManagerRecipients.put(this.getReceiver().getComponentId(), this.getReceiver());
-		knowledgeManagerRecipients.put(this.getLogicSelector().getComponentId(), this.getLogicSelector());
-		knowledgeManagerRecipients.put(this.getFunctionalLogic().getComponentId(), this.getFunctionalLogic());
-		knowledgeManagerRecipients.put(this.getAdaptationLogic().getComponentId(), this.getAdaptationLogic());
-		knowledgeManagerRecipients.put(this.getMessageComposer().getComponentId(), this.getMessageComposer());
-		knowledgeManagerRecipients.put(this.getSender().getComponentId(), this.getSender());
-
-		this.getReceiver().setComponentRecipients(receiverRecipients);
-		this.getLogicSelector().setComponentRecipients(logicSelectorRecipients);
-		this.getFunctionalLogic().setComponentRecipients(functionalLogicRecipients);
-		this.getAdaptationLogic().setComponentRecipients(adaptationLogicRecipients);
-		this.getMessageComposer().setComponentRecipients(messageComposerRecipients);
-		this.getSender().setComponentRecipients(this.recipients);
-		this.getKnowledge().setComponentRecipients(knowledgeManagerRecipients);
+	private void setRecipients(ILoopAElementComponent c, List<ILoopAElementComponent> recipients) {
+		Map<String, Object> r = new HashMap<String, Object>();
+		recipients.forEach(o -> r.put(o.getComponentId(), o));
+		c.setComponentRecipients(r);
 	}
 
 	public void setReceiver(IReceiver receiver) {

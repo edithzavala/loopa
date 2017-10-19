@@ -18,31 +18,13 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.executer;
 
-import org.loopa.comm.message.IMessage;
 import org.loopa.element.functionallogic.enactor.AFunctionalLogicEnactor;
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.Policy;
 
 public class ExecuterFunctionalLogicEnactor extends AFunctionalLogicEnactor {
 
-	IExecuterManager em;
-
-	public ExecuterFunctionalLogicEnactor(IExecuterManager em) {
-		super();
-		this.em = em;
-	}
-
-	/* Refactor to get extacly the part of the policy with the config */
-	@Override
-	public void listen(IPolicy p) {
-		em.setConfiguration(((Policy) p).getPolicyContent().get("Config"));
-
-	}
-
-	@Override
-	public void processMessage(IMessage t) {
-		// TODO Auto-generated method stub
-		
+	public ExecuterFunctionalLogicEnactor(IExecuterManager lm) {
+		super(lm);
+		// TODO Auto-generated constructor stub
 	}
 
 }

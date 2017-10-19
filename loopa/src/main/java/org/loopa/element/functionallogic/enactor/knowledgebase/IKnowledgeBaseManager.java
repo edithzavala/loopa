@@ -18,10 +18,8 @@
  *******************************************************************************/
 package org.loopa.element.functionallogic.enactor.knowledgebase;
 
-public interface IKnowledgeBaseManager {
+import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-	public void setConfiguration(String config);
-
-	public void processKnowledgeData(String klgData);
+public interface IKnowledgeBaseManager extends IFunctionalLogicEnactorManager {
 
 }

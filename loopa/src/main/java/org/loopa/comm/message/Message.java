@@ -21,12 +21,31 @@ package org.loopa.comm.message;
 
 import java.util.Map;
 
-public class Message extends AMessage{
+public class Message extends AMessage {
 
 	public Message(Map<String, String> body, int code, String from, String to) {
 		super(body, code, from, to);
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public int getMessageCode() {
+		return this.getCode();
+	}
+
+	@Override
+	public Map<String, String> getMessageContent() {
+		return this.getBody();
+	}
+
+	@Override
+	public String getMessageSender() {
+		return this.getFrom();
+	}
+
+	@Override
+	public String getMessageRecipient() {
+		return this.getTo();
+	}
 
 }

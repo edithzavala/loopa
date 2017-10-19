@@ -19,6 +19,14 @@
 
 package org.loopa.comm.message;
 
+import java.util.Map;
+
 public interface IMessage {
-	public int getCode();
+	public int getMessageCode();
+	
+	public Map<String, String> getMessageContent();
+	
+	public String getMessageSender();
+	
+	public String getMessageRecipient();
 }
