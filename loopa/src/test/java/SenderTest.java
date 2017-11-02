@@ -16,26 +16,37 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
-package org.loopa.planner;
+import static org.junit.Assert.assertNotNull;
 
-import org.loopa.element.adaptationlogic.IAdaptationLogic;
-import org.loopa.element.functionallogic.IFunctionalLogic;
-import org.loopa.element.knowledgemanager.IKnowledgeManager;
-import org.loopa.element.logicselector.ILogicSelector;
-import org.loopa.element.messagecomposer.IMessageComposer;
-import org.loopa.element.receiver.IReceiver;
+import java.util.HashMap;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.loopa.element.sender.ISender;
-import org.loopa.generic.element.ALoopElement;
+import org.loopa.element.sender.Sender;
+import org.loopa.element.sender.messagesender.IMessageSender;
+import org.loopa.element.sender.messagesender.MessageSender;
+import org.loopa.generic.documents.IPolicy;
+import org.loopa.generic.documents.Policy;
+import org.loopa.generic.documents.managers.IPolicyManager;
+import org.loopa.generic.documents.managers.PolicyManager;
 
-public class Planner extends ALoopElement implements IPlanner{
+public class SenderTest {
 
-	public Planner(String id, IReceiver receiver, ILogicSelector logicSelector, IFunctionalLogic functionalLogic,
-			IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
-			IKnowledgeManager knowledge) {
-		super(id, receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);
-		// TODO Auto-generated constructor stub
+	IPolicyManager sPM;
+	IMessageSender sMS;
+
+	@Before
+	public void initializeModules() {
+		IPolicy sP = new Policy("senderPolicy", new HashMap<String, String>());
+		sPM = new PolicyManager(sP);
+		sMS = new MessageSender();
+		sP.addListerner(sMS);
 	}
 
-
-
+	@Test
+	public void testCreateSender() {
+		ISender s = new Sender("s", sPM, sMS);
+		assertNotNull(s);
+	}
 }

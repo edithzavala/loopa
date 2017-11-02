@@ -19,14 +19,25 @@
 
 package org.loopa.generic.documents;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IPolicy {
 
-	public void setPolicy(IPolicy p);
-
 	public void update(IPolicy p);
 
 	public Map<String, String> getContent();
+
+	public String getType();
+
+	public void notifyPolicy();
+
+	public List<IPolicyChangeListener> getListeners();
+
+	public void setListeners(List<IPolicyChangeListener> listeners);
+
+	public void addListerner(IPolicyChangeListener pl);
+
+	public void removeListerner(IPolicyChangeListener pl);
 
 }

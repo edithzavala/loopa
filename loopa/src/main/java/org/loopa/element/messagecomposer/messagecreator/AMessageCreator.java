@@ -21,5 +21,5 @@ package org.loopa.element.messagecomposer.messagecreator;
 
 import org.loopa.generic.element.component.AMessageManager;
 
-public abstract class AMessageCreator extends AMessageManager {
+public abstract class AMessageCreator extends AMessageManager implements IMessageCreator {
 }

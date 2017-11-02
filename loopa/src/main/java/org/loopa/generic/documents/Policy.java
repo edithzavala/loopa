@@ -28,8 +28,10 @@ public class Policy extends APolicy {
 	}
 
 	@Override
-	public void set(IPolicy p) {
-		/*change corresponding variables*/
+	public IPolicy updatePolicy(IPolicy p) {
+		this.setPolicyContent(p.getContent());
+		this.setPolicyType(p.getType());
+		return this;
 	}
 
 }

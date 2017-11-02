@@ -40,6 +40,7 @@ public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
 	}
 
 	protected boolean evaluateAdaptation() {
+		/*evaluate if adaptation can be enacted*/
 		return true;
 	}
 

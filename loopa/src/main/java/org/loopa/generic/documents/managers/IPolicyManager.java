@@ -20,6 +20,7 @@
 package org.loopa.generic.documents.managers;
 
 import org.loopa.comm.message.IMessage;
+import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 
 public interface IPolicyManager {
@@ -28,4 +29,6 @@ public interface IPolicyManager {
 	public void setComponent(ILoopAElementComponent id);
 
 	public ILoopAElementComponent getComponent();
+	
+	public IPolicy getActivePolicy();
 }

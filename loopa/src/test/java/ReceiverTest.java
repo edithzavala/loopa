@@ -16,17 +16,37 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
+import static org.junit.Assert.assertNotNull;
 
-package org.loopa.element.logicselector;
+import java.util.HashMap;
 
-import org.loopa.element.logicselector.messagedispatcher.ILogicMessageDispatcher;
+import org.junit.Before;
+import org.junit.Test;
+import org.loopa.element.receiver.IReceiver;
+import org.loopa.element.receiver.Receiver;
+import org.loopa.element.receiver.messageprocessor.IMessageProcessor;
+import org.loopa.element.receiver.messageprocessor.MessageProcessor;
+import org.loopa.generic.documents.IPolicy;
+import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
-import org.loopa.generic.element.component.ALoopAElementComponent;
+import org.loopa.generic.documents.managers.PolicyManager;
 
-public abstract class ALogicSelector extends ALoopAElementComponent implements ILogicSelector {
+public class ReceiverTest {
 
-	protected ALogicSelector(String id, IPolicyManager policyManager, ILogicMessageDispatcher imm) {
-		super(id, policyManager, imm);
+	IPolicyManager rPM;
+	IMessageProcessor rMP;
+
+	@Before
+	public void initializeModules() {
+		IPolicy rP = new Policy("receiverPolicy", new HashMap<String, String>());
+		rPM = new PolicyManager(rP);
+		rMP = new MessageProcessor();
+		rP.addListerner(rMP);
 	}
 
+	@Test
+	public void testCreateReceiver() {
+		IReceiver r = new Receiver("r", rPM, rMP);
+		assertNotNull(r);
+	}
 }

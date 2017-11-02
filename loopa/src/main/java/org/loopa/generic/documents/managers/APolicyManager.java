@@ -45,15 +45,6 @@ public abstract class APolicyManager implements IPolicyManager {
 		this.activePolicy.update(p);
 	}
 
-
-	public IPolicy getActivePolicy() {
-		return activePolicy;
-	}
-
-	public void setACtivePolicy(IPolicy newPolicy) {
-		this.activePolicy = newPolicy;
-	}
-
 	@Override
 	public void setComponent(ILoopAElementComponent c) {
 		this.component = c;
@@ -62,6 +53,19 @@ public abstract class APolicyManager implements IPolicyManager {
 	@Override
 	public ILoopAElementComponent getComponent() {
 		return this.component;
+	}
+
+	@Override
+	public IPolicy getActivePolicy() {
+		return getPolicy();
+	}
+
+	public IPolicy getPolicy() {
+		return activePolicy;
+	}
+
+	public void setPolicy(IPolicy newPolicy) {
+		this.activePolicy = newPolicy;
 	}
 
 }

@@ -38,59 +38,61 @@ public abstract class APolicy implements IPolicy {
 	}
 
 	@Override
-	public void update(IPolicy p) {
-		setNewPolicy(p);
-	}
-
-	@Override
-	public void setPolicy(IPolicy p) {
-		setNewPolicy(p);
-	}
-
-	@Override
 	public Map<String, String> getContent() {
-		return this.getPolicyContent();
+		return this.policyContent;
 	}
 
-	public void setNewPolicy(IPolicy p) {
-		set(p);
+	@Override
+	public String getType() {
+		return this.policyType;
+	}
+
+	@Override
+	public void notifyPolicy() {
+		notifyListeners(this);
+		;
+	}
+
+	@Override
+	public List<IPolicyChangeListener> getListeners() {
+		return listeners;
+	}
+
+	@Override
+	public void setListeners(List<IPolicyChangeListener> listeners) {
+		this.listeners = listeners;
+	}
+
+	@Override
+	public void addListerner(IPolicyChangeListener pl) {
+		this.listeners.add(pl);
+	}
+
+	@Override
+	public void removeListerner(IPolicyChangeListener pl) {
+		this.listeners.remove(pl);
+	}
+
+	@Override
+	public void update(IPolicy p) {
+		notifyListeners(updatePolicy(p));
+	}
+
+	public abstract IPolicy updatePolicy(IPolicy p);
+
+	public void notifyListeners(IPolicy p) {
 		Observable.just(p).subscribe(t -> {
 			for (IPolicyChangeListener pl : this.getListeners())
 				pl.listen(t);
 		});
 	}
 
-	public abstract void set(IPolicy p);
-
-	public String getPolicyType() {
-		return policyType;
-	}
-
 	public void setPolicyType(String policyType) {
 		this.policyType = policyType;
-	}
-
-	public Map<String, String> getPolicyContent() {
-		return policyContent;
 	}
 
 	public void setPolicyContent(Map<String, String> policyContent) {
 		this.policyContent = policyContent;
 	}
 
-	public List<IPolicyChangeListener> getListeners() {
-		return listeners;
-	}
-
-	public void setListeners(List<IPolicyChangeListener> listeners) {
-		this.listeners = listeners;
-	}
-
-	public void addListerner(IPolicyChangeListener pl) {
-		this.listeners.add(pl);
-	}
-
-	public void removeListerner(IPolicyChangeListener pl) {
-		this.listeners.remove(pl);
-	}
 }

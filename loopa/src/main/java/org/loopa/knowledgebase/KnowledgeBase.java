@@ -29,7 +29,7 @@ import org.loopa.generic.element.ALoopElement;
 
 public class KnowledgeBase extends ALoopElement implements IKnowledgeBase {
 
-	protected KnowledgeBase(String id, IReceiver receiver, ILogicSelector logicSelector,
+	public KnowledgeBase(String id, IReceiver receiver, ILogicSelector logicSelector,
 			IFunctionalLogic functionalLogic, IAdaptationLogic adaptationLogic, IMessageComposer messageComposer,
 			ISender sender, IKnowledgeManager knowledge) {
 		super(id, receiver, logicSelector, functionalLogic, adaptationLogic, messageComposer, sender, knowledge);

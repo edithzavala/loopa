@@ -21,9 +21,8 @@ package org.loopa.generic.element.component;
 import java.util.Map;
 
 import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.IPolicyChangeListener;
 
-public abstract class AMessageManager implements IMessageManager, IPolicyChangeListener {
+public abstract class AMessageManager implements IMessageManager {
 
 	private Map<String, String> policyVariables;
 	private ILoopAElementComponent component;

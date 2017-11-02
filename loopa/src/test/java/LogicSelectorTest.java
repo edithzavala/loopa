@@ -16,17 +16,37 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
+import static org.junit.Assert.assertNotNull;
 
-package org.loopa.element.logicselector;
+import java.util.HashMap;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.loopa.element.logicselector.ILogicSelector;
+import org.loopa.element.logicselector.LogicSelector;
 import org.loopa.element.logicselector.messagedispatcher.ILogicMessageDispatcher;
+import org.loopa.element.logicselector.messagedispatcher.LogicMessageDispatcher;
+import org.loopa.generic.documents.IPolicy;
+import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
-import org.loopa.generic.element.component.ALoopAElementComponent;
+import org.loopa.generic.documents.managers.PolicyManager;
 
-public abstract class ALogicSelector extends ALoopAElementComponent implements ILogicSelector {
+public class LogicSelectorTest {
+	IPolicyManager lsPM;
+	ILogicMessageDispatcher lsMD;
 
-	protected ALogicSelector(String id, IPolicyManager policyManager, ILogicMessageDispatcher imm) {
-		super(id, policyManager, imm);
+	@Before
+	public void initializeModules() {
+		IPolicy lsP = new Policy("logicSelectorPolicy", new HashMap<String, String>());
+		lsPM = new PolicyManager(lsP);
+		lsMD = new LogicMessageDispatcher();
+		lsP.addListerner(lsMD);
+	}
+
+	@Test
+	public void testCreateLogicSelector() {
+		ILogicSelector ls = new LogicSelector("ls", lsPM, lsMD);
+		assertNotNull(ls);
 	}
 
 }

@@ -47,6 +47,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 		this.recipients = new HashMap<String, Object>();
 		this.policyManager.setComponent(this);
 		this.messageProcessor.setComponent(this);
+		policyManager.getActivePolicy().notifyPolicy();
 		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
 		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
 
