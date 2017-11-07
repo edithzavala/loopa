@@ -40,8 +40,9 @@ public abstract class APolicyManager implements IPolicyManager {
 	@Override
 	public void processPolicy(IMessage m) {
 		Map<String, String> content = new HashMap<String, String>();
-		content.put("policyContent", m.getMessageContent().get("policy"));
-		IPolicy p = new Policy(m.getMessageContent().get("tytpe"), content);
+		//Convert "policy" (String of key:value) into a HashMap and pass it directly as the policyContent
+		/*content.put("policyContent", m.getMessageContent().get("policy"));*/
+		IPolicy p = new Policy(m.getMessageContent().get("type"), content);
 		this.activePolicy.update(p);
 	}
 
