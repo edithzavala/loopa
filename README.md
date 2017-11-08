@@ -12,7 +12,7 @@ LoopA is a framework for developing adaptive MAPE-K feedback loops.
 - Autonomic manager folder: Contains an instantiation of a complete adaptive MAPE-K feedback loop.
 
 The figure below shows the components (and their modules) of an adaptive MAPE-K element.
-![](img/LoopA_Impl-Github.jpg)
+![](img/LoopA_Impl-Github.png)
 
 This implementation of LoopA is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
