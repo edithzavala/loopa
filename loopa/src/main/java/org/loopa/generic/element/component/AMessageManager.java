@@ -29,7 +29,7 @@ public abstract class AMessageManager implements IMessageManager {
 
 	@Override
 	public void listen(IPolicy p) {
-		setPolicyVariables(p.getContent());
+		setPolicyVariables(p.getPolicyContent());
 	}
 
 	public Map<String, String> getPolicyVariables() {

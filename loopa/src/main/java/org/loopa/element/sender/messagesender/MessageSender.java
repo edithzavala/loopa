@@ -32,8 +32,8 @@ public class MessageSender extends AMessageSender {
 	}
 
 	protected IMessage process(IMessage m) {
-		return new Message(m.getMessageContent(), m.getMessageCode(), this.getComponent().getComponentId(),
-				getRecipientFromPolicy(m.getMessageCode()));
+		return new Message(this.getComponent().getComponentId(), getRecipientFromPolicy(m.getMessageCode()),
+				m.getMessageCode(), m.getMessageType(), m.getMessageBody());
 	}
 
 	protected String getRecipientFromPolicy(int messageCode) {
@@ -41,7 +41,7 @@ public class MessageSender extends AMessageSender {
 	}
 
 	protected void sendMessage(IMessage m) {
-		/*send message to corresponding recipient*/
+		/* send message to corresponding recipient */
 	}
-	
+
 }

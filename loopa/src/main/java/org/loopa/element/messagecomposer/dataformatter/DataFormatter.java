@@ -29,11 +29,11 @@ public class DataFormatter extends ADataFormatter {
 
 	@Override
 	public void processMessage(IMessage t) {
-		String[] recipients = getRecipientFromPolicy(t.getMessageContent()).split(";");
+		String[] recipients = getRecipientFromPolicy(t.getMessageBody()).split(";");
 		Arrays.stream(recipients).forEach(r -> {
-			Map<String, String> formattedM = formatMessageContent(t.getMessageContent(), r);
-			IMessage formattedMessage = new Message(formattedM, t.getMessageCode(),
-					t.getMessageSender(), t.getMessageRecipient());
+			Map<String, String> formattedM = formatMessageContent(t.getMessageBody(), r);
+			IMessage formattedMessage = new Message(t.getMessageTo(), t.getMessageFrom(), t.getMessageCode(),
+					t.getMessageType(), formattedM);
 			createMeassage(formattedMessage);
 		});
 	}

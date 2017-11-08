@@ -26,9 +26,9 @@ public interface IPolicy {
 
 	public void update(IPolicy p);
 
-	public Map<String, String> getContent();
+	public Map<String, String> getPolicyContent();
 
-	public String getType();
+	public String getPolicyOwner();
 
 	public void notifyPolicy();
 

@@ -34,8 +34,8 @@ public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
 
 	protected IMessage processAdaptations(IMessage m) {
 		return ((evaluateAdaptation())
-				? new Message(m.getMessageContent(), m.getMessageCode(), this.getComponent().getComponentId(),
-						getRecipientFromPolicy(m.getMessageCode()))
+				? new Message(this.getComponent().getComponentId(),
+						getRecipientFromPolicy(m.getMessageCode()), m.getMessageCode(),m.getMessageType(), m.getMessageBody())
 				: null);
 	}
 
@@ -50,7 +50,7 @@ public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
 
 	protected void sendMessage(IMessage m) {
 		ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent().getComponentRecipients()
-				.get(m.getMessageRecipient());
+				.get(m.getMessageTo());
 		r.doOperation(m);
 
 	}

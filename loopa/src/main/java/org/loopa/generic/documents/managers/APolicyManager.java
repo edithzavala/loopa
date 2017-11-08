@@ -19,8 +19,9 @@
 
 package org.loopa.generic.documents.managers;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.IPolicy;
@@ -39,10 +40,14 @@ public abstract class APolicyManager implements IPolicyManager {
 
 	@Override
 	public void processPolicy(IMessage m) {
-		Map<String, String> content = new HashMap<String, String>();
-		//Convert "policy" (String of key:value) into a HashMap and pass it directly as the policyContent
-		/*content.put("policyContent", m.getMessageContent().get("policy"));*/
-		IPolicy p = new Policy(m.getMessageContent().get("type"), content);
+		// Convert policyContent string into Map
+		// @author code extracted from
+		// https://stackoverflow.com/questions/41483398/split-string-and-store-it-into-hashmap-java-8
+		Map<String, String> content = Pattern.compile("\\s,\\s")
+				.splitAsStream((m.getMessageBody().get("policyContent"))).map(s -> s.split(":", 2))
+				.collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? a[1] : ""));
+		
+		IPolicy p = new Policy(m.getMessageBody().get("policyOwner"), content);
 		this.activePolicy.update(p);
 	}
 

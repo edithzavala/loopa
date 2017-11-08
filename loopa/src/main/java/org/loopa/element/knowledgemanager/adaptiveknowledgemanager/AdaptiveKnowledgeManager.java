@@ -35,12 +35,12 @@ public class AdaptiveKnowledgeManager extends AAdaptiveKnowledgeManager {
 	}
 
 	protected IMessage processAdaptationMessage(IMessage m) {
-		return new Message(m.getMessageContent(), getCodeFromPolicy(m.getMessageCode()),
-				this.getComponent().getComponentId(), getRecipientFromPolicy(m.getMessageContent()));
+		return new Message(this.getComponent().getComponentId(), getRecipientFromPolicy(m.getMessageBody()),
+				getCodeFromPolicy(m.getMessageCode()), m.getMessageType(), m.getMessageBody());
 	}
 
 	protected String getRecipientFromPolicy(Map<String, String> messageContent) {
-		return this.getPolicyVariables().get(messageContent.get("type"));
+		return this.getPolicyVariables().get(messageContent.get("policyOwner"));
 	}
 
 	protected int getCodeFromPolicy(int messageCode) {
@@ -49,7 +49,7 @@ public class AdaptiveKnowledgeManager extends AAdaptiveKnowledgeManager {
 
 	protected void sendMessage(IMessage m) {
 		ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent().getComponentRecipients()
-				.get(m.getMessageRecipient());
+				.get(m.getMessageTo());
 		r.adapt(m);
 
 	}

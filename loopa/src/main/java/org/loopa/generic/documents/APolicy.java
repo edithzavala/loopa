@@ -26,31 +26,30 @@ import java.util.Map;
 import io.reactivex.Observable;
 
 public abstract class APolicy implements IPolicy {
-	private String policyType;
+	private String policyOwner;
 	private Map<String, String> policyContent;
 	private List<IPolicyChangeListener> listeners;
 
-	public APolicy(String policyType, Map<String, String> policyContent) {
+	public APolicy(String policyOwner, Map<String, String> policyContent) {
 		super();
-		this.policyType = policyType;
+		this.policyOwner = policyOwner;
 		this.policyContent = policyContent;
 		this.listeners = new ArrayList<>();
 	}
 
 	@Override
-	public Map<String, String> getContent() {
+	public Map<String, String> getPolicyContent() {
 		return this.policyContent;
 	}
 
 	@Override
-	public String getType() {
-		return this.policyType;
+	public String getPolicyOwner() {
+		return this.policyOwner;
 	}
 
 	@Override
 	public void notifyPolicy() {
 		notifyListeners(this);
-		;
 	}
 
 	@Override
@@ -87,8 +86,8 @@ public abstract class APolicy implements IPolicy {
 		});
 	}
 
-	public void setPolicyType(String policyType) {
-		this.policyType = policyType;
+	public void setPolicyOwner(String policyOwner) {
+		this.policyOwner = policyOwner;
 	}
 
 	public void setPolicyContent(Map<String, String> policyContent) {

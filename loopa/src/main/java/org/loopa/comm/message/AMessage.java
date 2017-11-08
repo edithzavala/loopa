@@ -22,49 +22,43 @@ package org.loopa.comm.message;
 import java.util.Map;
 
 public abstract class AMessage implements IMessage {
-	private Map<String,String> body;
-	private int code;
-	private String from;
 	private String to;
+	private String from;
+	private int code;
+	private String type;
+	private Map<String, String> body;
 
-	protected AMessage(Map<String,String> body, int code, String from, String to) {
+	public AMessage(String to, String from, int code, String type, Map<String, String> body) {
 		super();
-		this.body = body;
-		this.code = code;
-		this.from = from;
 		this.to = to;
-	}
-
-	public Map<String,String> getBody() {
-		return body;
-	}
-
-	public void setBody(Map<String,String> body) {
+		this.from = from;
+		this.code = code;
+		this.type = type;
 		this.body = body;
 	}
 
-	public int getCode() {
-		return code;
+	@Override
+	public String getMessageTo() {
+		return this.to;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	@Override
+	public String getMessageFrom() {
+		return this.from;
 	}
 
-	public String getFrom() {
-		return from;
+	@Override
+	public int getMessageCode(){
+		return this.code;
 	}
 
-	public void setFrom(String from) {
-		this.from = from;
+	@Override
+	public String getMessageType(){
+		return this.type;
 	}
 
-	public String getTo() {
-		return to;
+	@Override
+	public Map<String, String> getMessageBody(){
+		return this.body;
 	}
-
-	public void setTo(String to) {
-		this.to = to;
-	}
-
 }

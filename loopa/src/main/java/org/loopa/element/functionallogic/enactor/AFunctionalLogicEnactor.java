@@ -34,16 +34,16 @@ public abstract class AFunctionalLogicEnactor extends AMessageManager implements
 
 	@Override
 	public void listen(IPolicy p) {
-		this.setPolicyVariables(p.getContent());
+		this.setPolicyVariables(p.getPolicyContent());
 		updateManagerConfig(p);
 	}
 
 	protected void updateManagerConfig(IPolicy p) {
-		lm.setConfiguration(p.getContent());
+		lm.setConfiguration(p.getPolicyContent());
 	}
 
 	@Override
 	public void processMessage(IMessage t) {
-		this.lm.processLogicData(t.getMessageContent());
+		this.lm.processLogicData(t.getMessageBody());
 	}
 }

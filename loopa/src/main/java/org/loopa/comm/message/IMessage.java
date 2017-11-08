@@ -22,11 +22,14 @@ package org.loopa.comm.message;
 import java.util.Map;
 
 public interface IMessage {
+	public String getMessageTo();
+	
+	public String getMessageFrom();
+
 	public int getMessageCode();
 	
-	public Map<String, String> getMessageContent();
-	
-	public String getMessageSender();
-	
-	public String getMessageRecipient();
+	public String getMessageType();
+
+	public Map<String, String> getMessageBody();
+
 }

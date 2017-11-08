@@ -23,14 +23,16 @@ import java.util.Map;
 
 public class Policy extends APolicy {
 
-	public Policy(String policyType, Map<String, String> policyContent) {
-		super(policyType, policyContent);
+
+
+	public Policy(String policyOwner, Map<String, String> policyContent) {
+		super(policyOwner, policyContent);
 	}
 
 	@Override
 	public IPolicy updatePolicy(IPolicy p) {
-		this.setPolicyContent(p.getContent());
-		this.setPolicyType(p.getType());
+		this.setPolicyContent(p.getPolicyContent());
+		this.setPolicyOwner(p.getPolicyOwner());
 		return this;
 	}
 
