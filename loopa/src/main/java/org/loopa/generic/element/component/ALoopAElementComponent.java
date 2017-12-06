@@ -60,14 +60,14 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
 	@Override
 	public void adapt(IMessage m) {
-		this.adaptMssgQueue.add(m);
-		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
+//		this.adaptMssgQueue.add(m);
+		Observable.just(m).subscribe(t -> this.policyManager.processPolicy(t));
 	}
 
 	@Override
 	public void doOperation(IMessage m) {
-		this.opeMssgQueue.add(m);
-		Observable.fromIterable(opeMssgQueue).subscribe(t-> this.messageManager.processMessage(t));
+//		this.opeMssgQueue.add(m);
+		Observable.just(m).subscribe(t-> this.messageManager.processMessage(t));
 	}
 
 	@Override
