@@ -22,9 +22,13 @@ package org.loopa.element.receiver.messageprocessor;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.generic.element.component.ILoopAElementComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageProcessor extends AMessageProcessor {
-
+	
+//	private final Logger logger = LoggerFactory.getLogger(MessageProcessor.class); 
+	
 	@Override
 	public void processMessage(IMessage t) {
 		IMessage m = process(t);

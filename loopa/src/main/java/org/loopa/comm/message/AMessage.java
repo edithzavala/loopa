@@ -28,7 +28,7 @@ public abstract class AMessage implements IMessage {
 	private String type;
 	private Map<String, String> body;
 
-	public AMessage(String to, String from, int code, String type, Map<String, String> body) {
+	public AMessage(String from, String to, int code, String type, Map<String, String> body) {
 		super();
 		this.to = to;
 		this.from = from;

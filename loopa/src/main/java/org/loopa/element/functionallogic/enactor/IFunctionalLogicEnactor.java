@@ -23,4 +23,5 @@ import org.loopa.generic.element.component.IMessageManager;
 
 public interface IFunctionalLogicEnactor extends IMessageManager{
 
+	public IFunctionalLogicEnactorManager getManager();
 }

@@ -42,6 +42,8 @@ public class MessageSender extends AMessageSender {
 
 	protected void sendMessage(IMessage m) {
 		/* send message to corresponding recipient */
+		System.out.println("Warning: Extend me! ...MessageSender I have recipient(s):" + this.getComponent().getComponentRecipients());
+		System.out.println("This message is for: " + m.getMessageTo());
 	}
 
 }

@@ -23,8 +23,8 @@ import java.util.Map;
 
 public class Message extends AMessage {
 
-	public Message(String to, String from, int code, String type, Map<String, String> body) {
-		super(to, from, code, type, body);
+	public Message(String from, String to, int code, String type, Map<String, String> body) {
+		super(from, to, code, type, body);
 	}
 
 

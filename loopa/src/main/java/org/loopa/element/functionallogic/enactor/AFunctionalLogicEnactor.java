@@ -46,4 +46,9 @@ public abstract class AFunctionalLogicEnactor extends AMessageManager implements
 	public void processMessage(IMessage t) {
 		this.lm.processLogicData(t.getMessageBody());
 	}
+	
+	@Override
+	public IFunctionalLogicEnactorManager getManager() {
+		return this.lm;
+	}
 }

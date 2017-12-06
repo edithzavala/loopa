@@ -27,7 +27,7 @@ public abstract class AFunctionalLogic extends ALoopAElementComponent implements
 
 	protected AFunctionalLogic(String id, IPolicyManager policyManager, IFunctionalLogicEnactor imm) {
 		super(id, policyManager, imm);
-		// TODO Auto-generated constructor stub
+		imm.getManager().setComponent(this);
 	}
 
 }

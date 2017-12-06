@@ -25,56 +25,49 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.loopa.comm.message.IMessage;
 import org.loopa.generic.documents.managers.IPolicyManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.reactivex.Observable;
 
 public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
-	private IMessageManager messageProcessor;
+	private IMessageManager messageManager;
 	private IPolicyManager policyManager;
 	private ConcurrentLinkedQueue<IMessage> adaptMssgQueue;
 	private ConcurrentLinkedQueue<IMessage> opeMssgQueue;
 	private String id;
 	private Map<String, Object> recipients;
+	private Logger logger;
 
 	protected ALoopAElementComponent(String id, IPolicyManager policyManager, IMessageManager imm) {
 		super();
 		this.id = id;
 		this.policyManager = policyManager;
-		this.messageProcessor = imm;
+		this.messageManager = imm;
 		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
 		this.opeMssgQueue = new ConcurrentLinkedQueue<>();
 		this.recipients = new HashMap<String, Object>();
 		this.policyManager.setComponent(this);
-		this.messageProcessor.setComponent(this);
+		this.messageManager.setComponent(this);
 		policyManager.getActivePolicy().notifyPolicy();
-		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
-		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
+//		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
+//		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageManager.processMessage(t));
+		logger = LoggerFactory.getLogger(ALoopAElementComponent.class);
 
 	}
 
-	protected ALoopAElementComponent(String id, IPolicyManager policyManager, IMessageManager imm,
-			HashMap<String, Object> recipients) {
-		super();
-		this.id = id;
-		this.policyManager = policyManager;
-		this.messageProcessor = imm;
-		this.adaptMssgQueue = new ConcurrentLinkedQueue<>();
-		this.opeMssgQueue = new ConcurrentLinkedQueue<>();
-		this.recipients = recipients;
-		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
-		Observable.fromIterable(opeMssgQueue).subscribe(t -> this.messageProcessor.processMessage(t));
-
-	}
 
 	@Override
 	public void adapt(IMessage m) {
 		this.adaptMssgQueue.add(m);
+		Observable.fromIterable(adaptMssgQueue).subscribe(t -> this.policyManager.processPolicy(t));
 	}
 
 	@Override
 	public void doOperation(IMessage m) {
 		this.opeMssgQueue.add(m);
+		Observable.fromIterable(opeMssgQueue).subscribe(t-> this.messageManager.processMessage(t));
 	}
 
 	@Override
@@ -110,12 +103,12 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 		this.policyManager = policyManager;
 	}
 
-	public IMessageManager getMessageProcessor() {
-		return messageProcessor;
+	public IMessageManager getMessageManager() {
+		return messageManager;
 	}
 
-	public void setMessageProcessor(IMessageManager messageProcessor) {
-		this.messageProcessor = messageProcessor;
+	public void setMessageManager(IMessageManager messageManager) {
+		this.messageManager = messageManager;
 	}
 
 }

@@ -1,3 +1,4 @@
+
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *
@@ -16,13 +17,15 @@
  *  Contributors:
  *  	Edith Zavala
  *******************************************************************************/
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.Message;
 import org.loopa.element.adaptationlogic.AdaptationLogic;
 import org.loopa.element.adaptationlogic.IAdaptationLogic;
 import org.loopa.element.adaptationlogic.enactor.AdaptationLogicEnactor;
@@ -61,6 +64,8 @@ import org.loopa.generic.documents.managers.PolicyManager;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 import org.loopa.monitor.IMonitor;
 import org.loopa.monitor.Monitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MonitorTest {
 
@@ -71,16 +76,43 @@ public class MonitorTest {
 	IAdaptationLogic al;
 	IMessageComposer mc;
 	IKnowledgeManager k;
+	Logger logger;
 
 	@Before
 	public void initializeComponents() {
-		IPolicy rP = new Policy("receiverPolicy", new HashMap<String, String>());
-		IPolicy sP = new Policy("senderPolicy", new HashMap<String, String>());
-		IPolicy lsP = new Policy("logicSelectorPolicy", new HashMap<String, String>());
-		IPolicy flP = new Policy("functionalLogicPolicy", new HashMap<String, String>());
-		IPolicy alP = new Policy("adaptationLogicPolicy", new HashMap<String, String>());
-		IPolicy mcP = new Policy("messageComposerPolicy", new HashMap<String, String>());
-		IPolicy kP = new Policy("knowledgeManagerPolicy", new HashMap<String, String>());
+		logger = LoggerFactory.getLogger(MonitorTest.class);
+
+		Map<String, String> rPContent = new HashMap<String, String>();
+		Map<String, String> sPContent = new HashMap<String, String>();
+		Map<String, String> lsPContent = new HashMap<String, String>();
+		Map<String, String> flPContent = new HashMap<String, String>();
+		Map<String, String> alPContent = new HashMap<String, String>();
+		Map<String, String> mcPContent = new HashMap<String, String>();
+		Map<String, String> kPContent = new HashMap<String, String>();
+
+		/* Policy content example for processing messages of type "logic" */
+		rPContent.put("1", "ls");
+		sPContent.put("1", "recipientX");
+		/**
+		 * This policy could be used for deciding in the sender what to do with the
+		 * Message received from the MessageComposer
+		 * 		sPContent.put("getMonData","recipientX");
+		 ********************************************************/
+		lsPContent.put("1", "fl");
+		flPContent.put("1", "mc");
+		// alPContent.put(key, value);
+		mcPContent.put("1", "s");
+		mcPContent.put("getMonData", "recipientX");
+		// kPContent.put(key, value);
+		/**/
+
+		IPolicy rP = new Policy("receiverPolicy", rPContent);
+		IPolicy sP = new Policy("senderPolicy", sPContent);
+		IPolicy lsP = new Policy("logicSelectorPolicy", lsPContent);
+		IPolicy flP = new Policy("functionalLogicPolicy", flPContent);
+		IPolicy alP = new Policy("adaptationLogicPolicy", alPContent);
+		IPolicy mcP = new Policy("messageComposerPolicy", mcPContent);
+		IPolicy kP = new Policy("knowledgeManagerPolicy", kPContent);
 
 		IPolicyManager rPM = new PolicyManager(rP);
 		IPolicyManager sPM = new PolicyManager(sP);
@@ -94,29 +126,50 @@ public class MonitorTest {
 		IMessageSender sMS = new MessageSender();
 		ILogicMessageDispatcher lsMD = new LogicMessageDispatcher();
 		IMonitorManager mm = new IMonitorManager() {
+			/**Example of how methods can be override for the MonitorManager to work*/
+			private Map<String, String> config = new HashMap<String, String>();
+			private ILoopAElementComponent component;
 
 			@Override
 			public void setConfiguration(Map<String, String> config) {
-				// TODO Auto-generated method stub
+				this.config = config;
 
 			}
 
 			@Override
 			public void setComponent(ILoopAElementComponent c) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void processLogicData(Map<String, String> monData) {
-				// TODO Auto-generated method stub
-
+				this.component = c;
 			}
 
 			@Override
 			public ILoopAElementComponent getComponent() {
-				// TODO Auto-generated method stub
-				return null;
+				return this.component;
+			}
+			/************************************************************************/
+			
+			@Override
+			public void processLogicData(Map<String, String> monData) {
+
+				/** Receive mon data */
+				logger.info("" + monData);
+
+				/** Example of requesting monitoring data (do idem for sending response Messages when required) */
+				// ----Creat Message
+				Map<String, String> body = new HashMap<String, String>();
+
+				// At this point a pair with key "type" is mandatory for the MessageComposer to
+				// operate correctly
+				body.put("type", "getMonData");
+
+				IMessage mRequestMonData = new Message(this.getComponent().getComponentId(), config.get("1"), 1,
+						"request", body);
+				// ----
+				//Send Message
+				ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent().getComponentRecipients()
+						.get(mRequestMonData.getMessageTo());
+				r.doOperation(mRequestMonData);
+				/***************************************/
+
 			}
 		};
 		IFunctionalLogicEnactor flE = new MonitorFunctionalLogicEnactor(mm);
@@ -147,6 +200,26 @@ public class MonitorTest {
 	public void testCreateMonitor() {
 		IMonitor m = new Monitor("MonitorTest", r, ls, fl, al, mc, s, k);
 		assertNotNull(m);
+	}
+
+	@Test
+	public void testDoLogicOperationMonitor() {
+		IMonitor m = new Monitor("MonitorTest", r, ls, fl, al, mc, s, k);
+
+		/*
+		 * Add recipient to the Monitor (id, object) - the HashMap is exemplifying an
+		 * object
+		 */
+		m.addRecipient("recipientX", new HashMap<String, String>());
+		/**/
+
+		/* Create some of the Message elements */
+		int code = 1;
+		Map<String, String> body = new HashMap<String, String>();
+		body.put("ObtainedDataAttr1_name", "ObtainedDataAttr1_value");
+
+		/* send a Message to the Monitor */
+		m.getReceiver().doOperation(new Message("recipientX", "r", code, "response", body));
 	}
 
 }

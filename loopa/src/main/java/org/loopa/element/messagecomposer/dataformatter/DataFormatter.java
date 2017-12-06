@@ -32,7 +32,7 @@ public class DataFormatter extends ADataFormatter {
 		String[] recipients = getRecipientFromPolicy(t.getMessageBody()).split(";");
 		Arrays.stream(recipients).forEach(r -> {
 			Map<String, String> formattedM = formatMessageContent(t.getMessageBody(), r);
-			IMessage formattedMessage = new Message(t.getMessageTo(), t.getMessageFrom(), t.getMessageCode(),
+			IMessage formattedMessage = new Message(t.getMessageFrom(), t.getMessageTo(), t.getMessageCode(),
 					t.getMessageType(), formattedM);
 			createMeassage(formattedMessage);
 		});
