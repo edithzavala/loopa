@@ -1,3 +1,4 @@
+package org.loopa.logicselector.test;
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *
@@ -22,30 +23,31 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.loopa.element.adaptationlogic.AdaptationLogic;
-import org.loopa.element.adaptationlogic.IAdaptationLogic;
-import org.loopa.element.adaptationlogic.enactor.AdaptationLogicEnactor;
-import org.loopa.element.adaptationlogic.enactor.IAdaptationLogicEnactor;
+import org.loopa.element.logicselector.ILogicSelector;
+import org.loopa.element.logicselector.LogicSelector;
+import org.loopa.element.logicselector.messagedispatcher.ILogicMessageDispatcher;
+import org.loopa.element.logicselector.messagedispatcher.LogicMessageDispatcher;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.documents.managers.PolicyManager;
 
-public class AdaptationLogicTest {
-	IPolicyManager alPM;
-	IAdaptationLogicEnactor alE;
+public class LogicSelectorTest {
+	IPolicyManager lsPM;
+	ILogicMessageDispatcher lsMD;
 
 	@Before
 	public void initializeModules() {
-		IPolicy alP = new Policy("adaptationLogicPolicy", new HashMap<String, String>());
-		alPM = new PolicyManager(alP);
-		alE = new AdaptationLogicEnactor();
-		alP.addListerner(alE);
+		IPolicy lsP = new Policy("logicSelectorPolicy", new HashMap<String, String>());
+		lsPM = new PolicyManager(lsP);
+		lsMD = new LogicMessageDispatcher();
+		lsP.addListerner(lsMD);
 	}
 
 	@Test
-	public void testCreateAdaptationLogic() {
-		IAdaptationLogic al = new AdaptationLogic("al", alPM, alE);
-		assertNotNull(al);
+	public void testCreateLogicSelector() {
+		ILogicSelector ls = new LogicSelector("ls", lsPM, lsMD);
+		assertNotNull(ls);
 	}
+
 }

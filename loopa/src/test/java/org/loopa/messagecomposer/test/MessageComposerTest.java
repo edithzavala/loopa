@@ -1,3 +1,4 @@
+package org.loopa.messagecomposer.test;
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *

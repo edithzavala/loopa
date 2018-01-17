@@ -1,3 +1,4 @@
+package org.loopa.planner.test;
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *
@@ -30,8 +31,8 @@ import org.loopa.element.adaptationlogic.enactor.IAdaptationLogicEnactor;
 import org.loopa.element.functionallogic.FunctionalLogic;
 import org.loopa.element.functionallogic.IFunctionalLogic;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
-import org.loopa.element.functionallogic.enactor.executer.ExecuterFunctionalLogicEnactor;
-import org.loopa.element.functionallogic.enactor.executer.IExecuterManager;
+import org.loopa.element.functionallogic.enactor.planner.IPlannerManager;
+import org.loopa.element.functionallogic.enactor.planner.PlannerFunctionalLogicEnactor;
 import org.loopa.element.knowledgemanager.IKnowledgeManager;
 import org.loopa.element.knowledgemanager.KnowledgeManager;
 import org.loopa.element.knowledgemanager.adaptiveknowledgemanager.AdaptiveKnowledgeManager;
@@ -54,15 +55,15 @@ import org.loopa.element.sender.ISender;
 import org.loopa.element.sender.Sender;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.element.sender.messagesender.MessageSender;
-import org.loopa.executer.Executer;
-import org.loopa.executer.IExecuter;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.documents.managers.PolicyManager;
 import org.loopa.generic.element.component.ILoopAElementComponent;
+import org.loopa.planner.IPlanner;
+import org.loopa.planner.Planner;
 
-public class ExecuterTest {
+public class PlannerTest {
 	IReceiver r;
 	ISender s;
 	ILogicSelector ls;
@@ -92,7 +93,7 @@ public class ExecuterTest {
 		IMessageProcessor rMP = new MessageProcessor();
 		IMessageSender sMS = new MessageSender();
 		ILogicMessageDispatcher lsMD = new LogicMessageDispatcher();
-		IExecuterManager em = new IExecuterManager() {
+		IPlannerManager pm = new IPlannerManager() {
 
 			@Override
 			public void setConfiguration(Map<String, String> config) {
@@ -118,7 +119,7 @@ public class ExecuterTest {
 				return null;
 			}
 		};
-		IFunctionalLogicEnactor flE = new ExecuterFunctionalLogicEnactor(em);
+		IFunctionalLogicEnactor flE = new PlannerFunctionalLogicEnactor(pm);
 		IAdaptationLogicEnactor alE = new AdaptationLogicEnactor();
 		IDataFormatter mcDF = new DataFormatter();
 		IMessageCreator mcMC = new MessageCreator();
@@ -143,8 +144,8 @@ public class ExecuterTest {
 	}
 
 	@Test
-	public void testCreateExecuter() {
-		IExecuter e = new Executer("ExecuterTest", r, ls, fl, al, mc, s, k);
-		assertNotNull(e);
+	public void testCreatePlanner() {
+		IPlanner p = new Planner("PlannerTest", r, ls, fl, al, mc, s, k);
+		assertNotNull(p);
 	}
 }

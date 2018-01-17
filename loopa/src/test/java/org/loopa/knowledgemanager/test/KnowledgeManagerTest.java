@@ -1,3 +1,4 @@
+package org.loopa.knowledgemanager.test;
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *

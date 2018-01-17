@@ -1,3 +1,4 @@
+package org.loopa.sender.test;
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *
@@ -22,31 +23,31 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.loopa.element.logicselector.ILogicSelector;
-import org.loopa.element.logicselector.LogicSelector;
-import org.loopa.element.logicselector.messagedispatcher.ILogicMessageDispatcher;
-import org.loopa.element.logicselector.messagedispatcher.LogicMessageDispatcher;
+import org.loopa.element.sender.ISender;
+import org.loopa.element.sender.Sender;
+import org.loopa.element.sender.messagesender.IMessageSender;
+import org.loopa.element.sender.messagesender.MessageSender;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.documents.managers.PolicyManager;
 
-public class LogicSelectorTest {
-	IPolicyManager lsPM;
-	ILogicMessageDispatcher lsMD;
+public class SenderTest {
+
+	IPolicyManager sPM;
+	IMessageSender sMS;
 
 	@Before
 	public void initializeModules() {
-		IPolicy lsP = new Policy("logicSelectorPolicy", new HashMap<String, String>());
-		lsPM = new PolicyManager(lsP);
-		lsMD = new LogicMessageDispatcher();
-		lsP.addListerner(lsMD);
+		IPolicy sP = new Policy("senderPolicy", new HashMap<String, String>());
+		sPM = new PolicyManager(sP);
+		sMS = new MessageSender();
+		sP.addListerner(sMS);
 	}
 
 	@Test
-	public void testCreateLogicSelector() {
-		ILogicSelector ls = new LogicSelector("ls", lsPM, lsMD);
-		assertNotNull(ls);
+	public void testCreateSender() {
+		ISender s = new Sender("s", sPM, sMS);
+		assertNotNull(s);
 	}
-
 }

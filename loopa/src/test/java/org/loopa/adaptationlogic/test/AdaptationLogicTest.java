@@ -1,3 +1,4 @@
+package org.loopa.adaptationlogic.test;
 /*******************************************************************************
  *  Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
  *
@@ -22,31 +23,30 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.loopa.element.sender.ISender;
-import org.loopa.element.sender.Sender;
-import org.loopa.element.sender.messagesender.IMessageSender;
-import org.loopa.element.sender.messagesender.MessageSender;
+import org.loopa.element.adaptationlogic.AdaptationLogic;
+import org.loopa.element.adaptationlogic.IAdaptationLogic;
+import org.loopa.element.adaptationlogic.enactor.AdaptationLogicEnactor;
+import org.loopa.element.adaptationlogic.enactor.IAdaptationLogicEnactor;
 import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.documents.Policy;
 import org.loopa.generic.documents.managers.IPolicyManager;
 import org.loopa.generic.documents.managers.PolicyManager;
 
-public class SenderTest {
-
-	IPolicyManager sPM;
-	IMessageSender sMS;
+public class AdaptationLogicTest {
+	IPolicyManager alPM;
+	IAdaptationLogicEnactor alE;
 
 	@Before
 	public void initializeModules() {
-		IPolicy sP = new Policy("senderPolicy", new HashMap<String, String>());
-		sPM = new PolicyManager(sP);
-		sMS = new MessageSender();
-		sP.addListerner(sMS);
+		IPolicy alP = new Policy("adaptationLogicPolicy", new HashMap<String, String>());
+		alPM = new PolicyManager(alP);
+		alE = new AdaptationLogicEnactor();
+		alP.addListerner(alE);
 	}
 
 	@Test
-	public void testCreateSender() {
-		ISender s = new Sender("s", sPM, sMS);
-		assertNotNull(s);
+	public void testCreateAdaptationLogic() {
+		IAdaptationLogic al = new AdaptationLogic("al", alPM, alE);
+		assertNotNull(al);
 	}
 }
