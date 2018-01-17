@@ -1,5 +1,6 @@
 package org.loopa.monitor.test;
 
+import static org.junit.Assert.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -11,6 +12,8 @@ import org.loopa.element.functionallogic.enactor.monitor.IMonitorManager;
 import org.loopa.element.functionallogic.enactor.monitor.MonitorFunctionalLogicEnactor;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.element.sender.messagesender.MessageSender;
+import org.loopa.generic.documents.IPolicy;
+import org.loopa.generic.documents.Policy;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 import org.loopa.monitor.IMonitor;
 import org.loopa.monitor.Monitor;
@@ -22,12 +25,25 @@ public class MonitorTest {
   IMessageSender sMS;
   IFunctionalLogicEnactor flE;
   Logger logger;
+  IPolicy mp;
 
   @Before
   public void initializeComponents() {
     logger = LoggerFactory.getLogger(MonitorTest.class);
 
     this.sMS = new MessageSender();
+    this.mp = new Policy("MonitorTest", new HashMap<String, String>() {
+      {
+        /**
+         * mssgInFl:1 mssgInAl:2 mssgAdapt:3 mssgOutFl:4 mssgOutAl:5
+         */
+        put("mssgInFl", "1");
+        put("mssgInAl", "2");
+        put("mssgAdapt", "3");
+        put("mssgOutFl", "4");
+        put("mssgOutAl", "5");
+      }
+    });
 
     IMonitorManager mm = new IMonitorManager() {
       /** Example of how methods can be override for the MonitorManager to work */
@@ -85,21 +101,21 @@ public class MonitorTest {
     this.flE = new MonitorFunctionalLogicEnactor(mm);
   }
 
-  // @Test
-  // public void testCreateMonitor() {
-  // IMonitor m = new Monitor("MonitorTest", this.flE, this.sMS);
-  // assertNotNull(m);
-  // }
+  @Test
+  public void testCreateMonitor() {
+    IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
+    assertNotNull(m);
+  }
 
-  // @Test
-  // public void testStartMonitor() {
-  // IMonitor m = new Monitor("MonitorTest", this.flE, this.sMS);
-  // m.start();
-  // }
+  @Test
+  public void testStartMonitor() {
+    IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
+    m.start();
+  }
 
   @Test
   public void testDoLogicOperationMonitor() {
-    IMonitor m = new Monitor("MonitorTest", this.flE, this.sMS);
+    IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
     m.start();
     /*
      * Add recipient to the Monitor (id, object) - the HashMap is exemplifying an object
@@ -116,6 +132,25 @@ public class MonitorTest {
     m.getReceiver().doOperation(
         new Message("monitor2", m.getReceiver().getComponentId(), code, "response", body));
 
+  }
+
+  @Test
+  public void testDoAdaptMonitor() {
+    IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
+    m.start();
+
+    int code = 2;
+    logger.info(
+        "current policy" + m.getReceiver().getPolicyManager().getActivePolicy().getPolicyContent());
+    Map<String, String> body = new HashMap<String, String>();
+    body.put("policyOwner", m.getReceiver().getComponentId());
+    body.put("policyContent", "newPolicyVar:newValue");
+
+    m.getReceiver()
+        .adapt(new Message("otherLoop", m.getReceiver().getComponentId(), code, "request", body));
+
+    logger.info(
+        "new policy" + m.getReceiver().getPolicyManager().getActivePolicy().getPolicyContent());
   }
 
 }

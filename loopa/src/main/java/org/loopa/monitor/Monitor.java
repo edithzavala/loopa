@@ -18,12 +18,13 @@ package org.loopa.monitor;
 
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.sender.messagesender.IMessageSender;
+import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.element.ALoopElement;
 
 public class Monitor extends ALoopElement implements IMonitor {
 
-  public Monitor(String id, IFunctionalLogicEnactor flE, IMessageSender sMS) {
-    super(id, flE, sMS);
+  public Monitor(String id, IPolicy mp, IFunctionalLogicEnactor flE, IMessageSender sMS) {
+    super(id, mp, flE, sMS);
   }
 
 }

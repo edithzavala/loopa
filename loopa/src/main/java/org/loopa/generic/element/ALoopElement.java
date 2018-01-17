@@ -46,6 +46,7 @@ import org.loopa.element.receiver.messageprocessor.MessageProcessor;
 import org.loopa.element.sender.ISender;
 import org.loopa.element.sender.Sender;
 import org.loopa.element.sender.messagesender.IMessageSender;
+import org.loopa.generic.documents.IPolicy;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 
 public abstract class ALoopElement implements ILoopAElement {
@@ -58,10 +59,12 @@ public abstract class ALoopElement implements ILoopAElement {
   private IKnowledgeManager knowledge;
   private String id;
   private Map<String, Object> recipients;
+  private IPolicy p;
 
-  protected ALoopElement(String id, IFunctionalLogicEnactor flE, IMessageSender sMS) {
+  protected ALoopElement(String id, IPolicy p, IFunctionalLogicEnactor flE, IMessageSender sMS) {
     this.id = id;
     this.recipients = new HashMap<String, Object>();
+    this.p = p;
 
     IMessageProcessor rMP = new MessageProcessor();
     ILogicMessageDispatcher lsMD = new LogicMessageDispatcher();
@@ -137,31 +140,35 @@ public abstract class ALoopElement implements ILoopAElement {
     this.messageComposer.start();
     this.knowledge.start();
 
-    /**
-     * 1: messageIn_NormalOpe 2: messageIn_Adapt 3: AdaptReqFromKM 4: messageOut_normalOpe 5:
-     * messageOut_Adapt
-     */
+    String mssgInFl = this.p.getPolicyContent().get("mssgInFl");
+    String mssgOutFl = this.p.getPolicyContent().get("mssgOutFl");
+    String mssgInAl = this.p.getPolicyContent().get("mssgInAl");
+    String mssgOutAl = this.p.getPolicyContent().get("mssgOutAl");
+    String mssgAdapt = this.p.getPolicyContent().get("mssgAdapt");
 
-    setElementComponentsRecipient(this.getReceiver(), "1", this.getLogicSelector());
-    setElementComponentsRecipient(this.getReceiver(), "2", this.getLogicSelector());
+    setElementComponentsRecipient(this.getReceiver(), mssgInFl, this.getLogicSelector());
+    setElementComponentsRecipient(this.getReceiver(), mssgInAl, this.getLogicSelector());
 
-    setElementComponentsRecipient(this.getLogicSelector(), "1", this.getFunctionalLogic());
-    setElementComponentsRecipient(this.getLogicSelector(), "2", this.getAdaptationLogic());
+    setElementComponentsRecipient(this.getLogicSelector(), mssgInFl, this.getFunctionalLogic());
+    setElementComponentsRecipient(this.getLogicSelector(), mssgInAl, this.getAdaptationLogic());
 
-    setElementComponentsRecipient(this.getFunctionalLogic(), "4", this.getMessageComposer());
+    setElementComponentsRecipient(this.getFunctionalLogic(), mssgOutFl, this.getMessageComposer());
 
-    setElementComponentsRecipient(this.getAdaptationLogic(), "5", this.getMessageComposer());
-    setElementComponentsRecipient(this.getAdaptationLogic(), "2", this.getKnowledge());
+    setElementComponentsRecipient(this.getAdaptationLogic(), mssgOutAl, this.getMessageComposer());
+    setElementComponentsRecipient(this.getAdaptationLogic(), mssgInAl, this.getKnowledge());
 
-    setElementComponentsRecipient(this.getMessageComposer(), "4", this.getSender());
-    setElementComponentsRecipient(this.getMessageComposer(), "5", this.getSender());
+    setElementComponentsRecipient(this.getMessageComposer(), mssgOutFl, this.getSender());
+    setElementComponentsRecipient(this.getMessageComposer(), mssgOutAl, this.getSender());
 
-    setElementComponentsRecipient(this.getKnowledge(), "3", this.getReceiver());
-    setElementComponentsRecipient(this.getKnowledge(), "3", this.getLogicSelector());
-    setElementComponentsRecipient(this.getKnowledge(), "3", this.getFunctionalLogic());
-    setElementComponentsRecipient(this.getKnowledge(), "3", this.getAdaptationLogic());
-    setElementComponentsRecipient(this.getKnowledge(), "3", this.getMessageComposer());
-    setElementComponentsRecipient(this.getKnowledge(), "3", this.getSender());
+    setElementComponentsRecipient(this.getKnowledge(), mssgAdapt, this.getReceiver());
+    setElementComponentsRecipient(this.getKnowledge(), mssgAdapt, this.getLogicSelector());
+    setElementComponentsRecipient(this.getKnowledge(), mssgAdapt, this.getFunctionalLogic());
+    setElementComponentsRecipient(this.getKnowledge(), mssgAdapt, this.getAdaptationLogic());
+    setElementComponentsRecipient(this.getKnowledge(), mssgAdapt, this.getMessageComposer());
+    setElementComponentsRecipient(this.getKnowledge(), mssgAdapt, this.getSender());
+
+    this.getKnowledge().getPolicyManager().getActivePolicy().getPolicyContent().put(mssgInAl,
+        mssgAdapt);
   }
 
 

@@ -26,8 +26,9 @@ public class Policy extends APolicy {
 
   @Override
   public IPolicy updatePolicy(IPolicy p) {
-    this.setPolicyContent(p.getPolicyContent());
-    this.setPolicyOwner(p.getPolicyOwner());
+    p.getPolicyContent().forEach((v, k) -> {
+      this.getPolicyContent().put(v, k);
+    });
     return this;
   }
 
