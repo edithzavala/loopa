@@ -40,12 +40,22 @@ public class AutonomicManagerOneElementOfEach {
   }
 
   /* Through sensor & effectors? */
-  public void setME(String config, String id, Object me) {
-    this.m.addElementRecipient(config, id, me);
-    this.e.addElementRecipient(config, id, me);
-  }
+  // public void setME(String config, String id, Object me) {
+  // this.m.addElementRecipient(config, id, me);
+  // this.e.addElementRecipient(config, id, me);
+  // }
 
   public void start() {
+    this.m.start();
+    this.a.start();
+    this.p.start();
+    this.e.start();
+    this.kb.start();
+
+    /*
+     * codes used for distribute messages, e.g., analysis, could be also asked through policies as
+     * codes for distributing messages inside elements
+     */
     this.m.addElementRecipient("analysis", this.a.getElementId(), this.a);
     this.m.addElementRecipient("kb", this.kb.getElementId(), this.kb);
 
@@ -57,6 +67,53 @@ public class AutonomicManagerOneElementOfEach {
 
     this.e.addElementRecipient("kb", this.kb.getElementId(), this.kb);
 
+    this.kb.addElementRecipient("monitor", this.m.getElementId(), this.m);
+    this.kb.addElementRecipient("analysis", this.a.getElementId(), this.a);
+    this.kb.addElementRecipient("plan", this.p.getElementId(), this.p);
+    this.kb.addElementRecipient("execute", this.e.getElementId(), this.e);
+
   }
+
+  public IMonitor getMonitor() {
+    return m;
+  }
+
+  public void setMonitor(IMonitor m) {
+    this.m = m;
+  }
+
+  public IAnalyzer getAanalyzer() {
+    return a;
+  }
+
+  public void setAnalyzer(IAnalyzer a) {
+    this.a = a;
+  }
+
+  public IPlanner getPlanner() {
+    return p;
+  }
+
+  public void setPlanner(IPlanner p) {
+    this.p = p;
+  }
+
+  public IExecuter getExecuter() {
+    return e;
+  }
+
+  public void setExecuter(IExecuter e) {
+    this.e = e;
+  }
+
+  public IKnowledgeBase getKb() {
+    return kb;
+  }
+
+  public void setKb(IKnowledgeBase kb) {
+    this.kb = kb;
+  }
+
+
 
 }
