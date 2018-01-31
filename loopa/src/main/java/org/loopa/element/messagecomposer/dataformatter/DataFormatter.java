@@ -25,20 +25,20 @@ public class DataFormatter extends ADataFormatter {
 
   @Override
   public void processMessage(IMessage t) {
-    String recipientsReqSpecialFormat = getRecipientFromPolicy(t.getMessageBody());
-    if (recipientsReqSpecialFormat != null) {
-      Arrays.stream(recipientsReqSpecialFormat.split(":")).forEach(r -> {
+    String recipients = getRecipientFromPolicy(t.getMessageBody());
+    if (recipients != null) {
+      Arrays.stream(recipients.split(":")).forEach(r -> {
         Map<String, String> formattedMessageBody = formatMessageContent(t.getMessageBody(), r);
         createMeassage(new Message(t.getMessageFrom(), t.getMessageTo(), t.getMessageCode(),
             t.getMessageType(), formattedMessageBody));
       });
-    } else {
-      createMeassage(new Message(t.getMessageFrom(), t.getMessageTo(), t.getMessageCode(),
-          t.getMessageType(), t.getMessageBody()));
     }
   }
 
   protected Map<String, String> formatMessageContent(Map<String, String> m, String r) {
+    /** check format required in policy if exist and format message */
+    // change messageBody type for indicating a unique recipient
+    m.put("type", (m.get("type")).concat("_").concat(r));
     return m;
   }
 
