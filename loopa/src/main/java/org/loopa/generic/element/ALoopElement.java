@@ -103,10 +103,17 @@ public abstract class ALoopElement implements ILoopAElement {
   public void setElementRecipients(Map<String, Object> r) {
     this.recipients = r;
     this.sender.setComponentRecipients(this.recipients);
+    //modify policies
     this.recipients.forEach((k, v) -> {
       String[] config_id = k.split(":");
-      this.sender.getPolicyManager().getActivePolicy().getPolicyContent().put(config_id[0],
+      this.sender.getPolicyManager().getActivePolicy().getPolicyContent().put(config_id[0].concat("_").concat(config_id[1]),
           config_id[1]);
+      String mcPolicyValue = this.messageComposer.getPolicyManager().getActivePolicy().getPolicyContent().get(config_id[0]);
+      if(mcPolicyValue != null){
+          this.messageComposer.getPolicyManager().getActivePolicy().getPolicyContent().put(config_id[0], mcPolicyValue.concat(":").concat(config_id[1]));
+      }else{
+        this.messageComposer.getPolicyManager().getActivePolicy().getPolicyContent().put(config_id[0],config_id[1]);
+      }
     });
   }
 
@@ -114,7 +121,14 @@ public abstract class ALoopElement implements ILoopAElement {
   public void addElementRecipient(String config, String id, Object o) {
     this.recipients.put(id, o);
     this.sender.addRecipient(id, o);
-    this.sender.getPolicyManager().getActivePolicy().getPolicyContent().put(config, id);
+    //modify policies
+    this.sender.getPolicyManager().getActivePolicy().getPolicyContent().put(config.concat("_").concat(id), id);
+    String mcPolicyValue = this.messageComposer.getPolicyManager().getActivePolicy().getPolicyContent().get(config);
+    if(mcPolicyValue != null){
+     this.messageComposer.getPolicyManager().getActivePolicy().getPolicyContent().put(config, mcPolicyValue.concat(":").concat(id));
+    }else{
+     this.messageComposer.getPolicyManager().getActivePolicy().getPolicyContent().put(config, id);
+    }
   }
 
   @Override
