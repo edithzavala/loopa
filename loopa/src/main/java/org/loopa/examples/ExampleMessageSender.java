@@ -13,34 +13,35 @@
  * 
  * Contributors: Edith Zavala
  ******************************************************************************/
-package org.loopa.element.messagecomposer.messagecreator;
+package org.loopa.examples;
 
+import java.util.Map;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
-import org.loopa.generic.element.component.ILoopAElementComponent;
+import org.loopa.element.sender.messagesender.AMessageSender;
+import org.loopa.generic.element.ILoopAElement;
 
-public class MessageCreator extends AMessageCreator {
+public class ExampleMessageSender extends AMessageSender {
 
   @Override
   public void processMessage(IMessage t) {
-    IMessage m = createMessage(t);
+    IMessage m = process(t);
     if (m != null)
       sendMessage(m);
   }
 
-  protected IMessage createMessage(IMessage m) {
+  protected IMessage process(IMessage m) {
     return new Message(this.getComponent().getComponentId(),
-        getRecipientFromPolicy(m.getMessageCode()), m.getMessageCode(), m.getMessageType(),
-        m.getMessageBody());
+        getRecipientFromPolicy(m.getMessageBody()), 1, m.getMessageType(), m.getMessageBody());
   }
 
-  protected String getRecipientFromPolicy(int messageCode) {
-    return this.getPolicyVariables().get(String.valueOf(messageCode));
+  protected String getRecipientFromPolicy(Map<String, String> messageBody) {
+    return this.getPolicyVariables().get(messageBody.get("type"));
   }
 
   protected void sendMessage(IMessage m) {
-    ((ILoopAElementComponent) this.getComponent().getComponentRecipient(m.getMessageTo())
-        .getRecipient()).doOperation(m);
-
+    ((ILoopAElement) this.getComponent().getComponentRecipient(m.getMessageTo()).getRecipient())
+        .getReceiver().doOperation(m);
   }
+
 }

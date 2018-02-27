@@ -23,6 +23,7 @@ import org.loopa.element.logicselector.ILogicSelector;
 import org.loopa.element.messagecomposer.IMessageComposer;
 import org.loopa.element.receiver.IReceiver;
 import org.loopa.element.sender.ISender;
+import org.loopa.policy.IPolicy;
 import org.loopa.recipient.IRecipient;
 
 public interface ILoopAElement {
@@ -33,6 +34,9 @@ public interface ILoopAElement {
 
   // Set element id
   void setElementId(String id);
+
+  // Get element policy
+  IPolicy getElementPolicy();
 
   // Start element operation - Connect all element's components
   void start();
@@ -49,7 +53,7 @@ public interface ILoopAElement {
   List<IRecipient> getElementRecipients();
 
   // Get recipient with id==is
-  IRecipient getElementRecipients(String id);
+  IRecipient getElementRecipient(String id);
 
   // Remove element recipient with id==id
   void removeElementRecipient(String id);

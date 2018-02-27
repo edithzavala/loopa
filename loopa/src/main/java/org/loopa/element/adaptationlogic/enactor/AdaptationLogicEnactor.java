@@ -18,11 +18,16 @@ package org.loopa.element.adaptationlogic.enactor;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.generic.element.component.ILoopAElementComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
 
+  protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
+
   @Override
   public void processMessage(IMessage t) {
+    LOGGER.info("Process adaptation");
     IMessage m = processAdaptations(t);
     if (m != null)
       sendMessage(m);
@@ -46,9 +51,8 @@ public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
   }
 
   protected void sendMessage(IMessage m) {
-    ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent()
-        .getComponentRecipients(m.getMessageTo()).getRecipient();
-    r.doOperation(m);
+    ((ILoopAElementComponent) this.getComponent().getComponentRecipient(m.getMessageTo())
+        .getRecipient()).doOperation(m);
 
   }
 }

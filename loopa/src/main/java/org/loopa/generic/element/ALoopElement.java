@@ -73,6 +73,7 @@ public abstract class ALoopElement implements ILoopAElement {
   /* Simplified constructor */
   protected ALoopElement(String elementId, IPolicy elementPolicy, IFunctionalLogicEnactor flE,
       IMessageSender sMS) {
+    LOGGER.info("create element");
     this.id = elementId;
     this.policy = elementPolicy;
 
@@ -92,7 +93,6 @@ public abstract class ALoopElement implements ILoopAElement {
     this.knowledge = new KnowledgeManager("knowledge", kAKM);
 
     this.recipients = new HashMap<String, Recipient>();
-    LOGGER.info("Element created");
   }
 
   /* Verbose constructor */
@@ -101,6 +101,7 @@ public abstract class ALoopElement implements ILoopAElement {
       IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
       IKnowledgeManager knowledge) {
     super();
+    LOGGER.info("create element");
     this.id = elementId;
     this.policy = elementPolicy;
 
@@ -113,19 +114,19 @@ public abstract class ALoopElement implements ILoopAElement {
     this.knowledge = knowledge;
 
     this.recipients = new HashMap<String, Recipient>();
-    LOGGER.info("Element created");
   }
 
   @Override
   public void start() {
+    LOGGER.info("start element");
 
-    this.receiver.start();
-    this.sender.start();
-    this.logicSelector.start();
-    this.functionalLogic.start();
-    this.adaptationLogic.start();
-    this.messageComposer.start();
-    this.knowledge.start();
+    this.receiver.setElement(this);
+    this.sender.setElement(this);
+    this.logicSelector.setElement(this);
+    this.functionalLogic.setElement(this);
+    this.adaptationLogic.setElement(this);
+    this.messageComposer.setElement(this);
+    this.knowledge.setElement(this);
 
     String mssgInFl = this.policy.getPolicyContent().get("mssgInFl");
     String mssgOutFl = this.policy.getPolicyContent().get("mssgOutFl");
@@ -135,39 +136,52 @@ public abstract class ALoopElement implements ILoopAElement {
 
     this.getReceiver().addRecipient(new Recipient(this.getLogicSelector().getComponentId(),
         Arrays.asList(mssgInFl, mssgInAl), this.getLogicSelector()));
+
     this.getLogicSelector().addRecipient(new Recipient(this.getFunctionalLogic().getComponentId(),
         Arrays.asList(mssgInFl), this.getFunctionalLogic()));
     this.getLogicSelector().addRecipient(new Recipient(this.getAdaptationLogic().getComponentId(),
         Arrays.asList(mssgInAl), this.getAdaptationLogic()));
+
     this.getFunctionalLogic().addRecipient(new Recipient(this.getMessageComposer().getComponentId(),
         Arrays.asList(mssgOutFl), this.getMessageComposer()));
+
     this.getAdaptationLogic().addRecipient(new Recipient(this.getMessageComposer().getComponentId(),
         Arrays.asList(mssgOutAl), this.getMessageComposer()));
     this.getAdaptationLogic().addRecipient(new Recipient(this.getKnowledge().getComponentId(),
         Arrays.asList(mssgInAl), this.getKnowledge()));
+
     this.getMessageComposer().addRecipient(new Recipient(this.getSender().getComponentId(),
         Arrays.asList(mssgOutFl, mssgOutAl), this.getSender()));
+
     this.getKnowledge().addRecipient(new Recipient(this.getReceiver().getComponentId(),
-        Arrays.asList(mssgOutFl, mssgOutAl), this.getReceiver()));
+        Arrays.asList(mssgAdapt), this.getReceiver()));
     this.getKnowledge().addRecipient(new Recipient(this.getLogicSelector().getComponentId(),
-        Arrays.asList(mssgOutFl, mssgOutAl), this.getLogicSelector()));
+        Arrays.asList(mssgAdapt), this.getLogicSelector()));
     this.getKnowledge().addRecipient(new Recipient(this.getFunctionalLogic().getComponentId(),
-        Arrays.asList(mssgOutFl, mssgOutAl), this.getFunctionalLogic()));
+        Arrays.asList(mssgAdapt), this.getFunctionalLogic()));
     this.getKnowledge().addRecipient(new Recipient(this.getAdaptationLogic().getComponentId(),
-        Arrays.asList(mssgOutFl, mssgOutAl), this.getAdaptationLogic()));
+        Arrays.asList(mssgAdapt), this.getAdaptationLogic()));
     this.getKnowledge().addRecipient(new Recipient(this.getMessageComposer().getComponentId(),
-        Arrays.asList(mssgOutFl, mssgOutAl), this.getMessageComposer()));
+        Arrays.asList(mssgAdapt), this.getMessageComposer()));
     this.getKnowledge().addRecipient(new Recipient(this.getSender().getComponentId(),
-        Arrays.asList(mssgOutFl, mssgOutAl), this.getSender()));
+        Arrays.asList(mssgAdapt), this.getSender()));
 
     this.knowledge.mapAdaptMssg(mssgInAl, mssgAdapt);
-    LOGGER.info("Element started");
+
+    this.receiver.start();
+    this.sender.start();
+    this.logicSelector.start();
+    this.functionalLogic.start();
+    this.adaptationLogic.start();
+    this.messageComposer.start();
+    this.knowledge.start();
   }
 
   /** Recipients interface **/
 
   @Override
   public void setElementRecipients(List<IRecipient> recipients) {
+    LOGGER.info("set recipients");
     // Set recipients
     this.recipients = recipients.stream().collect(Collectors
         .toMap(recipient -> recipient.getrecipientId(), recipient -> (Recipient) recipient));
@@ -178,16 +192,15 @@ public abstract class ALoopElement implements ILoopAElement {
       this.messageComposer.addMEToPolicies(recipient.getrecipientId(), recipient.getTypeOfData());
     });
     this.sender.setComponentRecipients(recipientsModified);
-    LOGGER.info("Recipients set");
   }
 
   @Override
   public void addElementRecipient(IRecipient r) {
+    LOGGER.info("add recipient");
     // Set recipient
     this.recipients.put(r.getrecipientId(), (Recipient) r);
     this.sender.addRecipient(modifySenderRecipientDataType(r));
     this.messageComposer.addMEToPolicies(r.getrecipientId(), r.getTypeOfData());
-    LOGGER.info("Recipient set");
   }
 
   private IRecipient modifySenderRecipientDataType(IRecipient r) {
@@ -203,16 +216,16 @@ public abstract class ALoopElement implements ILoopAElement {
   }
 
   @Override
-  public IRecipient getElementRecipients(String id) {
+  public IRecipient getElementRecipient(String id) {
     return this.recipients.get(id);
   }
 
   @Override
   public void removeElementRecipient(String id) {
+    LOGGER.info("remove recipient");
     this.recipients.remove(id);
     this.sender.removeRecipient(id);
     /** TO-DO Remove Message processor policy **/
-    LOGGER.info("Recipient removed");
   }
 
   /** Getters and setters **/
@@ -264,44 +277,49 @@ public abstract class ALoopElement implements ILoopAElement {
 
   @Override
   public void setReceiver(IReceiver receiver) {
+    LOGGER.info("set Receiver");
     this.receiver = receiver;
-    LOGGER.info("Receiver set");
   }
 
   @Override
   public void setLogicSelector(ILogicSelector logicSelector) {
+    LOGGER.info("set LogicSelector");
     this.logicSelector = logicSelector;
-    LOGGER.info("LogicSelector set");
   }
 
   @Override
   public void setFunctionalLogic(IFunctionalLogic functionalLogic) {
+    LOGGER.info("set FunctionalLogic");
     this.functionalLogic = functionalLogic;
-    LOGGER.info("FunctionalLogic set");
   }
 
   @Override
   public void setAdaptationLogic(IAdaptationLogic adaptationLogic) {
+    LOGGER.info("set AdaptationLogic");
     this.adaptationLogic = adaptationLogic;
-    LOGGER.info("AdaptationLogic set");
   }
 
   @Override
   public void setMessageComposer(IMessageComposer messageComposer) {
+    LOGGER.info("set MessageComposer");
     this.messageComposer = messageComposer;
-    LOGGER.info("MessageComposer set");
   }
 
   @Override
   public void setSender(ISender sender) {
+    LOGGER.info("set Sender");
     this.sender = sender;
-    LOGGER.info("Sender set");
   }
 
   @Override
   public void setKnowledge(IKnowledgeManager knowledge) {
+    LOGGER.info("set KnowledgeManager");
     this.knowledge = knowledge;
-    LOGGER.info("KnowledgeManager set");
+  }
+
+  @Override
+  public IPolicy getElementPolicy() {
+    return this.policy;
   }
 
 }

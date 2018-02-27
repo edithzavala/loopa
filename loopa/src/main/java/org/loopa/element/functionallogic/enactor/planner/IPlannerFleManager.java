@@ -13,12 +13,10 @@
  * 
  * Contributors: Edith Zavala
  ******************************************************************************/
-package org.loopa.monitor.sensor;
+package org.loopa.element.functionallogic.enactor.planner;
 
-import org.loopa.comm.message.IMessage;
+import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-public interface ISensor {
-
-  void processSensorData(IMessage m);
+public interface IPlannerFleManager extends IFunctionalLogicEnactorManager {
 
 }

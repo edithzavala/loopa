@@ -17,10 +17,16 @@ package org.loopa.generic.element.component;
 
 import java.util.List;
 import org.loopa.comm.message.IMessage;
+import org.loopa.generic.element.ILoopAElement;
 import org.loopa.policy.manager.IPolicyManager;
 import org.loopa.recipient.IRecipient;
 
 public interface ILoopAElementComponent {
+  /** Element **/
+
+  ILoopAElement getElement();
+
+  void setElement(ILoopAElement eId);
 
   /** Component **/
 
@@ -48,7 +54,7 @@ public interface ILoopAElementComponent {
   List<IRecipient> getComponentRecipients();
 
   // Get recipient with id==is
-  IRecipient getComponentRecipients(String id);
+  IRecipient getComponentRecipient(String id);
 
   // Remove component recipient with id==id
   void removeRecipient(String id);

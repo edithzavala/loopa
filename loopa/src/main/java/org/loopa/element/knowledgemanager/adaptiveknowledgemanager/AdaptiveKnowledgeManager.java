@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.loopa.element.knowledgemanager.adaptiveknowledgemanager;
 
-import java.util.Map;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.generic.element.component.ILoopAElementComponent;
@@ -30,13 +29,8 @@ public class AdaptiveKnowledgeManager extends AAdaptiveKnowledgeManager {
   }
 
   protected IMessage processAdaptationMessage(IMessage m) {
-    return new Message(this.getComponent().getComponentId(),
-        getRecipientFromPolicy(m.getMessageBody()), getCodeFromPolicy(m.getMessageCode()),
-        m.getMessageType(), m.getMessageBody());
-  }
-
-  protected String getRecipientFromPolicy(Map<String, String> messageContent) {
-    return this.getPolicyVariables().get(messageContent.get("policyOwner"));
+    return new Message(this.getComponent().getComponentId(), m.getMessageBody().get("policyOwner"),
+        getCodeFromPolicy(m.getMessageCode()), m.getMessageType(), m.getMessageBody());
   }
 
   protected int getCodeFromPolicy(int messageCode) {
@@ -44,10 +38,8 @@ public class AdaptiveKnowledgeManager extends AAdaptiveKnowledgeManager {
   }
 
   protected void sendMessage(IMessage m) {
-    ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent()
-        .getComponentRecipients(m.getMessageTo()).getRecipient();
-    r.adapt(m);
-
+    ((ILoopAElementComponent) this.getComponent().getComponentRecipient(m.getMessageTo())
+        .getRecipient()).adapt(m);
   }
 
 }

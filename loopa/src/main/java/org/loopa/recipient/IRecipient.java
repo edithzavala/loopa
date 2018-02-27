@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface IRecipient {
 
-  public String getrecipientId();
+  String getrecipientId();
 
-  public Object getRecipient();
+  Object getRecipient();
 
-  public List<String> getTypeOfData();
+  List<String> getTypeOfData();
 
 }

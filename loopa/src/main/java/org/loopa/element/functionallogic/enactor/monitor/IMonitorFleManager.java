@@ -19,6 +19,6 @@ package org.loopa.element.functionallogic.enactor.monitor;
 
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-public interface IMonitorManager extends IFunctionalLogicEnactorManager{
+public interface IMonitorFleManager extends IFunctionalLogicEnactorManager{
 
 }

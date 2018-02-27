@@ -15,10 +15,9 @@
  * 
  * Contributors: Edith Zavala
  ******************************************************************************/
-package org.loopa.element.functionallogic.enactor.planner;
+package org.loopa.element.functionallogic.enactor.analyzer;
 
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-public interface IPlannerManager extends IFunctionalLogicEnactorManager {
-
+public interface IAnalyzerFleManager extends IFunctionalLogicEnactorManager {
 }

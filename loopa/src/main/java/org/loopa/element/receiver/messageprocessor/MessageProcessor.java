@@ -41,9 +41,8 @@ public class MessageProcessor extends AMessageProcessor {
   }
 
   protected void sendMessage(IMessage m) {
-    ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent()
-        .getComponentRecipients(m.getMessageTo()).getRecipient();
-    r.doOperation(m);
+    ((ILoopAElementComponent) this.getComponent().getComponentRecipient(m.getMessageTo())
+        .getRecipient()).doOperation(m);
 
   }
 

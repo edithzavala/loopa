@@ -40,7 +40,7 @@ import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.executer.ExecuterFunctionalLogicEnactor;
-import org.loopa.element.functionallogic.enactor.executer.IExecuterManager;
+import org.loopa.element.functionallogic.enactor.executer.IExecuterFleManager;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.executer.Executer;
 import org.loopa.executer.IExecuter;
@@ -101,7 +101,7 @@ public class ExecuterTest {
       }
     });
 
-    IExecuterManager em = new IExecuterManager() {
+    IExecuterFleManager em = new IExecuterFleManager() {
       private Map<String, String> config = new HashMap<String, String>();
       private ILoopAElementComponent component;
 
@@ -134,7 +134,7 @@ public class ExecuterTest {
             new Message(this.getComponent().getComponentId(), config.get("4"), 4, "request", body);
 
         ILoopAElementComponent r = ((ILoopAElementComponent) this.getComponent()
-            .getComponentRecipients(messageToME.getMessageTo()).getRecipient());
+            .getComponentRecipient(messageToME.getMessageTo()).getRecipient());
         r.doOperation(messageToME);
 
       }

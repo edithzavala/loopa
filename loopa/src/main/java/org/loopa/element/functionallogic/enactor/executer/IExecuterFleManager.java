@@ -15,10 +15,10 @@
  * 
  * Contributors: Edith Zavala
  ******************************************************************************/
-package org.loopa.element.functionallogic.enactor.knowledgebase;
+package org.loopa.element.functionallogic.enactor.executer;
 
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactorManager;
 
-public interface IKnowledgeBaseManager extends IFunctionalLogicEnactorManager {
+public interface IExecuterFleManager extends IFunctionalLogicEnactorManager {
 
 }

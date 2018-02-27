@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
-import org.loopa.element.functionallogic.enactor.monitor.IMonitorManager;
+import org.loopa.element.functionallogic.enactor.monitor.IMonitorFleManager;
 import org.loopa.element.functionallogic.enactor.monitor.MonitorFunctionalLogicEnactor;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.generic.element.component.ILoopAElementComponent;
@@ -87,7 +87,7 @@ public class MonitorTest {
       }
     });
 
-    IMonitorManager mm = new IMonitorManager() {
+    IMonitorFleManager mm = new IMonitorFleManager() {
       /** Example of how methods can be override for the MonitorManager to work */
       private Map<String, String> config = new HashMap<String, String>();
       private ILoopAElementComponent component;
@@ -134,7 +134,7 @@ public class MonitorTest {
         // ----
         // Send Message
         ILoopAElementComponent r = ((ILoopAElementComponent) this.getComponent()
-            .getComponentRecipients(mRequestMonData.getMessageTo()).getRecipient());
+            .getComponentRecipient(mRequestMonData.getMessageTo()).getRecipient());
         r.doOperation(mRequestMonData);
         /***************************************/
 

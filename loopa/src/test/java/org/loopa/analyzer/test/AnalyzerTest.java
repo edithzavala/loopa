@@ -27,7 +27,7 @@ import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.analyzer.AnalyzerFunctionalLogicEnactor;
-import org.loopa.element.functionallogic.enactor.analyzer.IAnalyzerManager;
+import org.loopa.element.functionallogic.enactor.analyzer.IAnalyzerFleManager;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 import org.loopa.policy.IPolicy;
@@ -88,7 +88,7 @@ public class AnalyzerTest {
       }
     });
 
-    IAnalyzerManager am = new IAnalyzerManager() {
+    IAnalyzerFleManager am = new IAnalyzerFleManager() {
       private Map<String, String> config = new HashMap<String, String>();
       private ILoopAElementComponent component;
 
@@ -121,7 +121,7 @@ public class AnalyzerTest {
             new Message(this.getComponent().getComponentId(), config.get("4"), 4, "request", body);
 
         ILoopAElementComponent r = ((ILoopAElementComponent) this.getComponent()
-            .getComponentRecipients(messageToPlanner.getMessageTo()).getRecipient());
+            .getComponentRecipient(messageToPlanner.getMessageTo()).getRecipient());
         r.doOperation(messageToPlanner);
 
       }

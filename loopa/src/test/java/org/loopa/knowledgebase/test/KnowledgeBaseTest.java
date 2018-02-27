@@ -39,7 +39,7 @@ import org.junit.Test;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
-import org.loopa.element.functionallogic.enactor.knowledgebase.IKnowledgeBaseManager;
+import org.loopa.element.functionallogic.enactor.knowledgebase.IKnowledgeBaseFleManager;
 import org.loopa.element.functionallogic.enactor.knowledgebase.KnowledgeBaseFuncionalLogicEnactor;
 import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.generic.element.component.ILoopAElementComponent;
@@ -101,7 +101,7 @@ public class KnowledgeBaseTest {
       }
     });
 
-    IKnowledgeBaseManager kbm = new IKnowledgeBaseManager() {
+    IKnowledgeBaseFleManager kbm = new IKnowledgeBaseFleManager() {
       private Map<String, String> config = new HashMap<String, String>();
       private ILoopAElementComponent component;
 
@@ -134,7 +134,7 @@ public class KnowledgeBaseTest {
             new Message(this.getComponent().getComponentId(), config.get("4"), 4, "request", body);
 
         ILoopAElementComponent r = ((ILoopAElementComponent) this.getComponent()
-            .getComponentRecipients(messageToAnalyzer.getMessageTo()).getRecipient());
+            .getComponentRecipient(messageToAnalyzer.getMessageTo()).getRecipient());
         r.doOperation(messageToAnalyzer);
 
       }
