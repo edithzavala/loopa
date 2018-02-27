@@ -1,6 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2018 Universitat Politécnica de Catalunya (UPC)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * Contributors: Edith Zavala
+ ******************************************************************************/
 package org.loopa.analyzer.test;
 
 import static org.junit.Assert.assertNotNull;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -13,10 +29,10 @@ import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.analyzer.AnalyzerFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.analyzer.IAnalyzerManager;
 import org.loopa.element.sender.messagesender.IMessageSender;
-import org.loopa.element.sender.messagesender.MessageSender;
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.Policy;
 import org.loopa.generic.element.component.ILoopAElementComponent;
+import org.loopa.policy.IPolicy;
+import org.loopa.policy.Policy;
+import org.loopa.recipient.Recipient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +47,34 @@ public class AnalyzerTest {
   public void initializeComponents() {
     logger = LoggerFactory.getLogger(AnalyzerTest.class);
 
-    this.sMS = new MessageSender();
+    this.sMS = new IMessageSender() {
+
+      @Override
+      public void processMessage(IMessage t) {
+        // TODO Auto-generated method stub
+
+      }
+
+      @Override
+      public void setComponent(ILoopAElementComponent c) {
+        // TODO Auto-generated method stub
+
+      }
+
+      @Override
+      public ILoopAElementComponent getComponent() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+
+      @Override
+      public void listen(IPolicy p) {
+        // TODO Auto-generated method stub
+
+      }
+
+    };
+
     this.ap = new Policy("AnalyzerTest", new HashMap<String, String>() {
       {
         /**
@@ -77,8 +120,8 @@ public class AnalyzerTest {
         IMessage messageToPlanner =
             new Message(this.getComponent().getComponentId(), config.get("4"), 4, "request", body);
 
-        ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent()
-            .getComponentRecipients().get(messageToPlanner.getMessageTo());
+        ILoopAElementComponent r = ((ILoopAElementComponent) this.getComponent()
+            .getComponentRecipients(messageToPlanner.getMessageTo()).getRecipient());
         r.doOperation(messageToPlanner);
 
       }
@@ -100,7 +143,8 @@ public class AnalyzerTest {
     IAnalyzer a = new Analyzer("AnalyzerTest", ap, flE, sMS);
     a.start();
 
-    a.addElementRecipient("plannerData", "planner", new HashMap<String, String>());
+    a.addElementRecipient(
+        new Recipient("planner", Arrays.asList("plannerData"), new HashMap<String, String>()));
 
     int code = 1;
     Map<String, String> body = new HashMap<String, String>();

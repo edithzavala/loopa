@@ -1,6 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2018 Universitat Politécnica de Catalunya (UPC)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * Contributors: Edith Zavala
+ ******************************************************************************/
 package org.loopa.monitor.test;
 
 import static org.junit.Assert.assertNotNull;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -11,12 +27,12 @@ import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.monitor.IMonitorManager;
 import org.loopa.element.functionallogic.enactor.monitor.MonitorFunctionalLogicEnactor;
 import org.loopa.element.sender.messagesender.IMessageSender;
-import org.loopa.element.sender.messagesender.MessageSender;
-import org.loopa.generic.documents.IPolicy;
-import org.loopa.generic.documents.Policy;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 import org.loopa.monitor.IMonitor;
 import org.loopa.monitor.Monitor;
+import org.loopa.policy.IPolicy;
+import org.loopa.policy.Policy;
+import org.loopa.recipient.Recipient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +47,33 @@ public class MonitorTest {
   public void initializeComponents() {
     logger = LoggerFactory.getLogger(MonitorTest.class);
 
-    this.sMS = new MessageSender();
+    this.sMS = new IMessageSender() {
+
+      @Override
+      public void processMessage(IMessage t) {
+        // TODO Auto-generated method stub
+
+      }
+
+      @Override
+      public void setComponent(ILoopAElementComponent c) {
+        // TODO Auto-generated method stub
+
+      }
+
+      @Override
+      public ILoopAElementComponent getComponent() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+
+      @Override
+      public void listen(IPolicy p) {
+        // TODO Auto-generated method stub
+
+      }
+
+    };
     this.mp = new Policy("MonitorTest", new HashMap<String, String>() {
       {
         /**
@@ -39,7 +81,7 @@ public class MonitorTest {
          */
         put("mssgInFl", "1");
         put("mssgInAl", "2");
-        put("mssgAdapt", "3");
+        put("mssgAdapt", "3"); // KM to other components
         put("mssgOutFl", "4");
         put("mssgOutAl", "5");
       }
@@ -91,8 +133,8 @@ public class MonitorTest {
             new Message(this.getComponent().getComponentId(), config.get("4"), 4, "request", body);
         // ----
         // Send Message
-        ILoopAElementComponent r = (ILoopAElementComponent) this.getComponent()
-            .getComponentRecipients().get(mRequestMonData.getMessageTo());
+        ILoopAElementComponent r = ((ILoopAElementComponent) this.getComponent()
+            .getComponentRecipients(mRequestMonData.getMessageTo()).getRecipient());
         r.doOperation(mRequestMonData);
         /***************************************/
 
@@ -120,7 +162,8 @@ public class MonitorTest {
     /*
      * Add recipient to the Monitor (id, object) - the HashMap is exemplifying an object
      */
-    m.addElementRecipient("monData", "monitor1", new HashMap<String, String>());
+    m.addElementRecipient(
+        new Recipient("monitor1", Arrays.asList("monData"), new HashMap<String, String>()));
     /**/
 
     /* Create some of the Message elements */
