@@ -1,6 +1,10 @@
 package org.loopa.examples;
 
+import java.util.Map;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageCode;
+import org.loopa.comm.message.Message;
+import org.loopa.comm.message.MessageType;
 import org.loopa.monitor.IMonitor;
 import org.loopa.monitor.sensor.ISensor;
 import org.slf4j.Logger;
@@ -18,9 +22,13 @@ public class Sensor implements ISensor {
   }
 
   @Override
-  public void processSensorData(IMessage m) {
+  public void processSensorData(String senderID, Map<String, String> sensorData) {
     LOGGER.info("Send data to LoopA");
-    this.m.getReceiver().doOperation(m);
+    IMessage mssg = new Message(senderID, m.getElementId(),
+        Integer.parseInt(m.getElementPolicy().getPolicyContent()
+            .get(LoopAElementMessageCode.MSSGINFL.toString())),
+        MessageType.RESPONSE.toString(), sensorData);
+    this.m.getReceiver().doOperation(mssg);
   }
 
 }

@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.loopa.comm.message.AMMessageBodyType;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.element.adaptationlogic.AdaptationLogic;
 import org.loopa.element.adaptationlogic.IAdaptationLogic;
 import org.loopa.element.adaptationlogic.enactor.AdaptationLogicEnactor;
@@ -67,7 +69,7 @@ public abstract class ALoopElement implements ILoopAElement {
   private ISender sender;
   private IKnowledgeManager knowledge;
 
-  private Map<String, Recipient> recipients;
+  private Map<String, IRecipient> recipients;
   private IPolicy policy;
 
   /* Simplified constructor */
@@ -92,7 +94,7 @@ public abstract class ALoopElement implements ILoopAElement {
     this.messageComposer = new MessageComposer("messageComposer", mcDF, mcMC);
     this.knowledge = new KnowledgeManager("knowledge", kAKM);
 
-    this.recipients = new HashMap<String, Recipient>();
+    this.recipients = new HashMap<>();
   }
 
   /* Verbose constructor */
@@ -106,14 +108,14 @@ public abstract class ALoopElement implements ILoopAElement {
     this.policy = elementPolicy;
 
     this.receiver = receiver;
+    this.sender = sender;
     this.logicSelector = logicSelector;
     this.functionalLogic = functionalLogic;
     this.adaptationLogic = adaptationLogic;
     this.messageComposer = messageComposer;
-    this.sender = sender;
     this.knowledge = knowledge;
 
-    this.recipients = new HashMap<String, Recipient>();
+    this.recipients = new HashMap<>();
   }
 
   @Override
@@ -128,11 +130,16 @@ public abstract class ALoopElement implements ILoopAElement {
     this.messageComposer.setElement(this);
     this.knowledge.setElement(this);
 
-    String mssgInFl = this.policy.getPolicyContent().get("mssgInFl");
-    String mssgOutFl = this.policy.getPolicyContent().get("mssgOutFl");
-    String mssgInAl = this.policy.getPolicyContent().get("mssgInAl");
-    String mssgOutAl = this.policy.getPolicyContent().get("mssgOutAl");
-    String mssgAdapt = this.policy.getPolicyContent().get("mssgAdapt");
+    String mssgInFl =
+        this.policy.getPolicyContent().get(LoopAElementMessageCode.MSSGINFL.toString());
+    String mssgOutFl =
+        this.policy.getPolicyContent().get(LoopAElementMessageCode.MSSGOUTFL.toString());
+    String mssgInAl =
+        this.policy.getPolicyContent().get(LoopAElementMessageCode.MSSGINAL.toString());
+    String mssgOutAl =
+        this.policy.getPolicyContent().get(LoopAElementMessageCode.MSSGOUTAL.toString());
+    String mssgAdapt =
+        this.policy.getPolicyContent().get(LoopAElementMessageCode.MSSGADAPT.toString());
 
     this.getReceiver().addRecipient(new Recipient(this.getLogicSelector().getComponentId(),
         Arrays.asList(mssgInFl, mssgInAl), this.getLogicSelector()));
@@ -183,8 +190,8 @@ public abstract class ALoopElement implements ILoopAElement {
   public void setElementRecipients(List<IRecipient> recipients) {
     LOGGER.info("set recipients");
     // Set recipients
-    this.recipients = recipients.stream().collect(Collectors
-        .toMap(recipient -> recipient.getrecipientId(), recipient -> (Recipient) recipient));
+    this.recipients = recipients.stream()
+        .collect(Collectors.toMap(recipient -> recipient.getrecipientId(), recipient -> recipient));
 
     List<IRecipient> recipientsModified = new ArrayList<IRecipient>();
     this.recipients.forEach((rId, recipient) -> {
@@ -198,16 +205,19 @@ public abstract class ALoopElement implements ILoopAElement {
   public void addElementRecipient(IRecipient r) {
     LOGGER.info("add recipient");
     // Set recipient
-    this.recipients.put(r.getrecipientId(), (Recipient) r);
+    this.recipients.put(r.getrecipientId(), r);
     this.sender.addRecipient(modifySenderRecipientDataType(r));
     this.messageComposer.addMEToPolicies(r.getrecipientId(), r.getTypeOfData());
   }
 
   private IRecipient modifySenderRecipientDataType(IRecipient r) {
-    List<String> dataTypeMidified = new ArrayList<String>();
-    ((Recipient) r).getTypeOfData()
-        .forEach(dataType -> dataTypeMidified.add(dataType + "_" + r.getrecipientId()));
-    return new Recipient(r.getrecipientId(), dataTypeMidified, r.getRecipient());
+    List<String> dataTypeModified = new ArrayList<String>();
+    r.getTypeOfData().forEach(dataType -> {
+      if (Arrays.asList(AMMessageBodyType.values()).toString().contains(dataType)) {
+        dataTypeModified.add(dataType + "_" + r.getrecipientId());
+      }
+    });
+    return new Recipient(r.getrecipientId(), dataTypeModified, r.getRecipient());
   }
 
   @Override

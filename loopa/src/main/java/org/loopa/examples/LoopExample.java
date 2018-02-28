@@ -17,18 +17,17 @@ package org.loopa.examples;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import org.loopa.analyzer.Analyzer;
 import org.loopa.analyzer.IAnalyzer;
-import org.loopa.comm.message.IMessage;
-import org.loopa.comm.message.Message;
-import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
+import org.loopa.autonomicmanager.AMElementAdpaptationType;
+import org.loopa.autonomicmanager.SimpleAutonomicManager;
+import org.loopa.comm.message.AMMessageBodyType;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.element.functionallogic.enactor.analyzer.AnalyzerFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.executer.ExecuterFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.knowledgebase.KnowledgeBaseFuncionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.monitor.MonitorFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.planner.PlannerFunctionalLogicEnactor;
-import org.loopa.element.sender.messagesender.IMessageSender;
 import org.loopa.executer.Executer;
 import org.loopa.executer.IExecuter;
 import org.loopa.knowledgebase.IKnowledgeBase;
@@ -41,66 +40,65 @@ import org.loopa.planner.Planner;
 import org.loopa.policy.IPolicy;
 import org.loopa.policy.Policy;
 import org.loopa.recipient.Recipient;
-import org.loopa.simpleautonomicmanager.SimpleAutonomicManager;
 
 public class LoopExample {
 
   public static void main(String[] args) {
-    IMessageSender monitorMS = new ExampleMessageSender();
-    IMessageSender analyzerMS = new ExampleMessageSender();
-    IMessageSender plannerMS = new ExampleMessageSender();
-    IMessageSender executerMS = new ExampleExecuterMessageSender();
-    IMessageSender kbMS = new ExampleMessageSender();
 
-    IFunctionalLogicEnactor monitorFle = new MonitorFunctionalLogicEnactor(new MonitorFleManager());
-    IFunctionalLogicEnactor analyzerFle =
-        new AnalyzerFunctionalLogicEnactor(new AnalyzerFleManager());
-    IFunctionalLogicEnactor plannerFle = new PlannerFunctionalLogicEnactor(new PlannerFleManager());
-    IFunctionalLogicEnactor executerFle =
-        new ExecuterFunctionalLogicEnactor(new ExecuterFleManager());
-    IFunctionalLogicEnactor kbFle =
-        new KnowledgeBaseFuncionalLogicEnactor(new KnowledgeBaseFleManager());
-
+    /** Configuration **/
     IPolicy loopaElementsMessMngmtPolicy =
         new Policy("loopaElements", new HashMap<String, String>() {
           {
-            /**
-             * mssgInFl:1 mssgInAl:2 mssgAdapt:3 mssgOutFl:4 mssgOutAl:5
-             */
-            put("mssgInFl", "1");
-            put("mssgInAl", "2");
-            put("mssgAdapt", "3");
-            put("mssgOutFl", "4");
-            put("mssgOutAl", "5");
+            // TODO get codes from a config file
+            put(LoopAElementMessageCode.MSSGINFL.toString(), "1");
+            put(LoopAElementMessageCode.MSSGINAL.toString(), "2");
+            put(LoopAElementMessageCode.MSSGADAPT.toString(), "3");
+            put(LoopAElementMessageCode.MSSGOUTFL.toString(), "4");
+            put(LoopAElementMessageCode.MSSGOUTAL.toString(), "5");
           }
         });
 
-    IMonitor m = new Monitor("Monitor", loopaElementsMessMngmtPolicy, monitorFle, monitorMS);
-    IAnalyzer a = new Analyzer("Analyzer", loopaElementsMessMngmtPolicy, analyzerFle, analyzerMS);
-    IPlanner p = new Planner("Planner", loopaElementsMessMngmtPolicy, plannerFle, plannerMS);
-    IExecuter e = new Executer("Executer", loopaElementsMessMngmtPolicy, executerFle, executerMS);
-    IKnowledgeBase kb = new KnowledgeBase("Kb", loopaElementsMessMngmtPolicy, kbFle, kbMS);
+    // TODO get ids from a config file
+    IMonitor m = new Monitor("Monitor", loopaElementsMessMngmtPolicy,
+        new MonitorFunctionalLogicEnactor(new MonitorFleManager()), new ExampleMessageSender());
+    IAnalyzer a = new Analyzer("Analyzer", loopaElementsMessMngmtPolicy,
+        new AnalyzerFunctionalLogicEnactor(new AnalyzerFleManager()), new ExampleMessageSender());
+    IPlanner p = new Planner("Planner", loopaElementsMessMngmtPolicy,
+        new PlannerFunctionalLogicEnactor(new PlannerFleManager()), new ExampleMessageSender());
+    IExecuter e = new Executer("Executer", loopaElementsMessMngmtPolicy,
+        new ExecuterFunctionalLogicEnactor(new ExecuterFleManager()),
+        new ExampleExecuterMessageSender());
+    IKnowledgeBase kb = new KnowledgeBase("Kb", loopaElementsMessMngmtPolicy,
+        new KnowledgeBaseFuncionalLogicEnactor(new KnowledgeBaseFleManager()),
+        new ExampleMessageSender());
 
-    SimpleAutonomicManager loopa = new SimpleAutonomicManager(m, a, p, e, kb);
+    IPolicy amPolicy = new Policy("autonomicManagerPolicy", new HashMap<String, String>() {
+      {
+        put(m.getElementId(), AMMessageBodyType.MONITOR.toString());
+        put(a.getElementId(), AMMessageBodyType.ANALYZE.toString());
+        put(p.getElementId(), AMMessageBodyType.PLAN.toString());
+        put(e.getElementId(), AMMessageBodyType.EXECUTE.toString());
+        put(kb.getElementId(), AMMessageBodyType.KB.toString());
+      }
+    });
+
+
+    /** Usage **/
+    SimpleAutonomicManager loopa =
+        new SimpleAutonomicManager("autonomicManager", amPolicy, m, a, p, e, kb);
     loopa.start();
 
-    loopa.addME(new Policy("loopa", new HashMap<>()),
-        new Recipient("effector", Arrays.asList("adaptation"), new Effector()));
+    // TODO Add other type of data for supporting an extended formatter
+    loopa.addME(new Policy("loopa", new HashMap<>()), new Recipient("effector",
+        Arrays.asList(AMMessageBodyType.ADAPTATION.toString()), new Effector()));
 
+    // Example of sending a message with sensor data to the loop
     ISensor s = new Sensor(loopa.getMonitor());
+    s.processSensorData("me1", new HashMap<String, String>());
 
-    IMessage mssg = new Message("me1", loopa.getMonitor().getElementId(), 1, "response",
-        new HashMap<String, String>());
-
-    s.processSensorData(mssg);
-
-    Map<String, String> messageContent = new HashMap<String, String>();
-    messageContent.put("policyOwner", loopa.getMonitor().getReceiver().getComponentId());
-    messageContent.put("policyContent", "var1:value1");
-    IMessage mssgAdapt =
-        new Message("ksam", loopa.getMonitor().getElementId(), 2, "request", messageContent);
-
-    loopa.getMonitor().getReceiver().doOperation(mssgAdapt);
+    // Example of sending a message with policy adaptation to the loop
+    loopa.AdaptLoopElement("ksam", loopa.getMonitor().getElementId(),
+        AMElementAdpaptationType.RECEIVER, "var1:value1,var2:value2,var3");
   }
 
 }

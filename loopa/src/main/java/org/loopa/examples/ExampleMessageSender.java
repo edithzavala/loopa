@@ -17,6 +17,7 @@ package org.loopa.examples;
 
 import java.util.Map;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
 import org.loopa.element.sender.messagesender.AMessageSender;
 import org.loopa.generic.element.ILoopAElement;
@@ -32,7 +33,10 @@ public class ExampleMessageSender extends AMessageSender {
 
   protected IMessage process(IMessage m) {
     return new Message(this.getComponent().getComponentId(),
-        getRecipientFromPolicy(m.getMessageBody()), 1, m.getMessageType(), m.getMessageBody());
+        getRecipientFromPolicy(m.getMessageBody()),
+        Integer.parseInt(this.getComponent().getElement().getElementPolicy().getPolicyContent()
+            .get(LoopAElementMessageCode.MSSGINFL.toString())),
+        m.getMessageType(), m.getMessageBody());
   }
 
   protected String getRecipientFromPolicy(Map<String, String> messageBody) {

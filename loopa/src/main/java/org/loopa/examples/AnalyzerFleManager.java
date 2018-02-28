@@ -1,9 +1,12 @@
 package org.loopa.examples;
 
-import java.util.HashMap;
 import java.util.Map;
+import org.loopa.comm.message.AMMessageBodyType;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageBody;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
+import org.loopa.comm.message.MessageType;
 import org.loopa.element.functionallogic.enactor.analyzer.IAnalyzerFleManager;
 import org.loopa.generic.element.component.ILoopAElementComponent;
 import org.loopa.policy.IPolicy;
@@ -34,14 +37,16 @@ public class AnalyzerFleManager implements IAnalyzerFleManager {
 
   private void sendAnalysisDataToPlan() {
     LOGGER.info("Send message to plan");
-    String code =
-        this.getComponent().getElement().getElementPolicy().getPolicyContent().get("mssgOutFl");
-    Map<String, String> messageContent = new HashMap<String, String>();
-    messageContent.put("type", "plan");
-    messageContent.put("ImportantEventId", "1");
-    IMessage mssg =
-        new Message(this.owner.getComponentId(), this.managerPolicy.getPolicyContent().get(code),
-            Integer.parseInt(code), "request", messageContent);
+    String code = this.getComponent().getElement().getElementPolicy().getPolicyContent()
+        .get(LoopAElementMessageCode.MSSGOUTFL.toString());
+
+    LoopAElementMessageBody messageContent =
+        new LoopAElementMessageBody(AMMessageBodyType.PLAN.toString(), "ImportantEventId:1");
+
+    IMessage mssg = new Message(this.owner.getComponentId(),
+        this.managerPolicy.getPolicyContent().get(code), Integer.parseInt(code),
+        MessageType.REQUEST.toString(), messageContent.getMessageBody());
+
     ((ILoopAElementComponent) this.owner.getComponentRecipient(mssg.getMessageTo()).getRecipient())
         .doOperation(mssg);
   }

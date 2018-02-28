@@ -15,10 +15,10 @@
  ******************************************************************************/
 package org.loopa.monitor.sensor;
 
-import org.loopa.comm.message.IMessage;
+import java.util.Map;
 
 public interface ISensor {
 
-  void processSensorData(IMessage m);
+  void processSensorData(String senderID, Map<String, String> sensorData);
 
 }

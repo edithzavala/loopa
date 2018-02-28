@@ -31,6 +31,8 @@ public class DataFormatter extends ADataFormatter {
     if (recipients != null) {
       Arrays.stream(recipients.split(":")).forEach(r -> {
         Map<String, String> formattedMessageBody = formatMessageContent(t.getMessageBody(), r);
+        // change messageBody type for indicating a unique recipient
+        formattedMessageBody.put("type", (formattedMessageBody.get("type")).concat("_").concat(r));
         createMeassage(new Message(t.getMessageFrom(), t.getMessageTo(), t.getMessageCode(),
             t.getMessageType(), formattedMessageBody));
       });
@@ -39,8 +41,6 @@ public class DataFormatter extends ADataFormatter {
 
   protected Map<String, String> formatMessageContent(Map<String, String> m, String r) {
     /** check format required in policy if exist and format message */
-    // change messageBody type for indicating a unique recipient
-    m.put("type", (m.get("type")).concat("_").concat(r));
     return m;
   }
 

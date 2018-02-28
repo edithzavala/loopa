@@ -11,6 +11,7 @@ public class Effector implements IEffector {
   @Override
   public void effect(IMessage m) {
     LOGGER.info("Adaptation received to effect");
+    // TODO Enact adaptation in the corresponding ME
   }
 
 }

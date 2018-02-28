@@ -27,7 +27,6 @@ import org.loopa.policy.Policy;
 import org.loopa.policy.manager.IPolicyManager;
 import org.loopa.policy.manager.PolicyManager;
 import org.loopa.recipient.IRecipient;
-import org.loopa.recipient.Recipient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.reactivex.subjects.PublishSubject;
@@ -41,7 +40,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   private IPolicyManager policyManager;
   private PublishSubject<IMessage> adaptMssgQueue;
   private PublishSubject<IMessage> opeMssgQueue;
-  private Map<String, Recipient> recipients;
+  private Map<String, IRecipient> recipients;
 
   /* Simplified constructor */
   protected ALoopAElementComponent(String id, IMessageManager imm) {
@@ -55,7 +54,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
     this.opeMssgQueue = PublishSubject.create();
     this.adaptMssgQueue = PublishSubject.create();
 
-    this.recipients = new HashMap<String, Recipient>();
+    this.recipients = new HashMap<>();
   }
 
   /* Verbose constructor */
@@ -68,7 +67,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
     this.messageManager = imm;
     this.opeMssgQueue = PublishSubject.create();
     this.adaptMssgQueue = PublishSubject.create();
-    this.recipients = new HashMap<String, Recipient>();
+    this.recipients = new HashMap<>();
   }
 
   @Override
@@ -102,8 +101,8 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   @Override
   public void setComponentRecipients(List<IRecipient> recipients) {
     LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set recipients");
-    this.recipients = recipients.stream().collect(Collectors.toMap(
-        recipient -> ((Recipient) recipient).getrecipientId(), recipient -> (Recipient) recipient));
+    this.recipients = recipients.stream()
+        .collect(Collectors.toMap(recipient -> recipient.getrecipientId(), recipient -> recipient));
     this.recipients.forEach((rId, recipient) -> addRecipientToPolicy(recipient));
   }
 
@@ -111,7 +110,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   @Override
   public void addRecipient(IRecipient r) {
     LOGGER.info(this.getElement().getElementId() + " " + this.id + " | add recipient");
-    this.recipients.put(r.getrecipientId(), (Recipient) r);
+    this.recipients.put(r.getrecipientId(), r);
     addRecipientToPolicy(r);
   }
 

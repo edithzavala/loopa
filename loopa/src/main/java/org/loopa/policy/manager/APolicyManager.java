@@ -35,13 +35,15 @@ public abstract class APolicyManager implements IPolicyManager {
 
   @Override
   public void processPolicy(IMessage m) {
-    // Convert policyContent string into Map
-    // @author code extracted from
-    // https://stackoverflow.com/questions/41483398/split-string-and-store-it-into-hashmap-java-8
-
+    /**
+     * Convert policyContent string into Map @author code extracted from
+     * https://stackoverflow.com/questions/41483398/split-string-and-store-it-into-hashmap-java-8
+     */
+    // policy var:value separated by commas
+    // var:value separated by colon
     Map<String, String> content = Pattern.compile("\\s,\\s")
         .splitAsStream((m.getMessageBody().get("policyContent"))).map(s -> s.split(":", 2))
-        .collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? a[1] : ""));
+        .collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? a[1] : null));
 
     IPolicy p = new Policy(m.getMessageBody().get("policyOwner"), content);
     this.activePolicy.update(p);
