@@ -8,7 +8,7 @@ import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
 import org.loopa.comm.message.MessageType;
-import org.loopa.comm.message.PolicyAdaptationMessageBody;
+import org.loopa.comm.message.PolicyConfigMessageBody;
 import org.loopa.executer.IExecuter;
 import org.loopa.generic.element.ILoopAElement;
 import org.loopa.generic.element.component.ILoopAElementComponent;
@@ -89,12 +89,23 @@ public class SimpleAutonomicManager implements IAutonomicManager {
   }
 
   @Override
-  public void addME(IPolicy loopOpePolicy, IRecipient effector) {
+  public void addME(String loopOpePolicyContent, IRecipient effector) {
     this.e.addElementRecipient(effector);
-    /**
-     * Process elements' functional logic policies and send corresponding adapt() message to loop
-     * elements
-     **/
+    sentPoliciesOfNewME(loopOpePolicyContent, this.m);
+    sentPoliciesOfNewME(loopOpePolicyContent, this.a);
+    sentPoliciesOfNewME(loopOpePolicyContent, this.p);
+    sentPoliciesOfNewME(loopOpePolicyContent, this.e);
+    sentPoliciesOfNewME(loopOpePolicyContent, this.kb);;
+  }
+
+  private void sentPoliciesOfNewME(String loopOpePolicyContent, ILoopAElement element) {
+    PolicyConfigMessageBody messageContent = new PolicyConfigMessageBody(
+        element.getFunctionalLogic().getComponentId(), loopOpePolicyContent);
+    IMessage mssgAdapt = new Message(this.id, element.getFunctionalLogic().getComponentId(),
+        Integer.parseInt(element.getElementPolicy().getPolicyContent()
+            .get(LoopAElementMessageCode.MSSGINAL.toString())),
+        MessageType.REQUEST.toString(), messageContent.getMessageBody());
+    element.getReceiver().doOperation(mssgAdapt);
   }
 
   @Override
@@ -116,7 +127,7 @@ public class SimpleAutonomicManager implements IAutonomicManager {
           }
         };
 
-    PolicyAdaptationMessageBody messageContent = new PolicyAdaptationMessageBody(
+    PolicyConfigMessageBody messageContent = new PolicyConfigMessageBody(
         componentByTypeOfAdaptation.get(adaptType).getComponentId(), adaptation);
 
     IMessage mssgAdapt = new Message(adapter, elementsById.get(elementId).getElementId(),
@@ -124,7 +135,7 @@ public class SimpleAutonomicManager implements IAutonomicManager {
             .get(LoopAElementMessageCode.MSSGINAL.toString())),
         MessageType.REQUEST.toString(), messageContent.getMessageBody());
 
-    componentByTypeOfAdaptation.get(adaptType).doOperation(mssgAdapt);
+    elementsById.get(elementId).getReceiver().doOperation(mssgAdapt);
 
   }
 

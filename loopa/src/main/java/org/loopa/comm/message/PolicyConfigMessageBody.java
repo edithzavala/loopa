@@ -6,10 +6,10 @@ import java.util.Map;
 /**
  * This type of body message is intended to to be sent to elements for adapting they policies
  */
-public class PolicyAdaptationMessageBody {
+public class PolicyConfigMessageBody {
   private Map<String, String> body;
 
-  public PolicyAdaptationMessageBody(String policyOwner, String policyContent) {
+  public PolicyConfigMessageBody(String policyOwner, String policyContent) {
     super();
     this.body = new HashMap<>();
     this.body.put("policyOwner", policyOwner);

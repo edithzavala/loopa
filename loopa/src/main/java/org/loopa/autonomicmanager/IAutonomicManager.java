@@ -1,6 +1,5 @@
 package org.loopa.autonomicmanager;
 
-import org.loopa.policy.IPolicy;
 import org.loopa.recipient.IRecipient;
 
 public interface IAutonomicManager {
@@ -15,7 +14,7 @@ public interface IAutonomicManager {
   void start();
 
   // Add ME
-  void addME(IPolicy loopOpePolicy, IRecipient effector);
+  void addME(String loopOpePolicyContent, IRecipient effector);
 
   // Process an adaptation
 

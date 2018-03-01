@@ -2,8 +2,8 @@ apply plugin: 'java-library'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-sourceCompatibility = JavaVersion.java8
-targetCompatibility = JavaVersion.java8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 repositories {

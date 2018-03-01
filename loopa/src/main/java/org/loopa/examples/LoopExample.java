@@ -89,7 +89,7 @@ public class LoopExample {
     loopa.start();
 
     // TODO Add other type of data for supporting an extended formatter
-    loopa.addME(new Policy("loopa", new HashMap<>()), new Recipient("effector",
+    loopa.addME("var1:value1", new Recipient("effector",
         Arrays.asList(AMMessageBodyType.ADAPTATION.toString()), new Effector()));
 
     // Example of sending a message with sensor data to the loop
