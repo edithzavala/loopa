@@ -34,7 +34,6 @@ import org.loopa.knowledgebase.IKnowledgeBase;
 import org.loopa.knowledgebase.KnowledgeBase;
 import org.loopa.monitor.IMonitor;
 import org.loopa.monitor.Monitor;
-import org.loopa.monitor.sensor.ISensor;
 import org.loopa.planner.IPlanner;
 import org.loopa.planner.Planner;
 import org.loopa.policy.IPolicy;
@@ -88,17 +87,21 @@ public class LoopExample {
         new SimpleAutonomicManager("autonomicManager", amPolicy, m, a, p, e, kb);
     loopa.start();
 
-    // TODO Add other type of data for supporting an extended formatter
-    loopa.addME("var1:value1", new Recipient("effector",
+    // // TODO Add other type of data for supporting an extended formatter
+    loopa.addME(new HashMap<>(), new Recipient("effector",
         Arrays.asList(AMMessageBodyType.ADAPTATION.toString()), new Effector()));
-
-    // Example of sending a message with sensor data to the loop
-    ISensor s = new Sensor(loopa.getMonitor());
+    //
+    // // Example of sending a message with sensor data to the loop
+    Sensor s = new Sensor(loopa.getMonitor());
     s.processSensorData("me1", new HashMap<String, String>());
 
     // Example of sending a message with policy adaptation to the loop
     loopa.AdaptLoopElement("ksam", loopa.getMonitor().getElementId(),
-        AMElementAdpaptationType.RECEIVER, "var1:value1,var2:value2,var3");
+        AMElementAdpaptationType.RECEIVER, new HashMap<String, String>() {
+          {
+            put("key", "value");
+          }
+        });
   }
 
 }

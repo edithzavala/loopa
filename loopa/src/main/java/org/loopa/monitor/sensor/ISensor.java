@@ -15,10 +15,6 @@
  ******************************************************************************/
 package org.loopa.monitor.sensor;
 
-import java.util.Map;
-
 public interface ISensor {
-
-  void processSensorData(String senderID, Map<String, String> sensorData);
 
 }

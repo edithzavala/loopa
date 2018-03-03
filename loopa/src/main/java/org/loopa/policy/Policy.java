@@ -16,8 +16,11 @@
 package org.loopa.policy;
 
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Policy extends APolicy {
+  protected final Logger LOGGER = LoggerFactory.getLogger(getClass().getName());
 
   public Policy(String policyOwner, Map<String, String> policyContent) {
     super(policyOwner, policyContent);
@@ -32,6 +35,7 @@ public class Policy extends APolicy {
         this.getPolicyContent().remove(k);
       }
     });
+    LOGGER.info(this.getPolicyOwner() + " set to " + this.getPolicyContent());
     return this;
   }
 

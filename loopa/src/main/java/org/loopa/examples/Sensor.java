@@ -21,7 +21,7 @@ public class Sensor implements ISensor {
     this.m = m;
   }
 
-  @Override
+
   public void processSensorData(String senderID, Map<String, String> sensorData) {
     LOGGER.info("Send data to LoopA");
     IMessage mssg = new Message(senderID, m.getElementId(),

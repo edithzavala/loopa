@@ -1,5 +1,6 @@
 package org.loopa.autonomicmanager;
 
+import java.util.Map;
 import org.loopa.recipient.IRecipient;
 
 public interface IAutonomicManager {
@@ -14,10 +15,10 @@ public interface IAutonomicManager {
   void start();
 
   // Add ME
-  void addME(String loopOpePolicyContent, IRecipient effector);
+  void addME(Map<String, Map<String, String>> policyContentByElement, IRecipient effector);
 
   // Process an adaptation
 
   void AdaptLoopElement(String adapter, String elementId, AMElementAdpaptationType adaptType,
-      String adaptation);
+      Map<String, String> adaptation);
 }

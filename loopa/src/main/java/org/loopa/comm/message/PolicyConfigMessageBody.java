@@ -9,11 +9,12 @@ import java.util.Map;
 public class PolicyConfigMessageBody {
   private Map<String, String> body;
 
-  public PolicyConfigMessageBody(String policyOwner, String policyContent) {
+  public PolicyConfigMessageBody(String policyOwner, Map<String, String> policyContent) {
     super();
     this.body = new HashMap<>();
     this.body.put("policyOwner", policyOwner);
-    this.body.put("policyContent", policyContent);
+    this.body.put("policyContent",
+        policyContent.toString().substring(1, policyContent.toString().length() - 1));
   }
 
   public Map<String, String> getMessageBody() {

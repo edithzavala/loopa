@@ -89,16 +89,17 @@ public class SimpleAutonomicManager implements IAutonomicManager {
   }
 
   @Override
-  public void addME(String loopOpePolicyContent, IRecipient effector) {
+  public void addME(Map<String, Map<String, String>> policyContentByElement, IRecipient effector) {
     this.e.addElementRecipient(effector);
-    sentPoliciesOfNewME(loopOpePolicyContent, this.m);
-    sentPoliciesOfNewME(loopOpePolicyContent, this.a);
-    sentPoliciesOfNewME(loopOpePolicyContent, this.p);
-    sentPoliciesOfNewME(loopOpePolicyContent, this.e);
-    sentPoliciesOfNewME(loopOpePolicyContent, this.kb);;
+    sentPoliciesOfNewME(policyContentByElement.get("monitorConfig"), this.m);
+    sentPoliciesOfNewME(policyContentByElement.get("analyzerConfig"), this.a);
+    sentPoliciesOfNewME(policyContentByElement.get("plannerConfig"), this.p);
+    sentPoliciesOfNewME(policyContentByElement.get("executerConfig"), this.e);
+    sentPoliciesOfNewME(policyContentByElement.get("kbConfig"), this.kb);
   }
 
-  private void sentPoliciesOfNewME(String loopOpePolicyContent, ILoopAElement element) {
+  private void sentPoliciesOfNewME(Map<String, String> loopOpePolicyContent,
+      ILoopAElement element) {
     PolicyConfigMessageBody messageContent = new PolicyConfigMessageBody(
         element.getFunctionalLogic().getComponentId(), loopOpePolicyContent);
     IMessage mssgAdapt = new Message(this.id, element.getFunctionalLogic().getComponentId(),
@@ -110,7 +111,7 @@ public class SimpleAutonomicManager implements IAutonomicManager {
 
   @Override
   public void AdaptLoopElement(String adapter, String elementId, AMElementAdpaptationType adaptType,
-      String adaptation) {
+      Map<String, String> adaptation) {
     Map<AMElementAdpaptationType, ILoopAElementComponent> componentByTypeOfAdaptation =
         new HashMap<AMElementAdpaptationType, ILoopAElementComponent>() {
           {
