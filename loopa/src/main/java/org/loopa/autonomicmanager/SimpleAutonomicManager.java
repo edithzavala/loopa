@@ -89,19 +89,20 @@ public class SimpleAutonomicManager implements IAutonomicManager {
   }
 
   @Override
-  public void addME(Map<String, Map<String, String>> policyContentByElement, IRecipient effector) {
+  public void addME(String meId, IRecipient effector) {
     this.e.addElementRecipient(effector);
-    sentPoliciesOfNewME(policyContentByElement.get("monitorConfig"), this.m);
-    sentPoliciesOfNewME(policyContentByElement.get("analyzerConfig"), this.a);
-    sentPoliciesOfNewME(policyContentByElement.get("plannerConfig"), this.p);
-    sentPoliciesOfNewME(policyContentByElement.get("executerConfig"), this.e);
-    sentPoliciesOfNewME(policyContentByElement.get("kbConfig"), this.kb);
+    sentPoliciesOfNewME(meId, this.m);
+    sentPoliciesOfNewME(meId, this.a);
+    sentPoliciesOfNewME(meId, this.p);
+    sentPoliciesOfNewME(meId, this.e);
+    sentPoliciesOfNewME(meId, this.kb);
   }
 
-  private void sentPoliciesOfNewME(Map<String, String> loopOpePolicyContent,
-      ILoopAElement element) {
-    PolicyConfigMessageBody messageContent = new PolicyConfigMessageBody(
-        element.getFunctionalLogic().getComponentId(), loopOpePolicyContent);
+  private void sentPoliciesOfNewME(String meId, ILoopAElement element) {
+    Map<String, String> policyBody = new HashMap<>();
+    policyBody.put("meIds", meId);
+    PolicyConfigMessageBody messageContent =
+        new PolicyConfigMessageBody(element.getFunctionalLogic().getComponentId(), policyBody);
     IMessage mssgAdapt = new Message(this.id, element.getFunctionalLogic().getComponentId(),
         Integer.parseInt(element.getElementPolicy().getPolicyContent()
             .get(LoopAElementMessageCode.MSSGINAL.toString())),

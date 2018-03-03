@@ -15,7 +15,7 @@ public interface IAutonomicManager {
   void start();
 
   // Add ME
-  void addME(Map<String, Map<String, String>> policyContentByElement, IRecipient effector);
+  void addME(String elementId, IRecipient effector);
 
   // Process an adaptation
 
