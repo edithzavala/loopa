@@ -85,7 +85,7 @@ public class LoopExample {
     /** Usage **/
     SimpleAutonomicManager loopa =
         new SimpleAutonomicManager("autonomicManager", amPolicy, m, a, p, e, kb);
-    loopa.start();
+    loopa.construct();
 
     // // TODO Add other type of data for supporting an extended formatter
     loopa.addME("meId", new Recipient("effector",

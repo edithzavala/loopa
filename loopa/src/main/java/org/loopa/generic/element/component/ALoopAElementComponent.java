@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import org.loopa.comm.message.IMessage;
 import org.loopa.generic.element.ILoopAElement;
@@ -41,11 +43,12 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   private PublishSubject<IMessage> adaptMssgQueue;
   private PublishSubject<IMessage> opeMssgQueue;
   private Map<String, IRecipient> recipients;
+  private ExecutorService executor = Executors.newCachedThreadPool();
 
   /* Simplified constructor */
   protected ALoopAElementComponent(String id, IMessageManager imm) {
     super();
-    LOGGER.info("create component");
+    // LOGGER.info("create component");
     this.id = id;
 
     this.policyManager =
@@ -60,7 +63,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   /* Verbose constructor */
   protected ALoopAElementComponent(String id, IPolicyManager pm, IMessageManager imm) {
     super();
-    LOGGER.info("create component");
+    // LOGGER.info("create component");
     this.id = id;
 
     this.policyManager = pm;
@@ -71,12 +74,14 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   }
 
   @Override
-  public void start() {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | start component");
+  public void construct() {
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | start component");
     this.policyManager.setComponent(this);
     this.messageManager.setComponent(this);
-    this.opeMssgQueue.subscribe(mOpe -> this.messageManager.processMessage(mOpe));
-    this.adaptMssgQueue.subscribe(mAdapt -> this.policyManager.processPolicy(mAdapt));
+    this.opeMssgQueue
+        .subscribe(mOpe -> executor.execute(() -> this.messageManager.processMessage(mOpe)));
+    this.adaptMssgQueue
+        .subscribe(mAdapt -> executor.execute(() -> this.policyManager.processPolicy(mAdapt)));
     this.policyManager.getActivePolicy().addListerner(this.getMessageManager());
     this.policyManager.getActivePolicy().notifyPolicy();
   }
@@ -85,14 +90,15 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
   @Override
   public void adapt(IMessage m) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | process adaptation message");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | process adaptation
+    // message");
     adaptMssgQueue.onNext(m);
   }
 
   @Override
   public void doOperation(IMessage m) {
-    LOGGER
-        .info(this.getElement().getElementId() + " " + this.id + " | process operational message");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | process operational
+    // message");
     opeMssgQueue.onNext(m);
   }
 
@@ -100,7 +106,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
   @Override
   public void setComponentRecipients(List<IRecipient> recipients) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set recipients");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set recipients");
     this.recipients = recipients.stream()
         .collect(Collectors.toMap(recipient -> recipient.getrecipientId(), recipient -> recipient));
     this.recipients.forEach((rId, recipient) -> addRecipientToPolicy(recipient));
@@ -109,7 +115,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
   @Override
   public void addRecipient(IRecipient r) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | add recipient");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | add recipient");
     this.recipients.put(r.getrecipientId(), r);
     addRecipientToPolicy(r);
   }
@@ -138,7 +144,7 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
   @Override
   public void removeRecipient(String id) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | remove recipient");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | remove recipient");
     this.recipients.remove(id);
     /** TO-DO Remove recipient from Policies **/
   }
@@ -176,23 +182,23 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
 
   @Override
   public void setPolicyManager(IPolicyManager policyManager) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set PolicyManager");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set PolicyManager");
     this.policyManager = policyManager;
   }
 
   public void setAdaptMssgQueue(PublishSubject<IMessage> adaptMssgQueue) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set AdaptMssgQueue");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set AdaptMssgQueue");
     this.adaptMssgQueue = adaptMssgQueue;
   }
 
   public void setOpeMssgQueue(PublishSubject<IMessage> opeMssgQueue) {
-    LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set OpeMssgQueue");
+    // LOGGER.info(this.getElement().getElementId() + " " + this.id + " | set OpeMssgQueue");
     this.opeMssgQueue = opeMssgQueue;
   }
 
   @Override
   public void setElement(ILoopAElement eId) {
-    LOGGER.info("set Element");
+    // LOGGER.info("set Element");
     this.element = eId;
   }
 

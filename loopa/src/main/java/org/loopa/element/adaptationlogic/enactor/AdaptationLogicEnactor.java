@@ -27,7 +27,8 @@ public class AdaptationLogicEnactor extends AAdaptationLogicEnactor {
 
   @Override
   public void processMessage(IMessage t) {
-    LOGGER.info("Process adaptation");
+    LOGGER
+        .info(this.getComponent().getElement().getElementId() + " | process configuration update");
     IMessage m = processAdaptations(t);
     if (m != null)
       sendMessage(m);

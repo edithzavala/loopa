@@ -21,7 +21,7 @@ import org.loopa.generic.element.component.ILoopAElementComponent;
 public interface IFunctionalLogicEnactorManager {
   void setConfiguration(Map<String, String> config);
 
-  void processLogicData(Map<String, String> monData);
+  void processLogicData(Map<String, String> data);
 
   void setComponent(ILoopAElementComponent c);
 

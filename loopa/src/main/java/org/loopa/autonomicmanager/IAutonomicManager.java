@@ -12,7 +12,7 @@ public interface IAutonomicManager {
   // IPolicy getAutonomicManagerPolicy();
 
   // Start AM operation
-  void start();
+  void construct();
 
   // Add ME
   void addME(String elementId, IRecipient effector);

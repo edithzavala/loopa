@@ -75,7 +75,7 @@ public abstract class ALoopElement implements ILoopAElement {
   /* Simplified constructor */
   protected ALoopElement(String elementId, IPolicy elementPolicy, IFunctionalLogicEnactor flE,
       IMessageSender sMS) {
-    LOGGER.info("create element");
+    LOGGER.info("Create element: " + elementId);
     this.id = elementId;
     this.policy = elementPolicy;
 
@@ -103,7 +103,7 @@ public abstract class ALoopElement implements ILoopAElement {
       IAdaptationLogic adaptationLogic, IMessageComposer messageComposer, ISender sender,
       IKnowledgeManager knowledge) {
     super();
-    LOGGER.info("create element");
+    LOGGER.info("Create element: " + elementId);
     this.id = elementId;
     this.policy = elementPolicy;
 
@@ -119,8 +119,8 @@ public abstract class ALoopElement implements ILoopAElement {
   }
 
   @Override
-  public void start() {
-    LOGGER.info("start element");
+  public void construct() {
+    LOGGER.info(this.id + " | start operation");
 
     this.receiver.setElement(this);
     this.sender.setElement(this);
@@ -175,20 +175,20 @@ public abstract class ALoopElement implements ILoopAElement {
 
     this.knowledge.mapAdaptMssg(mssgInAl, mssgAdapt);
 
-    this.receiver.start();
-    this.sender.start();
-    this.logicSelector.start();
-    this.functionalLogic.start();
-    this.adaptationLogic.start();
-    this.messageComposer.start();
-    this.knowledge.start();
+    this.receiver.construct();
+    this.sender.construct();
+    this.logicSelector.construct();
+    this.functionalLogic.construct();
+    this.adaptationLogic.construct();
+    this.messageComposer.construct();
+    this.knowledge.construct();
   }
 
   /** Recipients interface **/
 
   @Override
   public void setElementRecipients(List<IRecipient> recipients) {
-    LOGGER.info("set recipients");
+    LOGGER.info(this.id + " | set recipients " + recipients.toString());
     // Set recipients
     this.recipients = recipients.stream()
         .collect(Collectors.toMap(recipient -> recipient.getrecipientId(), recipient -> recipient));
@@ -203,7 +203,7 @@ public abstract class ALoopElement implements ILoopAElement {
 
   @Override
   public void addElementRecipient(IRecipient r) {
-    LOGGER.info("add recipient");
+    LOGGER.info(this.id + " | add recipient " + r.getrecipientId());
     // Set recipient
     this.recipients.put(r.getrecipientId(), r);
     this.sender.addRecipient(modifySenderRecipientDataType(r));
@@ -232,7 +232,7 @@ public abstract class ALoopElement implements ILoopAElement {
 
   @Override
   public void removeElementRecipient(String id) {
-    LOGGER.info("remove recipient");
+    LOGGER.info(this.id + " | remove recipient " + id);
     this.recipients.remove(id);
     this.sender.removeRecipient(id);
     /** TO-DO Remove Message processor policy **/
@@ -287,43 +287,43 @@ public abstract class ALoopElement implements ILoopAElement {
 
   @Override
   public void setReceiver(IReceiver receiver) {
-    LOGGER.info("set Receiver");
+    LOGGER.info(this.id + " | set Receiver");
     this.receiver = receiver;
   }
 
   @Override
   public void setLogicSelector(ILogicSelector logicSelector) {
-    LOGGER.info("set LogicSelector");
+    LOGGER.info(this.id + " | set LogicSelector");
     this.logicSelector = logicSelector;
   }
 
   @Override
   public void setFunctionalLogic(IFunctionalLogic functionalLogic) {
-    LOGGER.info("set FunctionalLogic");
+    LOGGER.info(this.id + " | set FunctionalLogic");
     this.functionalLogic = functionalLogic;
   }
 
   @Override
   public void setAdaptationLogic(IAdaptationLogic adaptationLogic) {
-    LOGGER.info("set AdaptationLogic");
+    LOGGER.info(this.id + " | set AdaptationLogic");
     this.adaptationLogic = adaptationLogic;
   }
 
   @Override
   public void setMessageComposer(IMessageComposer messageComposer) {
-    LOGGER.info("set MessageComposer");
+    LOGGER.info(this.id + " | set MessageComposer");
     this.messageComposer = messageComposer;
   }
 
   @Override
   public void setSender(ISender sender) {
-    LOGGER.info("set Sender");
+    LOGGER.info(this.id + " | set Sender");
     this.sender = sender;
   }
 
   @Override
   public void setKnowledge(IKnowledgeManager knowledge) {
-    LOGGER.info("set KnowledgeManager");
+    LOGGER.info(this.id + " | set KnowledgeManager");
     this.knowledge = knowledge;
   }
 

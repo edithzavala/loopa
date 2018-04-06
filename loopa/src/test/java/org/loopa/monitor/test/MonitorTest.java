@@ -15,14 +15,16 @@
  ******************************************************************************/
 package org.loopa.monitor.test;
 
-import static org.junit.Assert.assertNotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
+import org.loopa.comm.message.MessageType;
+import org.loopa.comm.message.PolicyConfigMessageBody;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.monitor.IMonitorFleManager;
 import org.loopa.element.functionallogic.enactor.monitor.MonitorFunctionalLogicEnactor;
@@ -79,11 +81,11 @@ public class MonitorTest {
         /**
          * mssgInFl:1 mssgInAl:2 mssgAdapt:3 mssgOutFl:4 mssgOutAl:5
          */
-        put("mssgInFl", "1");
-        put("mssgInAl", "2");
-        put("mssgAdapt", "3"); // KM to other components
-        put("mssgOutFl", "4");
-        put("mssgOutAl", "5");
+        put(LoopAElementMessageCode.MSSGINFL.toString(), "1");
+        put(LoopAElementMessageCode.MSSGINAL.toString(), "2");
+        put(LoopAElementMessageCode.MSSGADAPT.toString(), "3");
+        put(LoopAElementMessageCode.MSSGOUTFL.toString(), "4");
+        put(LoopAElementMessageCode.MSSGOUTAL.toString(), "5");
       }
     });
 
@@ -142,23 +144,24 @@ public class MonitorTest {
     };
     this.flE = new MonitorFunctionalLogicEnactor(mm);
   }
-
-  @Test
-  public void testCreateMonitor() {
-    IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
-    assertNotNull(m);
-  }
-
-  @Test
-  public void testStartMonitor() {
-    IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
-    m.start();
-  }
+  //
+  // @Test
+  // public void testCreateMonitor() {
+  // IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
+  // assertNotNull(m);
+  // }
+  //
+  // @Test
+  // public void testStartMonitor() {
+  // IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
+  // Thread mT = new Thread(m);
+  // mT.start();
+  // }
 
   @Test
   public void testDoLogicOperationMonitor() {
     IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
-    m.start();
+    m.construct();
     /*
      * Add recipient to the Monitor (id, object) - the HashMap is exemplifying an object
      */
@@ -169,7 +172,7 @@ public class MonitorTest {
     /* Create some of the Message elements */
     int code = 1;
     Map<String, String> body = new HashMap<String, String>();
-    body.put("key", "value");
+    body.put("key", "valueMonData");
 
     /* send a Message to the Monitor */
     m.getReceiver().doOperation(
@@ -180,20 +183,29 @@ public class MonitorTest {
   @Test
   public void testDoAdaptMonitor() {
     IMonitor m = new Monitor("MonitorTest", this.mp, this.flE, this.sMS);
-    m.start();
+    m.construct();
+    /*
+     * Add recipient to the Monitor (id, object) - the HashMap is exemplifying an object
+     */
+    m.addElementRecipient(
+        new Recipient("monitor1", Arrays.asList("monData"), new HashMap<String, String>()));
+    /**/
 
-    int code = 2;
-    logger.info(
-        "current policy" + m.getReceiver().getPolicyManager().getActivePolicy().getPolicyContent());
+    /* Create some of the Message elements */
+    // int code = 2;
     Map<String, String> body = new HashMap<String, String>();
-    body.put("policyOwner", m.getReceiver().getComponentId());
-    body.put("policyContent", "newPolicyVar:newValue");
+    body.put("key", "valueAdapted");
 
-    m.getReceiver()
-        .adapt(new Message("otherLoop", m.getReceiver().getComponentId(), code, "request", body));
+    PolicyConfigMessageBody messageContent =
+        new PolicyConfigMessageBody(m.getReceiver().getComponentId(), body);
 
-    logger.info(
-        "new policy" + m.getReceiver().getPolicyManager().getActivePolicy().getPolicyContent());
+    IMessage mssgAdapt = new Message("monitor2", m.getReceiver().getComponentId(),
+        Integer.parseInt(m.getReceiver().getElement().getElementPolicy().getPolicyContent()
+            .get(LoopAElementMessageCode.MSSGINAL.toString())),
+        MessageType.REQUEST.toString(), messageContent.getMessageBody());
+
+    /* send a Message to the Monitor */
+    m.getReceiver().doOperation(mssgAdapt);
   }
 
 }

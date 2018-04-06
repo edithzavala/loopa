@@ -35,7 +35,7 @@ public class Policy extends APolicy {
         this.getPolicyContent().remove(k);
       }
     });
-    LOGGER.info(this.getPolicyOwner() + " set to " + this.getPolicyContent());
+    // LOGGER.info(this.getPolicyOwner() + " set to " + this.getPolicyContent());
     return this;
   }
 

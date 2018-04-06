@@ -33,8 +33,8 @@ public interface ILoopAElementComponent {
   // Get component id
   String getComponentId();
 
-  // Start component operation
-  void start();
+  // // Start component operation
+  void construct();
 
   // Process a new message
   void doOperation(IMessage m);

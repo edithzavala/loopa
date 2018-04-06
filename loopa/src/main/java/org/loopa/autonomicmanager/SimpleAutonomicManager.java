@@ -52,12 +52,12 @@ public class SimpleAutonomicManager implements IAutonomicManager {
   }
 
   @Override
-  public void start() {
-    this.m.start();
-    this.a.start();
-    this.p.start();
-    this.e.start();
-    this.kb.start();
+  public void construct() {
+    this.m.construct();
+    this.a.construct();
+    this.p.construct();
+    this.e.construct();
+    this.kb.construct();
 
     this.m.addElementRecipient(new Recipient(this.a.getElementId(),
         Arrays.asList(this.policy.getPolicyContent().get(this.a.getElementId())), this.a));
@@ -100,7 +100,7 @@ public class SimpleAutonomicManager implements IAutonomicManager {
 
   private void sentPoliciesOfNewME(String meId, ILoopAElement element) {
     Map<String, String> policyBody = new HashMap<>();
-    policyBody.put("meIds", meId);
+    policyBody.put("meId", meId);
     PolicyConfigMessageBody messageContent =
         new PolicyConfigMessageBody(element.getFunctionalLogic().getComponentId(), policyBody);
     IMessage mssgAdapt = new Message(this.id, element.getFunctionalLogic().getComponentId(),

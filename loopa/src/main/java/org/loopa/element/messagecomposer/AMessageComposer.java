@@ -33,9 +33,9 @@ public abstract class AMessageComposer extends ALoopAElementComponent implements
   }
 
   @Override
-  public void start() {
-    LOGGER.info(
-        this.getElement().getElementId() + " " + this.getComponentId() + " | start component");
+  public void construct() {
+    // LOGGER.info(
+    // this.getElement().getElementId() + " " + this.getComponentId() + " | start component");
     super.getPolicyManager().setComponent(this);
     super.getMessageManager().setComponent(this);
     this.mc.setComponent(this);
@@ -49,8 +49,8 @@ public abstract class AMessageComposer extends ALoopAElementComponent implements
 
   @Override
   public void addMEToPolicies(String meId, List<String> dataType) {
-    LOGGER.info(
-        this.getElement().getElementId() + " " + this.getComponentId() + " | add ME: " + meId);
+    // LOGGER.info(
+    // this.getElement().getElementId() + " " + this.getComponentId() + " | add ME: " + meId);
     IPolicy tempP = new Policy(this.getComponentId(), new HashMap<String, String>());
     dataType.forEach(dt -> {
       tempP.getPolicyContent().put(dt,

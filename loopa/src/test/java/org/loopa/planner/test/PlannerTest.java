@@ -15,28 +15,13 @@
  ******************************************************************************/
 package org.loopa.planner.test;
 
-/*******************************************************************************
- * Copyright (c) 2017 Universitat Politécnica de Catalunya (UPC)
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- *
- * Contributors: Edith Zavala
- *******************************************************************************/
-import static org.junit.Assert.assertNotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.planner.IPlannerFleManager;
@@ -93,11 +78,11 @@ public class PlannerTest {
         /**
          * mssgInFl:1 mssgInAl:2 mssgAdapt:3 mssgOutFl:4 mssgOutAl:5
          */
-        put("mssgInFl", "1");
-        put("mssgInAl", "2");
-        put("mssgAdapt", "3");
-        put("mssgOutFl", "4");
-        put("mssgOutAl", "5");
+        put(LoopAElementMessageCode.MSSGINFL.toString(), "1");
+        put(LoopAElementMessageCode.MSSGINAL.toString(), "2");
+        put(LoopAElementMessageCode.MSSGADAPT.toString(), "3");
+        put(LoopAElementMessageCode.MSSGOUTFL.toString(), "4");
+        put(LoopAElementMessageCode.MSSGOUTAL.toString(), "5");
       }
     });
 
@@ -145,17 +130,16 @@ public class PlannerTest {
     this.flE = new PlannerFunctionalLogicEnactor(pm);
   }
 
-  @Test
-  public void testCreatePlanner() {
-    IPlanner p = new Planner("PlannerTest", pp, flE, sMS);
-    assertNotNull(p);
-  }
+  // @Test
+  // public void testCreatePlanner() {
+  // IPlanner p = new Planner("PlannerTest", pp, flE, sMS);
+  // assertNotNull(p);
+  // }
 
   @Test
   public void testDoLogicOperationPlanner() {
     IPlanner p = new Planner("PlannerTest", pp, flE, sMS);
-    p.start();
-
+    p.construct();
     p.addElementRecipient(
         new Recipient("executer", Arrays.asList("executePlan"), new HashMap<String, String>()));
 

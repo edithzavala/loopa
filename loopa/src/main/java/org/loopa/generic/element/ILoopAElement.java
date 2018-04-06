@@ -39,7 +39,7 @@ public interface ILoopAElement {
   IPolicy getElementPolicy();
 
   // Start element operation - Connect all element's components
-  void start();
+  void construct();
 
   /** Element's recipients **/
 

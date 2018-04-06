@@ -37,6 +37,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.knowledgebase.IKnowledgeBaseFleManager;
@@ -93,11 +94,11 @@ public class KnowledgeBaseTest {
         /**
          * mssgInFl:1 mssgInAl:2 mssgAdapt:3 mssgOutFl:4 mssgOutAl:5
          */
-        put("mssgInFl", "1");
-        put("mssgInAl", "2");
-        put("mssgAdapt", "3");
-        put("mssgOutFl", "4");
-        put("mssgOutAl", "5");
+        put(LoopAElementMessageCode.MSSGINFL.toString(), "1");
+        put(LoopAElementMessageCode.MSSGINAL.toString(), "2");
+        put(LoopAElementMessageCode.MSSGADAPT.toString(), "3");
+        put(LoopAElementMessageCode.MSSGOUTFL.toString(), "4");
+        put(LoopAElementMessageCode.MSSGOUTAL.toString(), "5");
       }
     });
 
@@ -154,7 +155,7 @@ public class KnowledgeBaseTest {
   @Test
   public void testDoLogicOperationPlanner() {
     IKnowledgeBase k = new KnowledgeBase("KBTest", kbp, flE, sMS);
-    k.start();
+    k.construct();
 
     k.addElementRecipient(
         new Recipient("analyzer", Arrays.asList("dataToAnalyze"), new HashMap<String, String>()));

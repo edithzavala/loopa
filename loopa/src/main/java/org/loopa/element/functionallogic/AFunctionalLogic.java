@@ -27,9 +27,9 @@ public abstract class AFunctionalLogic extends ALoopAElementComponent implements
   }
 
   @Override
-  public void start() {
-    LOGGER.info(
-        this.getElement().getElementId() + " " + this.getComponentId() + " | start component");
+  public void construct() {
+    // LOGGER.info(
+    // this.getElement().getElementId() + " " + this.getComponentId() + " | start component");
     super.getPolicyManager().setComponent(this);
     super.getMessageManager().setComponent(this);
     ((IFunctionalLogicEnactor) super.getMessageManager()).getManager().setComponent(this);

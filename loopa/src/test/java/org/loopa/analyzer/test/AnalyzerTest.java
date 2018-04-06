@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.loopa.analyzer.test;
 
-import static org.junit.Assert.assertNotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +23,7 @@ import org.junit.Test;
 import org.loopa.analyzer.Analyzer;
 import org.loopa.analyzer.IAnalyzer;
 import org.loopa.comm.message.IMessage;
+import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.comm.message.Message;
 import org.loopa.element.functionallogic.enactor.IFunctionalLogicEnactor;
 import org.loopa.element.functionallogic.enactor.analyzer.AnalyzerFunctionalLogicEnactor;
@@ -80,11 +80,11 @@ public class AnalyzerTest {
         /**
          * mssgInFl:1 mssgInAl:2 mssgAdapt:3 mssgOutFl:4 mssgOutAl:5
          */
-        put("mssgInFl", "1");
-        put("mssgInAl", "2");
-        put("mssgAdapt", "3");
-        put("mssgOutFl", "4");
-        put("mssgOutAl", "5");
+        put(LoopAElementMessageCode.MSSGINFL.toString(), "1");
+        put(LoopAElementMessageCode.MSSGINAL.toString(), "2");
+        put(LoopAElementMessageCode.MSSGADAPT.toString(), "3");
+        put(LoopAElementMessageCode.MSSGOUTFL.toString(), "4");
+        put(LoopAElementMessageCode.MSSGOUTAL.toString(), "5");
       }
     });
 
@@ -132,16 +132,16 @@ public class AnalyzerTest {
     this.flE = new AnalyzerFunctionalLogicEnactor(am);
   }
 
-  @Test
-  public void testCreateAnalyzer() {
-    IAnalyzer a = new Analyzer("AnalyzerTest", ap, flE, sMS);
-    assertNotNull(a);
-  }
+  // @Test
+  // public void testCreateAnalyzer() {
+  // IAnalyzer a = new Analyzer("AnalyzerTest", ap, flE, sMS);
+  // assertNotNull(a);
+  // }
 
   @Test
   public void testDoLogicOperationAnalyzer() {
     IAnalyzer a = new Analyzer("AnalyzerTest", ap, flE, sMS);
-    a.start();
+    a.construct();
 
     a.addElementRecipient(
         new Recipient("planner", Arrays.asList("plannerData"), new HashMap<String, String>()));

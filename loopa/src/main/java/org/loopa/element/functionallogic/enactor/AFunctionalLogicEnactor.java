@@ -45,7 +45,7 @@ public abstract class AFunctionalLogicEnactor extends AMessageManager
 
   @Override
   public void processMessage(IMessage t) {
-    LOGGER.info("Process operational message");
+    // LOGGER.info("Process operational message");
     this.lm.processLogicData(t.getMessageBody());
   }
 
