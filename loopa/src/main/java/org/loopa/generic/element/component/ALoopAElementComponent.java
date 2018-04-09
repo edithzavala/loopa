@@ -43,7 +43,8 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
   private PublishSubject<IMessage> adaptMssgQueue;
   private PublishSubject<IMessage> opeMssgQueue;
   private Map<String, IRecipient> recipients;
-  private ExecutorService executor = Executors.newCachedThreadPool();
+  private ExecutorService executorOpe = Executors.newSingleThreadExecutor();
+  private ExecutorService executorAdapt = Executors.newSingleThreadExecutor();
 
   /* Simplified constructor */
   protected ALoopAElementComponent(String id, IMessageManager imm) {
@@ -79,9 +80,9 @@ public abstract class ALoopAElementComponent implements ILoopAElementComponent {
     this.policyManager.setComponent(this);
     this.messageManager.setComponent(this);
     this.opeMssgQueue
-        .subscribe(mOpe -> executor.execute(() -> this.messageManager.processMessage(mOpe)));
+        .subscribe(mOpe -> executorOpe.execute(() -> this.messageManager.processMessage(mOpe)));
     this.adaptMssgQueue
-        .subscribe(mAdapt -> executor.execute(() -> this.policyManager.processPolicy(mAdapt)));
+        .subscribe(mAdapt -> executorAdapt.execute(() -> this.policyManager.processPolicy(mAdapt)));
     this.policyManager.getActivePolicy().addListerner(this.getMessageManager());
     this.policyManager.getActivePolicy().notifyPolicy();
   }

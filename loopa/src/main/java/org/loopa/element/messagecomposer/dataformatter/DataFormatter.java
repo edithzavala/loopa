@@ -16,6 +16,7 @@
 package org.loopa.element.messagecomposer.dataformatter;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
@@ -41,7 +42,9 @@ public class DataFormatter extends ADataFormatter {
 
   protected Map<String, String> formatMessageContent(Map<String, String> m, String r) {
     /** check format required in policy if exist and format message */
-    return m;
+    Map<String, String> formatedMessage = new HashMap<>();
+    m.forEach((k, v) -> formatedMessage.put(k, v));
+    return formatedMessage;
   }
 
   protected String getRecipientFromPolicy(Map<String, String> messageContent) {

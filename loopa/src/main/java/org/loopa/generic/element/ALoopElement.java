@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.loopa.comm.message.AMMessageBodyType;
 import org.loopa.comm.message.LoopAElementMessageCode;
 import org.loopa.element.adaptationlogic.AdaptationLogic;
 import org.loopa.element.adaptationlogic.IAdaptationLogic;
@@ -213,9 +212,9 @@ public abstract class ALoopElement implements ILoopAElement {
   private IRecipient modifySenderRecipientDataType(IRecipient r) {
     List<String> dataTypeModified = new ArrayList<String>();
     r.getTypeOfData().forEach(dataType -> {
-      if (Arrays.asList(AMMessageBodyType.values()).toString().contains(dataType)) {
-        dataTypeModified.add(dataType + "_" + r.getrecipientId());
-      }
+      // if (Arrays.asList(AMMessageBodyType.values()).toString().contains(dataType)) {
+      dataTypeModified.add(dataType + "_" + r.getrecipientId());
+      // }
     });
     return new Recipient(r.getrecipientId(), dataTypeModified, r.getRecipient());
   }

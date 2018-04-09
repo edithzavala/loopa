@@ -18,8 +18,11 @@ package org.loopa.element.messagecomposer.messagecreator;
 import org.loopa.comm.message.IMessage;
 import org.loopa.comm.message.Message;
 import org.loopa.generic.element.component.ILoopAElementComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageCreator extends AMessageCreator {
+  private static final Logger LOGGER = LoggerFactory.getLogger(MessageCreator.class);
 
   @Override
   public void processMessage(IMessage t) {
