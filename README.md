@@ -45,6 +45,10 @@ For each element component a different implementation of a message manager is pr
 9) In case of required, implement the Autonomic Manager interface of use the Simple Autonomic Manager implementation provided by the framework. Implement the construct method and define further policies (at loop level) if required. For instance, our Simple Autonomic Manager uses a set of policies for indicating elements' Message sender to which element they should send the messages depending of its content type.
 
 All the logic required for receiving, classifying and pre/post-processing messages is hidden by the framework, allowing self-adaptive systems' owners to focus on the logic specific to its application and the impact that adaptations have on it. This version of the HAFLoop framework has tried to optimize computational resources and reduce response time, techniques such as multi-threading, asychronous communications, reactive programming among others, have been used for this purpose. As new techniques appear, the framework can be evolved to fulfill the future applications' requirements.
+
+### Examples of usage:
+- Context-aware smart vehicle: https://github.com/edithzavala/ksam-loopa
+- Adaptive IoT network: https://github.com/edithzavala/DecentralizedLoop-HAFLoop
   
 
 This implementation of HAFLoop is part of a research project and is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
