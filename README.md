@@ -11,7 +11,7 @@ HAFLoop is a framework for developing adaptive MAPE-K feedback loops for self-ad
 - Accelerate and distribute the implementation of adaptative loops for SASs
 - Support adaptive loops with various (de)centralization levels
 
-### Main components of HAFLoop framework (under loopa/loopa/src/main/java/org/loopa/):
+### Main components of HAFLoop framework:
 ![HAFLoop framework](HAFLoopGitHub.jpg)
 The HAFLoop framework provides the following generic modules:
 - Adaptive autonomic manager (i.e., adaptive feedback loop)
