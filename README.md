@@ -51,6 +51,8 @@ All the logic required for receiving, classifying and pre/post-processing messag
 - Adaptive IoT network: https://github.com/edithzavala/DecentralizedLoop-HAFLoop
   
 
+
+---
 This implementation of HAFLoop is part of a research project and is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 **Main contact:** Edith Zavala (<zavala@essi.upc.edu>)
